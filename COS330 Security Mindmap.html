@@ -403,6 +403,8 @@ body[data-surface="paper"] .canvas { background-color:#e2d9c9; background-image:
   .top { padding-bottom: max(32px, env(safe-area-inset-bottom)); }
 }
 
+.drawer-home { display:block; margin-top:14px; padding:9px 11px; color:#713f34; background:#faf5ea; border:1px solid #cabb9f; text-decoration:none; font-weight:700; }
+.drawer-home:hover { background:#e9ddc9; }
 </style>
 </head>
 <body data-view="map">
@@ -410,7 +412,7 @@ body[data-surface="paper"] .canvas { background-color:#e2d9c9; background-image:
 <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open study menu" aria-expanded="false" aria-controls="drawer">&#9776;</button>
 <header class="top" id="drawer" aria-label="Study menu" inert>
   <div class="brandrow"><div class="brand">The study drawer<small>COS330 &middot; Chapters 1&ndash;11 and 13</small></div><span id="count"></span><div class="prog"><span id="overall"></span><div class="track"><div id="bar"></div></div></div></div>
-  <details class="drawer-section" open><summary>Navigation</summary><div class="search"><input id="q" type="search" placeholder="Search all chapters ( / )" aria-label="Search every chapter" autocomplete="off"><div id="results" hidden></div></div><nav class="tabs" id="tabs" aria-label="Chapters"></nav></details>
+  <details class="drawer-section" open><summary>Navigation</summary><a class="drawer-home" href="index.html">Study board</a><div class="search"><input id="q" type="search" placeholder="Search all chapters ( / )" aria-label="Search every chapter" autocomplete="off"><div id="results" hidden></div></div><nav class="tabs" id="tabs" aria-label="Chapters"></nav></details>
   <details class="drawer-section"><summary>Study tools</summary><div class="tools"><button type="button" class="btn" id="expandBtn">Expand all</button><button type="button" class="btn" id="collapseBtn">Collapse all</button><button type="button" class="btn" id="recallBtn" aria-pressed="false" title="Blur points to test yourself; click to reveal.">Recall mode</button><button type="button" class="btn" id="chgBtn" aria-pressed="false" title="Show only corrected or added points.">Changes only</button><button type="button" class="btn" id="viewBtn">Switch to outline</button></div></details>
   <details class="drawer-section"><summary>Display settings</summary><label class="setting"><input type="checkbox" id="wireToggle" checked> Show string</label><label class="setting"><input type="checkbox" id="decorToggle" checked> Show pins</label><label class="setting"><input type="checkbox" id="motionToggle"> Reduce motion</label><label class="setting">Desk surface <select id="surface"><option value="wood">Wood</option><option value="cork">Cork</option><option value="paper">Paper</option></select></label><label class="setting">Card scale <input id="scale" type="range" min="55" max="140" value="100" step="5" aria-label="Card scale"></label></details>
   <details class="drawer-section"><summary>Using the board</summary><p class="help">Choose a chapter above. Select a branch to unfold its notes, and select a note to read more. Drag a card to rearrange it; drag or swipe the empty desk to pan. Use the zoom controls or mouse wheel to zoom towards the pointer. Hold Shift while scrolling to pan horizontally. The checkboxes mark branches you know. Press / to search and Escape to close panels. Your progress and card positions are saved on this device.</p></details>
