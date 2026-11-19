@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COS330 Security Mindmap</title>
+<!-- System fonts keep the study board available offline. -->
+
+
+<style>
+/* Layout idea: a pinned header, a scrolling canvas holding a two-sided mindmap, and a right-hand reading panel. */
+:root {
+  --bg: #edf0f3;
+  --panel: #ffffff;
+  --panel2: #f4f6f8;
+  --ink: #16212b;
+  --ink2: #4a5a68;
+  --line: #c6cfd8;
+  --focus: #0b57d0;
+  --fix: #c8321f;
+  --add: #1665c1;
+  --gen: #9a5f00;
+  --cl: 0.5;
+  --disp: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1419; --panel: #172029; --panel2: #1d2833; --ink: #e6edf3; --ink2: #9fb0be; --line: #2c3a47;
+    --focus: #7db4ff; --fix: #ff8274; --add: #72adff; --gen: #f2b84a; --cl: 0.74;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1419; --panel: #172029; --panel2: #1d2833; --ink: #e6edf3; --ink2: #9fb0be; --line: #2c3a47;
+  --focus: #7db4ff; --fix: #ff8274; --add: #72adff; --gen: #f2b84a; --cl: 0.74;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 var(--body);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; }
+.mono { font-family: var(--mono); font-size: 12px; }
+
+/* header */
+.top { background: var(--panel); border-bottom: 1px solid var(--line); padding: 10px 16px 0; display: flex; flex-direction: column; gap: 8px; flex: none; }
+.brandrow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { font: 700 18px/1 var(--disp); letter-spacing: -0.01em; }
+.brand small { font: 500 12px var(--body); color: var(--ink2); margin-left: 8px; }
+#count { font: 600 12px var(--mono); color: var(--ink2); }
+.prog { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--ink2); }
+.track { width: 120px; height: 6px; background: var(--panel2); border: 1px solid var(--line); }
+#bar { height: 100%; width: 0; background: var(--add); }
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+.tab {
+  --c: oklch(var(--cl) 0.14 var(--hue, 220));
+  flex: none; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 8px; align-items: center;
+  padding: 5px 10px 5px 8px; border: 1px solid var(--line); border-left: 4px solid var(--c); background: var(--panel); text-align: left; min-width: 96px;
+}
+.tab .tn { grid-row: 1 / 3; font: 700 20px/1 var(--disp); color: var(--c); }
+.tab .tt { font-weight: 600; font-size: 12px; white-space: nowrap; }
+.tab .tp { font: 500 11px var(--mono); color: var(--ink2); }
+.tab.on { background: color-mix(in oklch, var(--c) 16%, var(--panel)); border-color: var(--c); }
+.tab.off { opacity: .5; cursor: not-allowed; border-left-color: var(--line); }
+.tab.off .tn { color: var(--ink2); }
+.tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding-bottom: 10px; }
+.search { position: relative; flex: 1 1 260px; max-width: 420px; }
+#q { width: 100%; padding: 7px 10px; border: 1px solid var(--line); background: var(--panel2); }
+#results { position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 4px); max-height: 60vh; overflow: auto; background: var(--panel); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+.res { display: grid; grid-template-columns: 48px 1fr; gap: 0 8px; width: 100%; text-align: left; padding: 7px 10px; border: 0; border-bottom: 1px solid var(--line); background: transparent; }
+.res:hover, .res:focus-visible { background: var(--panel2); }
+.res .rc { grid-row: 1 / 3; font: 700 12px var(--mono); color: oklch(var(--cl) 0.14 var(--hue)); }
+.res .rx { font-size: 13px; }
+.res .rb { font-size: 11px; color: var(--ink2); }
+.none { margin: 0; padding: 10px; color: var(--ink2); }
+.btn { padding: 6px 11px; border: 1px solid var(--line); background: var(--panel); font-weight: 600; font-size: 12px; }
+.btn:hover { background: var(--panel2); }
+.btn[aria-pressed="true"], .btn.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn.ghost { background: transparent; }
+
+/* main */
+.main { flex: 1; min-height: 0; display: flex; }
+.canvas { flex: 1; min-width: 0; overflow: auto; background:
+  radial-gradient(color-mix(in srgb, var(--ink) 11%, transparent) 1px, transparent 1px) 0 0 / 22px 22px, var(--bg); }
+.panel { width: 410px; flex: none; border-left: 1px solid var(--line); background: var(--panel); overflow: auto; }
+.pin { padding: 16px 18px 40px; }
+body[data-view="outline"] .panel { display: none; }
+
+/* map */
+.map { --c: oklch(var(--cl) 0.14 var(--hue)); position: relative; display: grid; grid-template-columns: auto auto auto; align-items: center; column-gap: 56px; padding: 36px 40px; width: max-content; min-width: 100%; }
+.side { display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; }
+.side.left { align-items: flex-end; }
+.brow { display: flex; align-items: center; gap: 38px; }
+.side.left .brow { flex-direction: row-reverse; }
+.leaves { display: flex; flex-direction: column; gap: 6px; width: 272px; }
+.wires { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 0; }
+.wires path { fill: none; stroke: var(--c); stroke-width: 1.5; opacity: .55; }
+
+.root { z-index: 1; width: 250px; padding: 18px; background: var(--c); color: var(--bg); position: relative; }
+.rn { font: 800 54px/0.9 var(--disp); letter-spacing: -0.03em; }
+.rt { font: 700 19px/1.15 var(--disp); margin-top: 8px; }
+.rm { font-size: 12px; margin-top: 10px; opacity: .92; line-height: 1.4; }
+
+.bnode { display: flex; width: 240px; border: 1.5px solid var(--c); background: color-mix(in oklch, var(--c) 12%, var(--panel)); }
+.bnode.sel { box-shadow: 0 0 0 2px var(--c); }
+.bnode.known { background: color-mix(in oklch, var(--c) 26%, var(--panel)); }
+.bmain { flex: 1; min-width: 0; text-align: left; padding: 8px 10px; border: 0; background: transparent; display: flex; flex-direction: column; gap: 2px; }
+.bt { font: 700 14px/1.2 var(--disp); }
+.bm { font-size: 11.5px; color: var(--ink2); line-height: 1.35; }
+.bc { font: 500 10.5px var(--mono); color: var(--c); margin-top: 3px; }
+.bnode.open .bc::after { content: "  open"; }
+.chk { flex: none; width: 34px; border: 0; border-left: 1px solid color-mix(in oklch, var(--c) 40%, transparent); background: transparent; position: relative; }
+.chk::before { content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border: 1.5px solid var(--c); background: var(--panel); }
+.chk[aria-pressed="true"]::before { background: var(--c); }
+.chk[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; top: 50%; width: 4px; height: 8px; margin: -6px 0 0 -2px; border: solid var(--bg); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+.leaf { position: relative; display: flex; align-items: flex-start; gap: 7px; text-align: left; width: 100%; padding: 6px 9px; border: 1px solid var(--line); border-left: 3px solid var(--c); background: var(--panel); font-size: 12.5px; line-height: 1.38; }
+.leaf:hover { background: var(--panel2); }
+.leaf.sel { border-color: var(--c); box-shadow: 0 0 0 2px var(--c); }
+.leaf .lt { flex: 1; min-width: 0; }
+.empty { font-size: 12px; color: var(--ink2); padding: 6px 9px; border: 1px dashed var(--line); background: var(--panel); }
+.more { flex: none; width: 7px; height: 7px; margin-top: 6px; border-top: 1.5px solid var(--ink2); border-right: 1.5px solid var(--ink2); transform: rotate(45deg); }
+.masked .lt { filter: blur(5px); user-select: none; }
+.masked::after { content: "tap to reveal"; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font: 600 10px var(--mono); color: var(--ink2); background: var(--panel); padding: 1px 4px; border: 1px solid var(--line); }
+.flash { animation: fl 1.4s ease-out 1; }
+@keyframes fl { 0% { box-shadow: 0 0 0 5px var(--focus); } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* tag markers: shape plus colour */
+.dot { flex: none; display: inline-block; width: 9px; height: 9px; margin-top: 4px; }
+.dot.fix { background: var(--fix); transform: rotate(45deg) scale(.85); }
+.dot.add { background: var(--add); border-radius: 50%; }
+.dot.gen { background: var(--gen); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px 2px 7px; font: 600 11px var(--body); border: 1px solid currentColor; }
+.chip .dot { margin: 0; }
+.chip.fix { color: var(--fix); } .chip.add { color: var(--add); } .chip.gen { color: var(--gen); }
+
+/* panel content */
+.dpath { font: 500 11px var(--mono); color: var(--ink2); text-transform: none; }
+.dtitle { font: 700 19px/1.25 var(--disp); margin: 8px 0 10px; }
+.mnem { margin: 0 0 10px; padding: 8px 10px; background: var(--panel2); border-left: 3px solid var(--ink2); font-size: 13px; }
+.dbody { margin: 0 0 12px; font-size: 14px; line-height: 1.55; max-width: 66ch; }
+.dim { color: var(--ink2); }
+.dtag { margin: 0 0 12px; }
+.note { margin: 8px 0 0; padding: 8px 10px; background: var(--panel2); font-size: 13px; line-height: 1.5; }
+.ref { margin: 10px 0 0; font-size: 12px; color: var(--ink2); }
+.legend, .exam { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); }
+.legend h4, .exam h4 { font: 700 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink2); margin-bottom: 8px; }
+.legend p, .exam p { margin: 0 0 8px; font-size: 13px; }
+.figbox { margin: 0 0 12px; padding: 8px; background: var(--panel2); border: 1px solid var(--line); overflow-x: auto; }
+.fig { width: 100%; height: auto; display: block; max-width: 440px; }
+.fig.wide { max-width: 700px; min-width: 620px; }
+.fig text { fill: var(--ink); font: 15px var(--body); }
+.fig .sm { font-size: 13px; fill: var(--ink2); }
+.fig .cap { font: 700 15px var(--disp); }
+.fig.wide text { font-size: 17px; }
+.fig.wide .sm { font-size: 15px; }
+.fig.wide .cap { font-size: 17px; }
+.fig .bx { fill: var(--panel); stroke: var(--ink2); stroke-width: 1.2; }
+.fig .bx.hot { fill: color-mix(in srgb, var(--fix) 18%, var(--panel)); stroke: var(--fix); }
+.fig .bx.dm { fill: var(--panel2); stroke-dasharray: 5 4; }
+.fig .ln { fill: none; stroke: var(--ink2); stroke-width: 1.6; }
+.fig .ln.thin { stroke-width: 1; stroke-dasharray: 3 4; }
+.fig .ln.dash { stroke-dasharray: 5 4; }
+.fig .hotln { stroke: var(--fix); }
+.fig .ah { fill: var(--ink2); }
+.fig .hotx { fill: var(--fix); }
+.figcap { margin: 6px 0 0; font-size: 12px; color: var(--ink2); }
+.tblw { overflow-x: auto; margin: 0 0 12px; }
+.tbl, .grid { border-collapse: collapse; font-size: 12.5px; min-width: 100%; }
+.tbl caption { text-align: left; font: 600 12px var(--mono); color: var(--ink2); padding: 0 0 6px; }
+.tbl th, .tbl td { border: 1px solid var(--line); padding: 5px 8px; text-align: left; vertical-align: top; }
+.tbl thead th { background: var(--panel2); }
+.tbl tbody th { font-weight: 600; background: var(--panel2); }
+.tbl .fixrow td, .tbl .fixrow th { background: color-mix(in srgb, var(--fix) 13%, var(--panel)); }
+.tbl td { font-variant-numeric: tabular-nums; }
+
+/* transposition tool */
+.tool label { display: block; font: 600 12px var(--body); margin: 10px 0 4px; color: var(--ink2); }
+.tool textarea, .tool input { width: 100%; padding: 6px 8px; border: 1px solid var(--line); background: var(--panel2); font-family: var(--mono); font-size: 12px; }
+.tool .two { display: grid; grid-template-columns: 1fr; gap: 0; }
+.tool .btns { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+.stg { margin: 0 0 12px; }
+.stgt { font: 600 12px var(--body); margin-bottom: 4px; }
+.stg .mono { padding: 6px 8px; background: var(--panel2); border: 1px solid var(--line); word-break: break-all; line-height: 1.6; }
+.grid th, .grid td { border: 1px solid var(--line); text-align: center; padding: 1px 3px; font: 11px var(--mono); }
+.grid thead th { background: var(--panel2); }
+.grid .nn { color: var(--add); }
+.ok { color: var(--add); font-weight: 600; margin: 0; }
+.err { color: var(--fix); margin: 0; }
+
+/* outline view (also the phone layout) */
+.outline { --c: oklch(var(--cl) 0.14 var(--hue)); max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; }
+.ohead { display: flex; gap: 14px; align-items: flex-start; padding: 14px; background: var(--c); color: var(--bg); margin-bottom: 12px; }
+.ohead h2 { font: 700 21px/1.15 var(--disp); }
+.ohead .mnem { background: transparent; border-left-color: color-mix(in srgb, var(--bg) 60%, transparent); color: var(--bg); margin: 8px 0 0; padding: 0 0 0 8px; }
+.ohead .rn { font-size: 44px; }
+.oleg { margin-bottom: 12px; padding: 8px 12px; background: var(--panel); border: 1px solid var(--line); }
+.oleg summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+.obr { margin: 0 0 10px; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--c); }
+.obr.known { background: color-mix(in oklch, var(--c) 9%, var(--panel)); }
+.ohd { display: flex; }
+.otg { flex: 1; min-width: 0; text-align: left; border: 0; background: transparent; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.ohd .chk { width: 48px; border-left: 1px solid var(--line); }
+.oli { list-style: none; margin: 0; padding: 0 12px 10px; display: flex; flex-direction: column; gap: 4px; }
+.oleaf { display: flex; gap: 8px; align-items: flex-start; width: 100%; text-align: left; padding: 7px 9px; border: 1px solid var(--line); border-left: 3px solid var(--c); background: var(--panel); position: relative; line-height: 1.4; }
+.oleaf.sel { background: var(--panel2); }
+.oleaf .lt { flex: 1; min-width: 0; }
+.inl { padding: 10px 12px 12px; margin: 0 0 4px 3px; background: var(--panel2); border: 1px solid var(--line); border-top: 0; }
+.inl .dbody { font-size: 13.5px; }
+.oli .empty { margin: 0; }
+
+@media (max-width: 900px) {
+  html, body { height: auto; }
+  body { display: block; overflow: visible; }
+  .main { display: block; }
+  .canvas { overflow: visible; }
+  .fig.wide { min-width: 0; }
+  .prog { margin-left: 0; width: 100%; }
+  #viewBtn { display: none; }
+  .tool .two { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .flash { animation: none; } }
+
+
+/* The desk: deliberately self-contained, including its paper grain. */
+:root { --bg:#e8deca; --panel:#f8f2e4; --panel2:#eee5d1; --ink:#302c27; --ink2:#665e52; --line:#c9bba2; --focus:#833e38; --fix:#963e38; --add:#4e6870; --gen:#80632c; --disp:Georgia,serif; --body:Georgia,serif; --mono:Consolas,monospace; --cl:.5; }
+body { background:#b8a58a; color:var(--ink); font-family:var(--body); }
+button { touch-action:manipulation; }
+.desk-label { position:fixed; z-index:8; top:22px; left:24px; display:flex; gap:12px; align-items:center; pointer-events:none; color:#42382d; text-shadow:0 1px #f1e6d2; }
+.desk-label strong { font:700 17px Georgia,serif; letter-spacing:.02em; }
+.desk-label span { display:block; font:10px/1.5 Consolas,monospace; text-transform:uppercase; letter-spacing:.15em; }
+.menu-toggle,.zoom-controls button,.panel-close { border:1px solid #b8a98f; background:#f5eddd; color:#493e33; box-shadow:0 3px 8px #51433335; cursor:pointer; }
+.menu-toggle { position:fixed; right:24px; top:20px; z-index:31; width:46px; height:46px; border-radius:50%; font-size:23px; }
+.menu-toggle:hover,.zoom-controls button:hover,.panel-close:hover { background:#fffaf0; }
+.top { position:fixed; z-index:30; right:0; top:0; bottom:0; width:min(390px,100%); display:block; overflow-y:auto; padding:78px 27px 32px; background:#f5eddd; border:0; border-left:1px solid #c6b79f; box-shadow:-15px 0 45px #362c2540; transform:translateX(105%); transition:transform .25s ease; }
+body.menu-open .top { transform:translateX(0); }
+.brandrow { display:block; border-bottom:1px solid var(--line); padding-bottom:18px; }
+.brand { font:700 25px Georgia,serif; }
+.brand small { display:block; margin:8px 0 0; }
+#count { display:block; margin-top:8px; }
+.prog { margin:14px 0 0; width:auto; display:flex; }
+.track { flex:1; }
+#bar { background:#9d5a4d; }
+.drawer-section { border-bottom:1px solid var(--line); padding:16px 0; }
+.drawer-section summary { cursor:pointer; font:700 16px Georgia,serif; }
+.drawer-section summary::marker { color:#a45a4c; }
+.tabs { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:14px; overflow:visible; }
+.tab { min-width:0; border:1px solid #d6c8b1; border-left:3px solid #a36c58; background:#faf5ea; }
+.tab.on { background:#e9dbc2; border-color:#a36c58; }
+.tab .tn { color:#8c5448; font:700 18px Georgia,serif; }
+.tab .tt { white-space:normal; }
+.tab.off { opacity:.55; }
+.tools { display:grid; grid-template-columns:1fr 1fr; padding:14px 0 0; }
+.search { max-width:none; margin-top:14px; }
+#q { background:#fffaf0; border-color:#cbbda6; }
+#results { position:relative; top:auto; max-height:300px; }
+.btn { background:#f9f3e7; border-color:#cabb9f; padding:9px 11px; }
+.btn:hover { background:#e9ddc9; }
+.btn[aria-pressed="true"],.btn.on { background:#825247; color:#fffaf0; border-color:#825247; }
+.setting { display:flex; gap:9px; align-items:center; margin-top:12px; font-size:13px; }
+.setting select,.setting input[type=range] { margin-left:auto; max-width:150px; }
+.help { font-size:12px; line-height:1.6; color:var(--ink2); }
+.main { height:100%; display:block; }
+.canvas { position:absolute; inset:0; overflow:auto; overscroll-behavior:contain; background-color:#c8b69a; background-image:radial-gradient(ellipse at 50% 40%,transparent 30%,#55433235 100%), repeating-linear-gradient(88deg,#6f54390a 0,#fff5db0c 2px,transparent 5px,transparent 60px), repeating-linear-gradient(0deg,#6a4b2e0d 0,#fff3d90c 1px,transparent 3px,transparent 8px); cursor:grab; }
+.canvas.panning { cursor:grabbing; }
+body[data-surface="cork"] .canvas { background-color:#ad8d69; background-image:radial-gradient(#704d3026 1px,transparent 1.5px),radial-gradient(#ead7b43b 1px,transparent 2px),radial-gradient(ellipse at center,transparent,#48352340); background-size:7px 7px,11px 11px,100% 100%; }
+body[data-surface="paper"] .canvas { background-color:#e4d7bd; background-image:repeating-linear-gradient(0deg,#7f6a4f0a 0,#fff8e70a 1px,transparent 3px,transparent 7px),radial-gradient(ellipse at center,transparent,#6d563b30); }
+.map { --c:#934d42; gap:72px; padding:125px 150px 150px; min-height:100%; }
+.side { gap:28px; }
+.brow { gap:58px; }
+.leaves { gap:14px; width:290px; }
+.root,.bnode,.leaf,.empty { position:relative; border:1px solid #cbbca1; color:var(--ink); background-color:#f7f0df; background-image:repeating-linear-gradient(0deg,transparent 0,transparent 24px,#b9aaa221 25px,#b9aaa221 26px); box-shadow:1px 3px 5px #46362520,3px 9px 18px #46362538; transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--rot,0deg)); transition:box-shadow .18s ease,filter .18s ease; }
+.root { width:270px; padding:32px 25px 26px; background-color:#f4e8cb; --rot:-1deg; }
+.root::before,.bnode::before { content:""; position:absolute; z-index:3; left:50%; top:-8px; width:13px; height:13px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#eec2ad 0,#a45044 35%,#63332e 75%); box-shadow:1px 3px 3px #48382c80; pointer-events:none; }
+.rn { font:italic 700 42px Georgia,serif; color:#995648; }
+.rt { font:700 23px/1.12 Georgia,serif; margin-top:9px; }
+.rm { font:italic 14px/1.5 Georgia,serif; margin-top:14px; opacity:1; }
+.bnode { width:250px; background-color:#fbf5e8; --rot:-1deg; }
+.brow:nth-child(even) .bnode { --rot:1.2deg; background-color:#f1e7ce; }
+.bmain { padding:19px 15px 16px; }
+.bt { font:700 16px/1.25 Georgia,serif; }
+.bm { font:italic 13px/1.4 Georgia,serif; margin-top:6px; }
+.bc { font:10px Consolas,monospace; color:#96594c; margin-top:10px; text-transform:uppercase; letter-spacing:.07em; }
+.chk { border-left:1px solid #d2c4ac; }
+.chk::before { border-color:#a27965; }
+.chk[aria-pressed="true"]::before { background:#8a6556; }
+.leaf,.empty { font:13px/1.48 Georgia,serif; padding:13px 14px; background-color:#faf5e9; --rot:.7deg; }
+.leaf:nth-child(3n+2) { background-color:#f5edcf; --rot:-.8deg; }
+.leaf:nth-child(3n) { --rot:1.1deg; }
+.root:hover,.bnode:hover,.leaf:hover { box-shadow:2px 7px 10px #46362530,5px 14px 24px #46362540; }
+.bnode.sel,.leaf.sel { outline:2px solid #a65d4c; outline-offset:3px; }
+.root.dragging,.bnode.dragging,.leaf.dragging { z-index:10; filter:brightness(1.03); box-shadow:4px 16px 28px #46362560; cursor:grabbing; transition:none; }
+.wires { overflow:visible; }
+.wires .wire-shadow { stroke:#4e2d2680; stroke-width:4; transform:translate(1px,2px); opacity:.35; }
+.wires .wire-thread { stroke:#a04c40; stroke-width:2; opacity:.9; }
+.wires .wire-light { stroke:#e6aa8e; stroke-width:.5; opacity:.7; }
+body.no-wires .wires { display:none; }
+body.no-decor .root::before,body.no-decor .bnode::before { display:none; }
+.zoom-controls { position:fixed; bottom:24px; left:24px; z-index:10; display:flex; box-shadow:0 4px 15px #493c2c30; }
+.zoom-controls button { width:42px; height:40px; box-shadow:none; font:18px Georgia,serif; }
+.zoom-controls button+button { border-left:0; }
+.zoom-controls .fit { width:auto; padding:0 13px; font:12px Georgia,serif; }
+.panel { display:none; position:fixed; z-index:15; right:24px; top:84px; bottom:24px; width:min(410px,calc(100% - 48px)); overflow:auto; border:1px solid #c6b69c; background:#faf4e7; box-shadow:2px 10px 30px #382b2260; transform:rotate(.3deg); }
+body.detail-open .panel { display:block; }
+.pin { padding:38px 24px 40px; }
+.panel-close { position:absolute; right:12px; top:10px; width:30px; height:30px; border:0; box-shadow:none; background:transparent; font-size:22px; }
+.dtitle { font:700 21px/1.3 Georgia,serif; }
+.dbody { font:15px/1.65 Georgia,serif; }
+.mnem { background:#f0e4c9; border-color:#aa6c58; font:italic 14px/1.5 Georgia,serif; }
+.outline { padding-top:100px; }
+.ohead { background:#e8d7b8; color:var(--ink); box-shadow:2px 5px 12px #59453230; }
+.ohead .mnem { color:var(--ink); border-left-color:#a66b58; }
+.obr,.oleg,.oleaf { background:#faf4e7; }
+@media (max-width:900px) { html,body { height:100%; } body { overflow:hidden; } .main { display:block; } .canvas { overflow:auto; } #viewBtn { display:block; } .fig.wide { min-width:0; } }
+@media (max-width:520px) { .desk-label { left:16px; top:18px; } .desk-label strong { font-size:15px; } .menu-toggle { right:16px; top:14px; } .zoom-controls { left:16px; bottom:16px; } .panel { right:12px; bottom:12px; width:calc(100% - 24px); top:auto; max-height:65%; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
+body.reduce-motion *,body.reduce-motion *::before,body.reduce-motion *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+
+
+/* Readability and navigation refinements. */
+:root { --body: "Segoe UI", Arial, sans-serif; --disp: "Segoe UI", Arial, sans-serif; }
+body { font: 15px/1.5 var(--body); }
+.canvas { background-color:#c9bda9; background-image:radial-gradient(ellipse at center,#e1d7c7 0%,#c9bda9 100%); }
+body[data-surface="cork"] .canvas { background-color:#bbab94; background-image:radial-gradient(#755f4910 1px,transparent 1.5px),radial-gradient(ellipse at center,#d6c7b0,#b4a28a); background-size:8px 8px,100% 100%; }
+body[data-surface="paper"] .canvas { background-color:#e2d9c9; background-image:radial-gradient(ellipse at center,#eee7db,#d5caba); }
+.desk-label strong { font:700 17px/1.25 var(--body); }
+.desk-label span { font:600 10px/1.5 var(--body); }
+.root { width:290px; }
+.rt { font:700 23px/1.2 var(--body); }
+.rm { font:400 14px/1.5 var(--body); }
+.bnode { width:280px; }
+.bmain { padding:18px 16px; }
+.bt { font:700 16px/1.3 var(--body); }
+.bm { font:400 13px/1.45 var(--body); color:#554e44; }
+.bc { font:600 11px/1.4 var(--body); letter-spacing:.04em; }
+.leaves { width:320px; }
+.leaf,.empty { font:400 14px/1.5 var(--body); }
+.dtitle { font:700 22px/1.3 var(--body); }
+.dbody { font:400 15px/1.65 var(--body); }
+.mnem { font:500 14px/1.5 var(--body); }
+.card-number { display:block; margin-bottom:6px; color:#85574b; font:700 11px/1 var(--body); letter-spacing:.08em; }
+.leaf .card-number { flex:none; min-width:30px; margin:2px 2px 0 0; }
+.brow:nth-child(4n+1) .bnode,.brow:nth-child(4n+1) .leaf { background-color:#f7efe0; }
+.brow:nth-child(4n+2) .bnode,.brow:nth-child(4n+2) .leaf { background-color:#eeeeda; }
+.brow:nth-child(4n+3) .bnode,.brow:nth-child(4n+3) .leaf { background-color:#f2e7df; }
+.brow:nth-child(4n) .bnode,.brow:nth-child(4n) .leaf { background-color:#e8edf0; }
+.zoom-controls .fit,.zoom-controls .quick { width:auto; padding:0 13px; font:600 12px var(--body); }
+.zoom-controls .quick { border-left:1px solid #b8a98f; }
+/* The reading sheet floats over the desk; opening it never resizes the board. */
+@media (max-width:900px) { .panel { top:auto; bottom:12px; right:12px; width:calc(100% - 24px); max-height:min(50vh, 365px); } }
+@media (max-width:520px) { .zoom-controls { max-width:calc(100% - 32px); } .zoom-controls button { width:38px; } .zoom-controls .fit,.zoom-controls .quick { padding:0 8px; font-size:11px; } }
+
+
+/* Note stacks are taken out of the branch layout, so the original cards stay put. */
+.map { padding-left:540px; padding-right:540px; }
+.brow { position:relative; }
+.leaves { position:absolute; top:0; left:calc(100% + 58px); z-index:2; }
+.side.left .leaves { left:auto; right:calc(100% + 58px); }
+/* Overscroll room lets notes be panned away from the floating reading sheet. */
+.map::after { content:""; position:absolute; left:100%; top:0; width:max(75vw, 700px); height:1px; pointer-events:none; }
+
+
+/* Emphasis is restrained: concepts are inked in, and critical qualifiers get a warm highlight. */
+.study-term { font-weight:700; color:#543d34; }
+.study-cue { font-weight:700; color:#793e34; background:linear-gradient(transparent 55%,#e8cd8d 55%,#e8cd8d 94%,transparent 94%); }
+.leaf .lt,.oleaf .lt { line-height:1.58; }
+.leaf .lt strong,.oleaf .lt strong { letter-spacing:.005em; }
+.dbody .study-term,.dbody .study-cue { color:#653e35; }
+
+
+/* Keep the translucent reading sheet legible over the desk and cards. */
+.panel { color:#1e1916; }
+.panel .dim, .panel .dpath, .panel .ref, .panel .fig .sm { color:#352c26; }
+.panel .study-term, .panel .study-cue { color:#342017; }
+.panel .fig text { fill:#1e1916; }
+.panel .fig .sm { fill:#352c26; }
+.panel .mnem, .panel .note { color:#211914; background:rgba(250,242,223,.85); }
+/* A short note uses only the space it needs; longer material scrolls within the sheet. */
+.panel { bottom:auto; max-height:calc(100vh - 108px); background:rgba(250,244,231,.58); -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px); }
+@media (max-width:900px) { .panel { top:auto; bottom:12px; max-height:min(50vh, 365px); } }
+
+
+/* Mobile: native one-finger desk scrolling, draggable cards, and controls clear of the reading sheet. */
+@media (pointer:coarse) {
+  .root,.bnode,.leaf { touch-action:none; }
+  .canvas { -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+  .menu-toggle,.zoom-controls button,.panel-close { min-height:44px; min-width:44px; }
+  .chk { min-width:44px; }
+  #q,.setting select,.tool input,.tool textarea { font-size:16px; }
+}
+@media (max-width:900px) {
+  .panel { bottom:76px; max-height:min(44vh, 365px); }
+  .zoom-controls { bottom: max(16px, env(safe-area-inset-bottom)); }
+  .top { padding-bottom: max(32px, env(safe-area-inset-bottom)); }
+}
+
+</style>
+</head>
+<body data-view="map">
+<div class="desk-label"><div><span>Field notes / COS330</span><strong>Security mindmap</strong></div></div>
+<button type="button" class="menu-toggle" id="menuToggle" aria-label="Open study menu" aria-expanded="false" aria-controls="drawer">&#9776;</button>
+<header class="top" id="drawer" aria-label="Study menu" inert>
+  <div class="brandrow"><div class="brand">The study drawer<small>COS330 &middot; Chapters 1&ndash;11 and 13</small></div><span id="count"></span><div class="prog"><span id="overall"></span><div class="track"><div id="bar"></div></div></div></div>
+  <details class="drawer-section" open><summary>Navigation</summary><div class="search"><input id="q" type="search" placeholder="Search all chapters ( / )" aria-label="Search every chapter" autocomplete="off"><div id="results" hidden></div></div><nav class="tabs" id="tabs" aria-label="Chapters"></nav></details>
+  <details class="drawer-section"><summary>Study tools</summary><div class="tools"><button type="button" class="btn" id="expandBtn">Expand all</button><button type="button" class="btn" id="collapseBtn">Collapse all</button><button type="button" class="btn" id="recallBtn" aria-pressed="false" title="Blur points to test yourself; click to reveal.">Recall mode</button><button type="button" class="btn" id="chgBtn" aria-pressed="false" title="Show only corrected or added points.">Changes only</button><button type="button" class="btn" id="viewBtn">Switch to outline</button></div></details>
+  <details class="drawer-section"><summary>Display settings</summary><label class="setting"><input type="checkbox" id="wireToggle" checked> Show string</label><label class="setting"><input type="checkbox" id="decorToggle" checked> Show pins</label><label class="setting"><input type="checkbox" id="motionToggle"> Reduce motion</label><label class="setting">Desk surface <select id="surface"><option value="wood">Wood</option><option value="cork">Cork</option><option value="paper">Paper</option></select></label><label class="setting">Card scale <input id="scale" type="range" min="55" max="140" value="100" step="5" aria-label="Card scale"></label></details>
+  <details class="drawer-section"><summary>Using the board</summary><p class="help">Choose a chapter above. Select a branch to unfold its notes, and select a note to read more. Drag a card to rearrange it; drag or swipe the empty desk to pan. Use the zoom controls or mouse wheel to zoom towards the pointer. Hold Shift while scrolling to pan horizontally. The checkboxes mark branches you know. Press / to search and Escape to close panels. Your progress and card positions are saved on this device.</p></details>
+</header>
+<main class="main"><div class="canvas" id="canvas" aria-label="Mind map workspace"></div><aside class="panel" id="panel" aria-label="Study note" aria-live="polite"><button class="panel-close" type="button" id="panelClose" aria-label="Close study note">&times;</button><div class="pin"></div></aside></main>
+<div class="zoom-controls" aria-label="Board navigation"><button type="button" id="zoomOut" aria-label="Zoom out">&minus;</button><button type="button" id="zoomIn" aria-label="Zoom in">+</button><button type="button" class="fit" id="fitView">Centre view</button><button type="button" class="quick" id="quickCollapse">Collapse all</button></div>
+<script>
+/* Chapters 1-3. Item fields: t text, d plain-language detail, g tag (fix|add|gen), n tag note, r slide ref, f figure key, b table key, tool */
+var CHAPTERS = [];
+
+CHAPTERS.push({
+  n: 1, title: "Computer Security Overview", short: "Overview", hue: 212,
+  mn: "CIA is the goal. Prevent, Detect, Recover is the method.",
+  br: [
+    { t: "What is computer security?", mn: "C-I-A, plus Authenticity and Accountability", items: [
+      { t: "NIST: measures and controls that protect the C-I-A of information system assets", d: "Assets means hardware, software, firmware and the information being processed, stored or communicated. Every later chapter is a way of protecting one of the three letters." },
+      { t: "Confidentiality: only the right people can SEE it", d: "Covers data confidentiality and privacy. Breach example: a leaked password file." },
+      { t: "Integrity: only the right people can CHANGE it", d: "Includes data integrity and system integrity. Breach example: an attacker edits a bank balance. Authenticity and non-repudiation hang off integrity." },
+      { t: "Availability: timely, reliable access (whenever, on demand, usable)", d: "Breach example: a DoS attack takes the web server offline. Chapter 7 is entirely about this letter." },
+      { t: "Extra pillars: Authenticity and Accountability", d: "Authenticity: you can verify that someone or something is who they claim to be. Accountability: actions can be traced to one entity (needed for forensics and non-repudiation)." },
+      { t: "Impact if breached: Low (limited), Moderate (serious), High (severe or catastrophic)", d: "The level always depends on context. A leaked menu is Low; a leaked patient database is High.", g: "gen", n: "The Low/Moderate/High names are FIPS 199 as used again in Chapter 3. The one-line examples are mine." }
+    ]},
+    { t: "Security vs usability", mn: "Attacker needs ONE weakness; defender must close ALL", items: [
+      { t: "Always a trade-off: passwords and tokens add security but add friction" },
+      { t: "Attacker needs one weakness, defender must close all, so defence is always playing catch-up" },
+      { t: "Physical security is as important as logical security", d: "If someone can walk off with the server, the firewall does not matter." }
+    ]},
+    { t: "Core vocabulary", mn: "Vulnerability → Threat → Attack; countermeasures break the chain", items: [
+      { t: "Adversary (threat agent): individual, group, organisation or government conducting harmful activity" },
+      { t: "Vulnerability: a weakness that could be exploited", d: "A weakness, not an event." },
+      { t: "Threat: the potential for harm", d: "It has NOT happened yet. This is the favourite definition to mix up with attack." },
+      { t: "Attack: a threat carried out", d: "Attack = threat that actually happens." },
+      { t: "Countermeasure: reduces a vulnerability or impairs an attack" },
+      { t: "Risk = f(impact if it happens, likelihood it happens)", d: "High impact with low likelihood and low impact with high likelihood can both land at the same risk level. This is why risk assessment ranks things." }
+    ]},
+    { t: "Assets & vulnerabilities", mn: "H-S-D-C  |  Corrupted, Leaky, Unavailable", items: [
+      { t: "Assets: Hardware, Software, Data, Communication facilities and networks" },
+      { t: "Corrupted: loss of INTEGRITY", d: "The system works but gives wrong answers." },
+      { t: "Leaky: loss of CONFIDENTIALITY", d: "Someone who should not see the data can." },
+      { t: "Unavailable or very slow: loss of AVAILABILITY" }
+    ]},
+    { t: "Attacks", mn: "Passive = Peeking. Active = Acting", items: [
+      { t: "Passive: observe only, do not affect resources; hard to DETECT, easy to prevent", d: "Release of message contents and traffic analysis. Nothing changes, so nothing looks wrong." },
+      { t: "Active: alter resources or operation; easy to detect, hard to prevent", d: "Replay, masquerade, modification of messages, denial of service. The damage is visible, but you cannot stop every attempt." },
+      { t: "Insider: inside the perimeter. Outsider: outside it" },
+      { t: "Traffic analysis can leak information even when the content is encrypted", d: "The attacker sees who talks to whom and how often, not what is said.", g: "gen", n: "Explanation is general networking knowledge, not copied from the slides." }
+    ]},
+    { t: "Threat consequences (RFC 4949)", mn: "Disclosure, Deception, Disruption, Usurpation", items: [
+      { t: "Unauthorised disclosure: exposure, interception, inference, intrusion" },
+      { t: "Deception: masquerade, falsification, repudiation" },
+      { t: "Disruption: incapacitation, corruption, obstruction" },
+      { t: "Usurpation: misappropriation, misuse", d: "Taking over control of a resource or using it for something it was not meant for." }
+    ]},
+    { t: "Countermeasures", mn: "Prevent, Detect, Recover", items: [
+      { t: "Three actions: Prevent, Detect, Recover" },
+      { t: "Residual vulnerabilities may remain, so 100% security is never guaranteed", r: "CH1 S15", g: "add", n: "Added from the slide. The countermeasures slide also says a countermeasure may itself introduce new vulnerabilities, and the goal is to minimise the residual level of risk to the assets." },
+      { t: "A countermeasure can itself introduce a new vulnerability", d: "Example: a complex firewall rule set creates new misconfiguration risk.", g: "add", r: "CH1 S15", n: "The slide point is real; the firewall example is mine." }
+    ]},
+    { t: "Functional requirements (FIPS 200)", mn: "Know the category names and the core idea of each", items: [
+      { t: "Access control: limit system access to authorised users and processes" },
+      { t: "Identification & authentication; Audit & accountability (trace actions to a user)" },
+      { t: "Awareness & training; Personnel security" },
+      { t: "Certification, accreditation & security assessment: test that the controls work" },
+      { t: "Configuration management: baselines and secure settings" },
+      { t: "Contingency planning: backup and disaster recovery; Incident response" },
+      { t: "Maintenance; Media protection; Physical & environmental protection" },
+      { t: "Planning; Risk assessment; Systems & services acquisition" },
+      { t: "System & communications protection; System & information integrity" }
+    ]},
+    { t: "Attack surface & attack tree", mn: "Network, Software, Human", items: [
+      { t: "Attack surface: the reachable and exploitable vulnerabilities in a system" },
+      { t: "Network attack surface: open ports, protocols, services" },
+      { t: "Software attack surface: code that processes incoming data (web, email, documents)" },
+      { t: "Human attack surface: staff open to social engineering" },
+      { t: "Attack tree: branching diagram of ways to reach an attacker's goal", d: "Root = goal. Branches = sub-attacks (malware, brute-force PIN, man-in-the-middle, session hijack). Reducing the attack surface removes branches." }
+    ]},
+    { t: "Security strategy & standards bodies", mn: "Policy → Implementation → Assurance → Evaluation", items: [
+      { t: "Security policy: formal rules for protecting resources" },
+      { t: "Implementation: Prevention, Detection, Response, Recovery" },
+      { t: "Assurance: confidence that the measures work as intended" },
+      { t: "Evaluation: examining a product against criteria (Common Criteria)" },
+      { t: "NIST (US federal measurement science and standards); ISOC (Internet standards); ITU-T (UN telecom agency); ISO (international standards)" }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 2, title: "Cryptographic Tools", short: "Crypto", hue: 168,
+  mn: "Symmetric = 1 key. Asymmetric = key pair. Hash = no key. MAC = hash + secret. Signature = hash + private key.",
+  br: [
+    { t: "Symmetric encryption", mn: "SAME key encrypts and decrypts", items: [
+      { t: "The universal technique for CONFIDENTIALITY", d: "Plaintext and key go into the algorithm and ciphertext comes out. The same key reverses it." },
+      { t: "Needs a strong algorithm and a secret key shared securely" },
+      { t: "Weakness is KEY DISTRIBUTION", d: "If the key is intercepted the attacker decrypts everything. Alice, Bob and Mike: if Mike intercepts K and the ciphertext, he reads it too." },
+      { t: "Block cipher: one BLOCK at a time, one output block per input block" },
+      { t: "Stream cipher: continuous, byte by byte; faster; needs a good pseudorandom keystream" },
+      { t: "ECB mode is weak: identical plaintext blocks give identical ciphertext, so patterns leak", d: "Avoid it. Block ciphers can be used in other modes that hide repeats." }
+    ]},
+    { t: "Symmetric algorithms", mn: "DES → 3DES → AES", items: [
+      { t: "DES: 64-bit block, 56-bit key; weak, brute-forceable" },
+      { t: "3DES: applies DES three times, 112 or 168-bit key; slow" },
+      { t: "AES: 128-bit block, 128 / 192 / 256-bit key; NIST 2001 (Rijndael); the current standard" },
+      { t: "Each extra key bit DOUBLES the brute-force work (2^n)", d: "That is exponential growth, so a modest increase in key length is an enormous increase in cracking time." },
+      { t: "56-bit key: about 1.125 years at 10^9 decryptions/s, about 1 hour at 10^13 decryptions/s", g: "fix", r: "Table 2.2", n: "The friend's note said '56-bit: hours'. The slide's Table 2.2 gives 1.125 years at 10^9 decryptions per second and 1 hour at 10^13 per second. 'Hours' is only true for the fast attacker." },
+      { t: "128-bit key: roughly 5 × 10^21 years at 10^9 decryptions/s, far longer than the age of the universe", g: "gen", n: "My own arithmetic: 2^127 / 10^9 per second / seconds per year. Check Table 2.2 for the slide's exact figure." }
+    ]},
+    { t: "Hash functions", mn: "INTEGRITY, not secrecy: a fingerprint", items: [
+      { t: "Any-size input → FIXED-length digest" },
+      { t: "Six properties: variable input size, fixed output, easy to compute, pre-image resistant (one-way), second pre-image resistant, collision resistant", g: "fix", n: "The friend's list was missing second pre-image resistance. The slides give six properties.", d: "Pre-image: given h, you cannot find any x with H(x)=h. Second pre-image: given x, you cannot find a different y with H(y)=H(x). Collision: you cannot find any pair x,y that hash the same." },
+      { t: "A 1-bit change in the input gives a completely different hash", d: "This is why hashes detect tampering.", g: "gen", n: "Standard hash behaviour (avalanche effect); not stated in these words on the slides." },
+      { t: "Algorithms: MD5, SHA-1, SHA-2 / SHA-256", d: "MD5 and SHA-1 are considered broken today.", g: "gen", n: "'Weak' for MD5/SHA-1 is general knowledge, not from the slides." },
+      { t: "Uses: password storage (store H(password)), file integrity checks, digital forensics" }
+    ]},
+    { t: "MAC vs hash", mn: "MAC = hash + SHARED SECRET KEY", items: [
+      { t: "MAC: a short tag from a message plus a shared secret key; gives integrity AND authenticity" },
+      { t: "Hash: no key; anyone can compute it, so it cannot authenticate by itself", d: "An attacker can alter the message and recompute the hash. With a MAC they cannot, because they lack the key." },
+      { t: "MAC does not give non-repudiation", d: "Both sides share the key, so either could have made the tag. Signatures fix that (see Digital signatures).", g: "gen", n: "Reasoning from the shared-key property; the slide summary only says Signature = + non-repudiation." }
+    ]},
+    { t: "Public-key (asymmetric)", mn: "What one key locks, only its PAIR unlocks", items: [
+      { t: "Two mathematically linked keys" },
+      { t: "Public key: shared with anyone; used to ENCRYPT or VERIFY" },
+      { t: "Private key: kept secret; used to DECRYPT or SIGN" },
+      { t: "Solves key distribution because the private key never travels", d: "The price is speed. Asymmetric operations are much slower than symmetric ones, which is why the digital envelope exists." }
+    ]},
+    { t: "Algorithm applications", mn: "RSA and Elliptic Curve do all three. DSS signs only. Diffie-Hellman only distributes keys.", items: [
+      { t: "Table 2.3: which algorithm does which job", b: "t23", r: "CH2 S33", g: "fix", n: "The friend had the Diffie-Hellman row wrong (signature yes, key distribution NO). On slide 33 Diffie-Hellman is signature NO, symmetric key distribution YES, encryption of secret keys NO." }
+    ]},
+    { t: "Digital signatures", mn: "Signature = hash + private key", items: [
+      { t: "NIST FIPS 186-4: gives origin authentication, data integrity and signatory non-repudiation" },
+      { t: "Sign: hash the document, then encrypt the hash with your PRIVATE key" },
+      { t: "Verify: decrypt with the sender's PUBLIC key, compare the hashes", d: "If the two hashes match, the document is unchanged and the signer held the private key." },
+      { t: "Non-repudiation: only the sender has the private key, so they cannot deny signing" }
+    ]},
+    { t: "Digital envelope", mn: "Hybrid: symmetric speed + asymmetric key delivery", items: [
+      { t: "Encrypt the message with a fast symmetric key, then encrypt THAT key with the receiver's public key" },
+      { t: "You get the speed of symmetric and the key-distribution benefit of asymmetric", d: "The receiver unwraps the symmetric key with their private key, then decrypts the long message with it." }
+    ]},
+    { t: "Random numbers & stored data", mn: "True random vs pseudorandom", items: [
+      { t: "Random numbers are used for keys, session keys, stream keystreams and handshakes (anti-replay)" },
+      { t: "True random: unpredictable and independent. Pseudorandom: algorithmic but passes statistical tests" },
+      { t: "Encrypting STORED data is rarer than in transit because it interferes with access and search" },
+      { t: "'Deleted' files are often recoverable until the sectors are overwritten" }
+    ]},
+    { t: "Worked example: double transposition", mn: "Number the key letters, fill rows, read columns, repeat with the other key", items: [
+      { t: "Double columnar transposition (semester test Q4 style)", tool: "transp", g: "add", r: "COS330 - ST1 Q4", n: "Procedure and answer are from the semester test's marked solution and re-checked by running the code: the ciphertext decrypts to the marked plaintext and re-encrypts back to the exact ciphertext. Treat which keyword counts as 'first' as set by the question wording.", d: "Steps: (1) take each key phrase, drop repeated letters, keep the first occurrence. (2) Number the letters alphabetically, 1 for the earliest. (3) To encrypt, write the text in rows under the key and read the columns in number order. (4) Pad short text with X. (5) Repeat with the second key. To decrypt, undo the LAST key first." }
+    ]},
+    { t: "Summary lines", mn: "Reversible vs one-way", items: [
+      { t: "Symmetric = 1 key (fast, distribution problem). DES → 3DES → AES" },
+      { t: "Asymmetric = key pair (RSA, DH, DSS, ECC)" },
+      { t: "Encryption is reversible (confidentiality). Hashing is one-way (integrity)" },
+      { t: "MAC = integrity + authentication. Signature = integrity + authentication + non-repudiation" }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 3, title: "User Authentication", short: "Authentication", hue: 28,
+  mn: "Identification = claim. Authentication = proof. Know / Have / Are / Do.",
+  br: [
+    { t: "Identification vs authentication", mn: "Username claims. Password proves.", items: [
+      { t: "Identification: claiming who you are (username)" },
+      { t: "Authentication: PROVING it (password, token, biometric)" },
+      { t: "NIST SP 800-63-3: establishing confidence in electronically presented identities" },
+      { t: "SP 800-171 checklist: multi-factor for privileged accounts; replay-resistant mechanisms; no reuse of identifiers and disable inactive ones; minimum password complexity with periodic change; store and transmit only cryptographically protected passwords; OBSCURE feedback" },
+      { t: "Obscure feedback: never reveal which field was wrong", d: "'Invalid username or password' tells the attacker nothing. 'Wrong password' confirms the username exists." }
+    ]},
+    { t: "Four means of authentication", mn: "KNOW, HAVE, ARE, DO", items: [
+      { t: "KNOW: password, PIN, security questions" },
+      { t: "HAVE (token): smartcard, keycard, physical key" },
+      { t: "ARE (static biometric): fingerprint, retina, face" },
+      { t: "DO (dynamic biometric): voice, handwriting, typing rhythm" },
+      { t: "Multifactor = 2 or more factors", d: "A bank card (have) plus PIN (know). Two passwords is NOT multifactor, because both are 'know'." }
+    ]},
+    { t: "Risk assessment", mn: "Assurance level, areas of risk, potential impact", items: [
+      { t: "Assurance level: confidence that the person is who they claim (SP 800-63-3: 4 levels, little to very high)" },
+      { t: "Areas of risk: where in the system authentication risk applies" },
+      { t: "Potential impact (FIPS 199): Low / Moderate / High if authentication fails", d: "Impact categories include inconvenience or reputation, financial loss, harm to programs, unauthorised release of sensitive information, personal safety, civil or criminal violations.", g: "add", r: "CH3 Table 3.2", n: "Categories read from the Table 3.2 slide." }
+    ]},
+    { t: "Password attacks", mn: "Combinations = (alphabet size) ^ (length)", items: [
+      { t: "Offline dictionary attack: steal the password file, try words offline" },
+      { t: "Guessing against one user: birthday, pet names" },
+      { t: "Brute force: every combination", d: "Worked example: 52 letters (a-z, A-Z) over 8 characters = 52^8 = 53,459,728,531,456, about 5.3 × 10^13 combinations. Adding digits (62 characters) makes it 62^8, about 2.2 × 10^14.", g: "gen", n: "Arithmetic checked in code. The 52^8 case is the friend's example; the 62-character case is mine." },
+      { t: "Bigger alphabet and longer length hugely raise cracking time", d: "Length is the stronger lever because it is the exponent." }
+    ]},
+    { t: "Salting", mn: "Salt + password, THEN hash", items: [
+      { t: "UNIX: a random salt is combined with the password BEFORE hashing; the entry stores salt + hash" },
+      { t: "Identical passwords hash DIFFERENTLY", d: "Two users with 'letmein' get different stored values, so cracking one does not crack the other." },
+      { t: "Defeats rainbow tables: the attacker would need one table per possible salt" },
+      { t: "Does NOT stop brute force against a single account" },
+      { t: "Rainbow table = precomputed hash → password lookup" }
+    ]},
+    { t: "Protecting passwords", mn: "Hide the file, check passwords up front", items: [
+      { t: "Password file access control: readable by privileged users only (shadow password file)" },
+      { t: "Proactive checking: rule enforcement (composition rules)" },
+      { t: "Proactive checking: dictionary checker (large do-not-use list)" },
+      { t: "Proactive checking: Bloom filter, a space-efficient hash table of bad passwords", d: "It can say 'definitely not on the list' or 'probably on the list', so a good password is never rejected for being on a list it is not on, and checking is fast and small.", g: "gen", n: "Bloom filter behaviour is general computer science; the slides only name it as a space-efficient bad-password check." }
+    ]},
+    { t: "Token-based", mn: "Memory card stores. Smart card computes.", items: [
+      { t: "Memory card: stores but does NOT process (magnetic stripe, hotel key)" },
+      { t: "Smart card or token: has an embedded MICROPROCESSOR (processor, memory, I/O)" },
+      { t: "Smart card protocols: static, dynamic password generator, challenge-response" },
+      { t: "Smart card memory: ROM (permanent), EEPROM (programs and app data), RAM (working data)" },
+      { t: "eID card: a smart card used as a national ID with government-verified identity" }
+    ]},
+    { t: "Biometrics", mn: "Enrol once, verify every time", items: [
+      { t: "Authenticates UNIQUE physical characteristics by pattern recognition; more complex and expensive" },
+      { t: "Face, fingerprint, hand geometry, retina, iris, signature, voice" },
+      { t: "Enrollment: capture and store a template" },
+      { t: "Verification: capture again and compare to the template" },
+      { t: "Needs a PHYSICAL scanner present" }
+    ]},
+    { t: "Remote authentication", mn: "Challenge-response beats replay", items: [
+      { t: "Information travels across a network, so there is extra risk" },
+      { t: "Threats: eavesdropping, password capture, REPLAY of a seen sequence" },
+      { t: "Defence: challenge-response. The server sends a changing challenge so an old response cannot be reused", d: "Because the challenge is different each time, a recorded reply is useless." }
+    ]},
+    { t: "Summary & exam note", mn: "Pracs 1-3 concepts are examinable", items: [
+      { t: "Identification = claim. Authentication = proof. KNOW / HAVE / ARE / DO" },
+      { t: "Passwords: salted + hashed + protected file + proactive checks" },
+      { t: "Practical concepts (Pracs 1-3) are examinable", d: "Taken from the friend's lecture notes on the semester test scope." }
+    ]}
+  ]
+});
+
+/* Chapters 4-6 */
+CHAPTERS.push({
+  n: 4, title: "Access Control", short: "Access control", hue: 262,
+  mn: "DAC = owner's discretion. MAC = central labels. RBAC = job role. ABAC = attributes and context.",
+  br: [
+    { t: "What is access control?", mn: "Authenticate FIRST, then access control decides WHAT you may do", items: [
+      { t: "NISTIR 7298: granting or denying requests to (1) obtain and use information and services, (2) enter physical facilities" },
+      { t: "RFC 4949: use of resources regulated by a security policy, permitted only to authorised entities" },
+      { t: "Authenticate first, then access control decides what you may do" },
+      { t: "Policy is defined, but ultimately set by a human" },
+      { t: "Auditing feeds digital forensics" }
+    ]},
+    { t: "The four models", mn: "DAC, MAC, RBAC, ABAC", items: [
+      { t: "DAC: identity plus access rules; the OWNER decides who gets access", d: "Typical example: UNIX file permissions. Flexible, but a careless owner can give away too much." },
+      { t: "MAC: security LABELS compared against CLEARANCES; a central authority decides (military)", d: "Users cannot change the labels on their own files. Nested levels, with higher clearance able to read lower labels.", g: "fix", n: "The friend named the levels 'Top Secret > Secret > Private > Public'. Those exact names are not on the slides. Treat them as an illustration of the idea of ordered levels, not as examinable wording." },
+      { t: "RBAC: access based on the ROLE in the organisation" },
+      { t: "ABAC: attributes of the user, the resource and the environment", d: "Example: allow access only during business hours, from a company device, for someone in the right department." }
+    ]},
+    { t: "Subjects, objects, rights", mn: "ACL per OBJECT. Capability list per SUBJECT.", items: [
+      { t: "Subject: an entity able to access objects (a user, a process)" },
+      { t: "Object: a resource whose access is controlled (a file)" },
+      { t: "Access right: HOW a subject may access an object (read, write, execute, own)" },
+      { t: "Access matrix: subjects as rows, objects as columns", d: "Reading a COLUMN gives the ACL for that object (who can access THIS file). Reading a ROW gives that subject's capability list (what can THIS user access)." },
+      { t: "ACL is stored per OBJECT. Capability list is stored per SUBJECT" },
+      { t: "Extended matrix adds processes and disk drives as subjects/objects; rights can include a copy flag" }
+    ]},
+    { t: "UNIX file access control", mn: "inode, owner/group/other, r/w/x", items: [
+      { t: "Files are managed via inodes (attributes, permissions, control info)" },
+      { t: "One inode = one file; many names can point to one inode", d: "That is how hard links work." },
+      { t: "Directories are a tree of filenames plus inode pointers" },
+      { t: "Traditional: user ID + group ID + 12 protection bits (r/w/x for owner, group, other)" },
+      { t: "Modern UNIX: ACLs (setfacl) for fine-grained rules" }
+    ]},
+    { t: "RBAC", mn: "Rights attach to the job, not the person", items: [
+      { t: "Rights are granted to ROLES; users are assigned to roles" },
+      { t: "A job change means changing only the role assignment" },
+      { t: "Users ↔ Roles ↔ Permissions is many-to-many", d: "Fig 4.7 shows this as two matrices: users against roles, then roles against objects (and roles can also be given rights over other roles, such as owner or control).", r: "CH4 S24", g: "add", n: "Fig 4.7 viewed in the slide image." }
+    ]},
+    { t: "ABAC", mn: "Flexible and expressive; slower to evaluate", items: [
+      { t: "Strength: flexible and expressive. Obstacle: performance overhead of evaluating attribute predicates" },
+      { t: "Subject attributes: identifier, name, organisation, job title, role" },
+      { t: "Object attributes: ownership, service taxonomy, QoS" },
+      { t: "Environment attributes: date/time, threat level, network type" },
+      { t: "XACML: the standard for expressing ABAC policies (web services)" }
+    ]},
+    { t: "ICAM", mn: "Sponsor → Enroll → Produce → Issue → Maintain", items: [
+      { t: "US-government approach: create digital identities, give them credentials, use them to grant authorised access" },
+      { t: "Identity management: attributes bound to a digital identity linked to a real person or an NPE (non-person entity); trustworthy and independent of any one application" },
+      { t: "Credential management, step 1 Sponsorship: an authorised person sponsors the credential" },
+      { t: "Step 2 Enrollment: identity proofing, capture of biographic/biometric data" },
+      { t: "Step 3 Credential production: encryption, digital signature, smart card creation" },
+      { t: "Step 4 Issuance: the credential is given to the individual or NPE" },
+      { t: "Step 5 Maintenance: revocation, reissuance, expiry, PIN reset, suspension" },
+      { t: "Credentials include smart cards, key pairs and digital certificates" },
+      { t: "Access management has 3 elements: resource management, privilege management, policy management", d: "Resource management = rules for accessing a resource. Privilege management = maintains entitlement/privilege attributes. Policy management = what is allowable or unallowable in a transaction." }
+    ]},
+    { t: "Identity federation", mn: "One organisation trusts identities issued by another", items: [
+      { t: "Solves how to trust identities from EXTERNAL organisations on YOUR systems" },
+      { t: "Solves how to vouch for YOUR people at external organisations" },
+      { t: "Frameworks named in the slides: OpenID, OITF, OIDF, ICF, OIX, AXN" }
+    ]},
+    { t: "Summary lines", mn: "Models at a glance", items: [
+      { t: "DAC = owner's discretion | MAC = central labels | RBAC = job role | ABAC = attributes + context" },
+      { t: "ACL per object; capability list per subject" }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 5, title: "Database & Data Center Security", short: "Databases", hue: 342,
+  mn: "SQLi: terminate the string, append a command, comment out the rest. Data centers: Data, Network, Physical, Site.",
+  br: [
+    { t: "Database background", mn: "Relation = table, tuple = row, attribute = column", items: [
+      { t: "Database: a structured data collection that stores RELATIONSHIPS too" },
+      { t: "DBMS: programs to build and maintain the database; ad hoc queries for many users" },
+      { t: "DBMS parts: DDL processor, DML/query processor, authorisation table, file manager" },
+      { t: "Relational database: tables of rows and columns linked by a shared key, queried with SQL" },
+      { t: "Primary key uniquely identifies a row; foreign key links tables" },
+      { t: "View: a query result used for SECURITY, because it limits what a user sees" }
+    ]},
+    { t: "SQL injection (SQLi)", mn: "Terminate the string, append a command, end with --", items: [
+      { t: "Malicious SQL hidden in normal-looking input; the usual goal is BULK DATA extraction" },
+      { t: "Technique: prematurely TERMINATE a string, append a command, end with a -- comment", d: "The comment marker throws away whatever the programmer wrote after your input, such as the closing quote or a password check." },
+      { t: "Avenues: user input, server variables (forged headers), second-order injection (stored, triggered later), cookies, physical user input" }
+    ]},
+    { t: "Three types of SQLi", mn: "In-band, Inferential, Out-of-band", items: [
+      { t: "In-band: the same channel is used to inject AND get results", d: "Tautology, end-of-line comment, piggybacked queries." },
+      { t: "Inferential: no data is transferred; the attacker reconstructs information from server behaviour", d: "Illegal or incorrect queries, and blind SQLi." },
+      { t: "Out-of-band: data is retrieved through a DIFFERENT channel (for example, emailed out)" }
+    ]},
+    { t: "SQLi countermeasures", mn: "Defensive coding, detection, run-time prevention", items: [
+      { t: "Defensive coding: manual secure coding, signature/anomaly detection, code analysis, data-type validation and escaping" },
+      { t: "Detection: check queries at run time against EXPECTED structures" },
+      { t: "Run-time prevention: block or alter suspicious queries", d: "Prepared statements are the standard coding fix and are covered again in Chapter 11.", g: "gen", n: "Linking to Chapter 11's prepared statements is my cross-reference." }
+    ]},
+    { t: "Database access control", mn: "GRANT and REVOKE", items: [
+      { t: "Ownership-based: the creator of a table grants and revokes rights" },
+      { t: "Decentralised: the owner lets others grant and revoke on their behalf" },
+      { t: "GRANT (can allow re-grant) and REVOKE" },
+      { t: "Rights: SELECT, INSERT, UPDATE, DELETE, REFERENCES" },
+      { t: "Cascading revocation: a grant stays valid only if the granter still holds the right through a valid, earlier grant (or is the owner)", d: "Method: for each remaining grant G→H at time t, check that G is the owner or still holds the right through a valid grant with an EARLIER timestamp. Remove grants that fail. Repeat until nothing changes.", g: "gen", n: "This rule is my own assumption, not stated on the slides. It matched all 5 revocation scenarios in the semester test when checked, but confirm against your lecturer's wording." }
+    ]},
+    { t: "Roles in databases", mn: "Owner, end user, administrator", items: [
+      { t: "Application owner: owns the DB objects of an application" },
+      { t: "End user: operates through an application and owns nothing" },
+      { t: "Administrator: responsible for part or all of the database" },
+      { t: "MS SQL Server fixed roles: sysadmin, securityadmin, db_owner, db_datareader / db_datawriter, db_denydatareader / db_denydatawriter" }
+    ]},
+    { t: "Inference", mn: "Allowed queries combined reveal forbidden data", items: [
+      { t: "Inference: figuring out forbidden data by combining the results of several ALLOWED queries" },
+      { t: "Detection during DB design: change the structure or access control up front; often too strict and lowers availability" },
+      { t: "Detection at query time: detect the violation as queries run and deny or alter them; more flexible, harder to build" }
+    ]},
+    { t: "Database encryption", mn: "The last line of defence", items: [
+      { t: "A database is the richest, most concentrated target; encryption is an important LAST line of defence" },
+      { t: "Challenge: key management overhead (many keys)" },
+      { t: "Challenge: inflexibility, since searching and indexing get harder" },
+      { t: "Searching encrypted data means decrypting first (costly); an index over encrypted data helps" }
+    ]},
+    { t: "Data center security", mn: "Data, Network, Physical, Site", items: [
+      { t: "Data center: an enterprise facility (room to building) housing IT infrastructure (cloud, search engines, research)" },
+      { t: "Layered model, Fig 5.12: Data, Network, Physical, Site", f: "layers", g: "fix", r: "CH5 Fig 5.12", n: "The friend's second layer was 'Application'. The slide figure says Network." },
+      { t: "Data layer: encryption, password policy, masking, retention (ISO 27002)" },
+      { t: "Network layer: firewalls, anti-virus, IDS/IPS, authentication" },
+      { t: "Physical layer: surveillance, mantraps, 2/3-factor authentication, zones (ISO 27001/27002)" },
+      { t: "Site layer: setbacks, redundant utilities, buffer zones, crash barriers, controlled entry" },
+      { t: "TIA-942: minimum telecom infrastructure requirements (hosting, distribution, environmental control, cabling)" }
+    ]},
+    { t: "Data center tiers", mn: "Higher tier = more redundancy = less downtime", items: [
+      { t: "Table 5.4: tier, redundancy and yearly downtime", b: "t54", r: "CH5 Table 5.4", g: "add", n: "Percentages and downtime hours read from the slide image of Table 5.4." },
+      { t: "Tier 1: single path, no redundancy, shut down for maintenance" },
+      { t: "Tier 2: single path plus some redundant components" },
+      { t: "Tier 3: multiple paths, ONE active; maintenance without disruption" },
+      { t: "Tier 4: multiple ACTIVE paths; survives a worst-case event" }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 6, title: "Malicious Software", short: "Malware", hue: 4,
+  mn: "Describe any malware with two questions: how does it SPREAD (propagation) and what does it DO (payload)?",
+  br: [
+    { t: "What is malware?", mn: "Propagation + Payload", items: [
+      { t: "NIST: a program inserted covertly to compromise the C-I-A of victim data, apps or OS, or just to annoy" },
+      { t: "Propagation: HOW it spreads (infect content, exploit vulnerabilities, social engineering)" },
+      { t: "Payload: WHAT it does (corrupt, make a bot, steal info, stay hidden)" }
+    ]},
+    { t: "Classification & terms", mn: "Parasitic vs independent; replicates or not", items: [
+      { t: "Needs a HOST program (parasitic): virus. Independent: worm, trojan, bot" },
+      { t: "Replicates: virus, worm. Does NOT replicate: trojan, spam" },
+      { t: "Attack kit (Zeus, Angler, Metasploit): lets novices build malware" },
+      { t: "Downloader installs bigger malware. Exploit = code for one vulnerability" },
+      { t: "Logic bomb waits for a condition. Keylogger. Spyware" },
+      { t: "Zombie/bot attacks others on command. Flooder = DoS client" }
+    ]},
+    { t: "APT (Advanced Persistent Threat)", mn: "Advanced, Persistent, Threat", items: [
+      { t: "Well-resourced, often state-sponsored; targets ONE organisation for a long time" },
+      { t: "Examples: Aurora, RSA, APT1, Stuxnet" },
+      { t: "Techniques: spear-phishing, drive-by downloads, watering hole" },
+      { t: "Aim: steal intellectual property or infrastructure data" },
+      { t: "Advanced = many tools. Persistent = never gives up. Threat = humans behind it", d: "A patient burglar casing ONE house." }
+    ]},
+    { t: "Viruses", mn: "Dormant, Propagation, Triggering, Execution: 'Dogs Prefer Treats Eagerly'", items: [
+      { t: "Infects a program by modifying it to include a copy of itself; runs when the host runs" },
+      { t: "3 components: infection mechanism, trigger (logic bomb), payload" },
+      { t: "4 phases: Dormant (idle), Propagation (copies itself), Triggering (event activates), Execution (payload runs)" },
+      { t: "By TARGET: boot sector, file infector, macro, multipartite", d: "Macro viruses infect DOCUMENTS and are platform independent (Melissa, 1998)." },
+      { t: "By CONCEALMENT: encrypted, stealth, polymorphic, metamorphic" },
+      { t: "Polymorphic mutates its APPEARANCE each infection. Metamorphic rewrites itself completely (code AND behaviour)", d: "Same person in new clothes vs a new person each time." }
+    ]},
+    { t: "Worms", mn: "A worm WALKS across networks. A virus HITCHHIKES in a file.", items: [
+      { t: "Runs independently and copies a COMPLETE version of itself across networks" },
+      { t: "Replication: email/IM, remote execution, remote login" },
+      { t: "Target discovery: random (lots of traffic)", d: "Random IPs. Noisy." },
+      { t: "Target discovery: hit-list (fast, stealthy), topological (uses victim info such as address books), local subnet (behind a firewall, scans its own LAN)" },
+      { t: "Spread is an S-curve: slow start, fast spread, slow finish" },
+      { t: "Timeline: Morris 1988, Melissa 1998, Code Red 2001, Nimda 2001, Slammer 2003, Mydoom 2004, Conficker 2008, Stuxnet 2010, WannaCry 2017", d: "Morris: UNIX, password cracking, finger bug, debug trapdoor in mail. Code Red: IIS buffer overflow. Slammer: SQL Server overflow, very fast. WannaCry: ransomware worm using an SMB flaw, with a kill switch. Mobile worms: Cabir 2004, Lasco, CommWarrior (Bluetooth/MMS)." }
+    ]},
+    { t: "Client-side attacks", mn: "Drive-by = any visitor. Watering hole = the target. Malvertising = the ad.", items: [
+      { t: "Mobile code: Java applets, ActiveX, JavaScript, VBScript; shipped unchanged to many platforms" },
+      { t: "Drive-by download: just visiting a page installs malware (browser or plugin flaw)" },
+      { t: "Watering hole: compromise the site YOUR TARGET visits, then wait" },
+      { t: "Malvertising: paid ads carrying malware on legitimate sites; the site itself is NOT compromised" },
+      { t: "Clickjacking: hidden frames, so you click what you cannot see" },
+      { t: "Social engineering: tricking users (spam, trojans)" }
+    ]},
+    { t: "Payload: corruption", mn: "Ransomware, BIOS damage, logic bombs", items: [
+      { t: "Ransomware encrypts files and demands payment (WannaCry); backups are the recovery" },
+      { t: "Chernobyl virus rewrites the BIOS, which means physical damage" },
+      { t: "Stuxnet: industrial sabotage" },
+      { t: "Logic bomb explodes when a condition is met" }
+    ]},
+    { t: "Payload: bots & zombies", mn: "Remote control is what separates a bot from a worm", items: [
+      { t: "A bot takes over an Internet computer to launch attacks; a botnet is a coordinated collection of bots" },
+      { t: "Uses: DDoS, spam, sniffing, keylogging, spreading malware, adware, manipulating polls and games" },
+      { t: "Remote control: IRC channel commands (classic), HTTP covert channels, P2P (no single point of failure)" }
+    ]},
+    { t: "Payload: information theft", mn: "Phishing = net. Spear-phishing = spear.", items: [
+      { t: "Keylogger: captures keystrokes and filters for 'login' or 'password'" },
+      { t: "Spyware: monitors browsing and redirects to fake sites" },
+      { t: "Phishing: spam email pointing to a fake bank or login site" },
+      { t: "Spear-phishing: researched, personalised email to one person" }
+    ]},
+    { t: "Payload: stealthing", mn: "Backdoor = hidden door in. Rootkit = hidden room and cloak once inside.", items: [
+      { t: "Backdoor (trapdoor): a secret entry that bypasses security" },
+      { t: "Maintenance hook: a backdoor used by programmers to debug" },
+      { t: "Rootkit: HIDDEN tools installed after root access; hides processes, files, registry" },
+      { t: "Rootkit classes: persistent (survives reboot), memory-based (RAM only), user mode (intercepts APIs), kernel mode (alters the system call table, e.g. knark), virtual-machine based (thin hypervisor), external mode (BIOS / SMM)" }
+    ]},
+    { t: "Countermeasures", mn: "Anti-virus generations: S-H-A-F", items: [
+      { t: "PREVENTION first: policy, awareness, vulnerability mitigation, threat mitigation" },
+      { t: "If prevention fails: detect → identify → remove" },
+      { t: "1st generation Signature scanners (known malware only)" },
+      { t: "2nd generation Heuristic (rules, checksums)" },
+      { t: "3rd generation Activity traps (watch ACTIONS)" },
+      { t: "4th generation Full-featured (all combined plus access control)" },
+      { t: "Sandbox analysis: run in an emulator and watch behaviour; good against polymorphic and metamorphic malware" },
+      { t: "Behaviour blocking: real-time monitoring. Con: the malware must RUN first, and false positives happen" },
+      { t: "Perimeter scanning: ingress monitors (enterprise ↔ Internet border) and egress monitors (LAN borders; honeypot-style traffic to unused IPs)" },
+      { t: "Practical 5: problem 6.2 (can program D decide whether a program is a virus?) and 6.3 (metamorphic code sequence, dummy instructions)" }
+    ]}
+  ]
+});
+
+/* Chapters 7-9 */
+CHAPTERS.push({
+  n: 7, title: "Denial-of-Service Attacks", short: "DoS", hue: 32,
+  mn: "DoS attacks AVAILABILITY by exhausting a resource: bandwidth, system tables, or the application.",
+  br: [
+    { t: "What is DoS?", mn: "Exhaust bandwidth, system or application resources", items: [
+      { t: "An action that PREVENTS or IMPAIRS authorised use of networks, systems or apps by exhausting resources (CPU, memory, bandwidth, disk)" },
+      { t: "An attack on AVAILABILITY, the A in CIA" },
+      { t: "Network bandwidth: ping flood, UDP flood" },
+      { t: "System resources: SYN spoofing (OS network code, tables)" },
+      { t: "Application resources: HTTP flood, Slowloris", d: "Road jammed, till overloaded, cashiers stuck on one fake customer." }
+    ]},
+    { t: "Classic DoS", mn: "Flooding ping, source spoofing, SYN spoofing", items: [
+      { t: "Flooding ping: overwhelm the link capacity; the attacker is identifiable unless spoofed" },
+      { t: "Source address spoofing: a forged source (raw sockets); hard to trace" },
+      { t: "Backscatter: replies landing at innocent addresses", d: "Spoofed packets make the victim reply to random third parties. Defenders can watch backscatter to spot attacks.", g: "gen", n: "The defender-side observation is general knowledge; the slides define backscatter only as the stray replies." },
+      { t: "SYN spoofing: attacks the connection table (the most common)" }
+    ]},
+    { t: "TCP handshake & SYN spoofing", mn: "1000 fake reservations: tables held for nobody", items: [
+      { t: "3-way handshake: SYN, SYN-ACK, ACK, connected", f: "syn" },
+      { t: "Attack: flood SYNs with FORGED source addresses" },
+      { t: "The server sends SYN-ACKs to the fake addresses and holds half-open entries waiting for an ACK that never comes" },
+      { t: "The table fills up, so real users are refused" }
+    ]},
+    { t: "Flooding attacks", mn: "Volume wins; any packet type works", items: [
+      { t: "Aim: overload network capacity with VOLUME" },
+      { t: "ICMP flood: echo requests (ping is allowed in as a diagnostic tool)" },
+      { t: "UDP flood: packets to a port on the target" },
+      { t: "TCP SYN flood: TCP packets to the target" }
+    ]},
+    { t: "DDoS (distributed)", mn: "Attacker → Handlers → Zombies → Target", items: [
+      { t: "Many systems (a botnet of zombies) attack at once" },
+      { t: "Chain: Attacker → Handlers → Zombies (agents) → Target" },
+      { t: "Needs less attacker bandwidth and is harder to trace" },
+      { t: "SIP flood: a flood of INVITE requests overwhelms the SIP proxy (VoIP signalling)" }
+    ]},
+    { t: "HTTP-based attacks", mn: "Flood = shouting. Slowloris = mumbling and never finishing.", items: [
+      { t: "HTTP flood: lots of HTTP requests at a web server", d: "Spidering: bots follow ALL links recursively." },
+      { t: "Slowloris: partial requests that NEVER complete", d: "It hogs every request-handling thread until capacity is used up. It looks legitimate, so signature-based IDS/IPS misses it." }
+    ]},
+    { t: "Reflection & amplification", mn: "Reflection = bounce. Amplification = bounce with a bigger reply.", items: [
+      { t: "Reflection: the spoofed source is the TARGET, so an intermediary (the reflector) replies to the target" },
+      { t: "DNS amplification: a small query produces a MUCH larger response sent to the target" },
+      { t: "Defence: block spoofed source addresses" }
+    ]},
+    { t: "Four lines of defence", mn: "Before, during, tracing, after", items: [
+      { t: "1. Prevention & pre-emption (before): policies, firewalls, block spoofing" },
+      { t: "2. Detection & filtering (during)" },
+      { t: "3. Traceback & identification (the ISP traces the source)" },
+      { t: "4. Reaction (after): eliminate the cause, update the response plan" },
+      { t: "DoS cannot be fully prevented, because high traffic may be legitimate (a flash crowd)" }
+    ]},
+    { t: "Prevention methods", mn: "Filter, cookie, CAPTCHA, replicate", items: [
+      { t: "Block spoofed addresses: routers as close to the source as possible; check the path back to the source" },
+      { t: "SYN cookies (modified TCP handling): a cryptographic cookie as the initial sequence number; drop old half-open entries when the table overflows", d: "The server stores nothing for a half-open connection, so there is no table to fill." },
+      { t: "Block IP-directed broadcasts and suspicious services" },
+      { t: "CAPTCHA separates humans from bots (application attacks)" },
+      { t: "Mirrored or replicated servers for high availability" },
+      { t: "Routes cannot be encrypted, so rely on filtering" }
+    ]},
+    { t: "Responding to an attack", mn: "Plan, identify, filter, trace, recover, learn", items: [
+      { t: "Before: a good incident response plan (ISP contacts, monitors, IDS)" },
+      { t: "Identify the TYPE of attack before countering it" },
+      { t: "Capture and analyse packets, design filters, or fix the app/system bug" },
+      { t: "The ISP traces the packet flow back (slow, needed for legal action)" },
+      { t: "Contingency: backup servers, or a new site or new addresses" },
+      { t: "Afterwards: analyse and update the response plan" }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 8, title: "Intrusion Detection", short: "IDS", hue: 98,
+  mn: "Sensors collect, analysers decide, the user interface shows. HIDS, NIDS, distributed. Signature vs anomaly.",
+  br: [
+    { t: "Intruders", mn: "Classes and skill levels", items: [
+      { t: "Cyber criminals: financial reward, identity theft, data theft" },
+      { t: "Activists: social or political cause (hacktivists), often low skill" },
+      { t: "State-sponsored: espionage or sabotage, highly skilled" },
+      { t: "Others: hobbyists, curiosity" },
+      { t: "Apprentice USES existing toolkits (most numerous, EASIEST to stop)" },
+      { t: "Journeyman MODIFIES and extends tools" },
+      { t: "Master FINDS new vulnerabilities and MAKES tools (HARDEST to stop)" }
+    ]},
+    { t: "Intruder behaviour", mn: "I-A-P-G-M-C: 'I Always Plan Great Mischief, Carefully'", items: [
+      { t: "1. Information gathering: DNS, WHOIS, NMAP, probe services" },
+      { t: "2. Initial access: brute-force password, plugin exploit, spear-phish" },
+      { t: "3. Privilege escalation: local exploits, sniffers for admin passwords" },
+      { t: "4. Gather / exploit: find data, transfer documents out" },
+      { t: "5. Maintain access: rootkit, remote admin tool, disable AV/IDS" },
+      { t: "6. Cover tracks: hide files, edit logs" }
+    ]},
+    { t: "IDS basics", mn: "Sensors, Analyzers, User interface", items: [
+      { t: "Intrusion detection = gathering and analysing information to identify possible intrusions" },
+      { t: "Sensors COLLECT data. Analyzers DECIDE whether an intrusion occurred. The user interface shows output and controls the IDS" },
+      { t: "HIDS: monitors one host. NIDS: monitors network traffic and protocols. Distributed/hybrid: many sensors, central analysis" }
+    ]},
+    { t: "IDS requirements", mn: "Always on, hard to fool, light", items: [
+      { t: "Run continually, fault tolerant, resist subversion" },
+      { t: "Minimal overhead, configurable to policy" },
+      { t: "Adapt to changes, scale well" },
+      { t: "Graceful degradation, dynamic reconfiguration" },
+      { t: "An IDS can cause DoS: cutting off the intruder may cut off ALL users" }
+    ]},
+    { t: "Analysis approaches", mn: "Signature = wanted poster. Anomaly = bouncer who knows the regulars.", items: [
+      { t: "Signature / heuristic (rule-based): matches known-bad patterns; FAST; cannot detect without a signature" },
+      { t: "Anomaly: learn NORMAL, flag deviations; slower with a learning curve, but catches NEW attacks" },
+      { t: "The big problem with anomaly detection is FALSE POSITIVES" },
+      { t: "Anomaly types: statistical, knowledge-based (expert rules), machine learning" }
+    ]},
+    { t: "Host-based IDS (HIDS)", mn: "System calls, logs, file hashes, registry", items: [
+      { t: "An extra security layer on sensitive hosts; anomaly or signature" },
+      { t: "Data source: system call traces (OS calls made by a process)" },
+      { t: "Data source: audit (log) records (Windows/Linux logs)" },
+      { t: "Data source: file integrity checksums (HASHING); malware changes the hash" },
+      { t: "Data source: registry access (Windows registry changes)" },
+      { t: "Distributed HIDS: agents report to a central manager" }
+    ]},
+    { t: "Network-based IDS (NIDS)", mn: "Inline can block; passive watches a copy", items: [
+      { t: "Monitors traffic at selected points, near real time, including protocol activity" },
+      { t: "Inline sensor: IN the path, can block. Risk: a bottleneck" },
+      { t: "Passive sensor: monitors a COPY of the traffic (a tap); no performance hit" },
+      { t: "Stateful protocol analysis: compares to benign protocol profiles and tracks states (heavy on resources)" },
+      { t: "Alert logging: timestamp, session ID, type, protocols, IPs/ports, bytes, payload" },
+      { t: "IDMEF is the standard alert exchange format" }
+    ]},
+    { t: "Honeypots", mn: "Fake honey jar: only a bear touches it", items: [
+      { t: "Decoy systems with fabricated information and NO production value, so any use is suspicious" },
+      { t: "Purpose: divert attackers from critical systems, collect information, keep them busy until admins respond" },
+      { t: "Low interaction: emulates a few services; low risk" },
+      { t: "High interaction: real systems; richer data but more risk" },
+      { t: "Practical: virtual honeypot demo (screen video, name + student number)" }
+    ]},
+    { t: "Snort", mn: "Header (action, protocol, addresses, ports, direction) + options", items: [
+      { t: "Open-source, lightweight, rule-based NIDS / IPS" },
+      { t: "A rule has a HEADER (action, protocol, source address and port, direction, destination address and port) and OPTIONS in brackets", r: "CH8 S41", g: "add", n: "Header field list read from the Snort rule format slide." },
+      { t: "Table 8.3: the eight Snort rule actions", b: "t83", r: "CH8 S42", g: "add", n: "Descriptions read from the Table 8.3 slide image." },
+      { t: "Example shape (illustrative): alert tcp any any -> 192.168.1.0/24 80 (msg:\"web probe\"; content:\"/etc/passwd\";)", d: "Read left to right: action, protocol, source address, source port, direction arrow, destination address, destination port, then options.", g: "gen", n: "This sample rule is mine to show the layout. It is not from the slides." }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 9, title: "Firewalls & Intrusion Prevention", short: "Firewalls / IPS", hue: 192,
+  mn: "Firewall = bouncer at the one door. IDS = camera. IPS = guard who can act.",
+  br: [
+    { t: "The need for firewalls", mn: "Single choke point", items: [
+      { t: "An effective way to protect LANs: a controlled link between the premises network and the Internet" },
+      { t: "Single choke point: perimeter defence that imposes security and auditing" },
+      { t: "Design goal 1: ALL traffic (in ↔ out) must pass through the firewall" },
+      { t: "Design goal 2: ONLY authorised traffic (defined by policy) may pass" },
+      { t: "Design goal 3: the firewall itself is IMMUNE to penetration (hardened system, secure OS)" }
+    ]},
+    { t: "Access policy & filters", mn: "From the risk assessment + security policy", items: [
+      { t: "Access policy: the types of traffic authorised to pass" },
+      { t: "Filter on IP address and protocol values (limit access to services)" },
+      { t: "Filter on application protocol (used by gateways)" },
+      { t: "Filter on user identity (inside users authenticated)" },
+      { t: "Filter on network activity (time, rate of requests)" }
+    ]},
+    { t: "Capabilities & limitations", mn: "Cannot stop what bypasses it", items: [
+      { t: "Capability: a single choke point" },
+      { t: "Capability: a location for monitoring security events" },
+      { t: "Capability: a platform for non-security Internet functions (NAT, logging)" },
+      { t: "Capability: a platform for IPSec (VPN)" },
+      { t: "Limitation: cannot protect against attacks that BYPASS it" },
+      { t: "Limitation: not fully effective against INTERNAL threats" },
+      { t: "Limitation: an improperly secured WLAN accessed from outside" },
+      { t: "Limitation: portable storage and laptops infected outside (BYOD)" }
+    ]},
+    { t: "Packet filtering firewall", mn: "No memory: each packet judged alone", items: [
+      { t: "Rules applied to EACH IP packet using the IP/TCP header (source/destination IP, ports, protocol field)" },
+      { t: "Default policy DISCARD: prohibit unless permitted (SAFER)" },
+      { t: "Default policy FORWARD: permit unless prohibited" },
+      { t: "Advantages: simple, transparent, very fast" },
+      { t: "Disadvantages: cannot stop app-specific attacks, limited logging, no advanced user authentication, vulnerable to TCP/IP spoofing" }
+    ]},
+    { t: "Stateful inspection firewall", mn: "Remembers the conversation", items: [
+      { t: "Keeps a directory of outbound TCP connections (one entry per connection)" },
+      { t: "Allows incoming traffic to high ports ONLY if it matches an entry" },
+      { t: "Tracks TCP sequence numbers" },
+      { t: "A packet filter has NO memory. A stateful firewall remembers the conversation" }
+    ]},
+    { t: "Application-level gateway (proxy)", mn: "Reads the letter", items: [
+      { t: "Relays application traffic: User → gateway (user authenticated) → application" },
+      { t: "Needs proxy code for EACH application; more secure" },
+      { t: "Disadvantage: extra processing overhead per connection" }
+    ]},
+    { t: "Circuit-level gateway", mn: "Checks the envelope only", items: [
+      { t: "Relays TCP segments from one connection to another WITHOUT examining contents" },
+      { t: "Checks that the handshake is legitimate, NOT the payload" },
+      { t: "Can be application-level for inbound and circuit-level for outbound" },
+      { t: "SOCKS v5 is a common circuit-level framework" }
+    ]},
+    { t: "Firewall basing", mn: "Bastion, host-based, personal", items: [
+      { t: "Bastion host: a critical strong point on the network boundary; runs proxies; a hardened central control point" },
+      { t: "Host-based firewall: secures an individual host (OS or add-on); rules specific to that host; independent of network topology" },
+      { t: "Personal firewall: controls traffic between a PC and the Internet; a software module or in a home router; denies unauthorised INBOUND access" }
+    ]},
+    { t: "Locations & topologies", mn: "DMZ = hotel lobby", items: [
+      { t: "Configurations: host-resident firewall, screening router, single bastion inline, single bastion T, double bastion inline / T, distributed firewall" },
+      { t: "DMZ (demilitarised zone): a segment between the Internet and the internal network holding externally visible servers (web, email, DNS)", f: "dmz", d: "The public can enter the lobby, but staff rooms are behind another door." },
+      { t: "VPN: IPSec in firewalls/routers; encrypted tunnels across the Internet between sites or from a remote user" }
+    ]},
+    { t: "Intrusion prevention (IPS)", mn: "IDS = camera. IPS = guard.", items: [
+      { t: "An extension of IDS that can BLOCK or prevent detected malicious activity" },
+      { t: "Can be host-based, network-based or hybrid" },
+      { t: "Detection: anomaly (not legitimate use) or signature/heuristic (known malicious)" },
+      { t: "Blocks traffic like a firewall but uses IDS-style algorithms to decide" }
+    ]},
+    { t: "Host-based IPS (HIPS)", mn: "Typically protects desktops", items: [
+      { t: "Signature: content of app network traffic or system-call sequences matching malicious patterns" },
+      { t: "Anomaly: behaviour patterns that indicate malware" },
+      { t: "Malicious behaviour: privilege escalation, buffer overflow, modifying system resources" },
+      { t: "Sandbox approach: quarantines code in an isolated area, runs it and monitors behaviour" },
+      { t: "Role: integrates endpoint security into ONE suite (tools work together, easier management)" }
+    ]},
+    { t: "Network-based IPS (NIPS)", mn: "An inline NIDS with authority to act", items: [
+      { t: "A dedicated device at the network boundary; filters traffic between network segments" },
+      { t: "An inline NIDS with authority to modify or discard packets and tear down TCP connections" },
+      { t: "Pattern matching: known byte sequences (signature)" },
+      { t: "Stateful matching: a signature in the context of the traffic STREAM" },
+      { t: "Protocol anomaly: compared against standard protocol definitions" },
+      { t: "Traffic anomaly: unusual traffic activity" },
+      { t: "Statistical anomaly: profiles of normal traffic; flag deviations" }
+    ]},
+    { t: "UTM, Snort Inline, immune system", mn: "All-in-one, replace-not-drop, global view", items: [
+      { t: "UTM (Unified Threat Management): a single appliance with firewall, VPN, anti-spam, web filtering, bandwidth shaping and intrusion prevention", d: "Raw traffic passes through each module in turn and comes out clean and controlled." },
+      { t: "Snort Inline: Snort as an IPS. The REPLACE option modifies packets rather than dropping them", d: "Useful in a honeypot: the attacker sees the attack fail and cannot work out why." },
+      { t: "Digital immune system: a comprehensive defence against malware with faster propagation and a GLOBAL view", d: "Success depends on malware analysis that detects NEW strains. Flow (Fig 9.5): sensors detect, forward to analysis, sandbox, patch, update clients." }
+    ]}
+  ]
+});
+
+/* Chapters 10, 11, 13. Chapter 12 is excluded from the exam and is not in the data. */
+CHAPTERS.push({
+  n: 10, title: "Buffer Overflow", short: "Buffer overflow", hue: 318,
+  mn: "More data than the buffer holds. Writes run LOW → HIGH, toward the return address.",
+  br: [
+    { t: "What is it?", mn: "A programming ERROR: data written beyond a fixed-size buffer", items: [
+      { t: "NIST: more input is placed in a buffer than its capacity, overwriting other information" },
+      { t: "Buffer = allocated memory space. Overflow = too much data" },
+      { t: "The buffer can be on the stack, the heap, or in global data" },
+      { t: "Consequence: corruption of program data" },
+      { t: "Consequence: unexpected transfer of control" },
+      { t: "Consequence: memory access violation" },
+      { t: "Consequence: execution of ATTACKER-CHOSEN code", d: "A 2-litre bottle into a 1-litre glass: the spill hits whatever sits next to it." }
+    ]},
+    { t: "Example & finding targets", mn: "strcpy copies with no check", items: [
+      { t: "source[] = \"username12\" is 10 characters + null = 11 bytes; destination[7] holds only 6 + null; strcpy copies with no check, so it overflows", d: "The 4 extra bytes land in whatever sits next to the destination buffer.", r: "CH10 S7" },
+      { t: "Attackers find vulnerable programs by inspecting source code (look for unsafe functions)" },
+      { t: "...or by tracing execution with oversized input" },
+      { t: "...or by fuzzing: automatic random or oversized input" },
+      { t: "Prevention: get rid of UNSAFE functions and use updated bounded versions" }
+    ]},
+    { t: "Languages & memory", mn: "C is exposed. Java and Python check ranges.", items: [
+      { t: "C and similar languages are VULNERABLE (efficiency over safety, legacy unsafe code)" },
+      { t: "Java and Python (modern high-level) are NOT vulnerable (range checks), at a run-time cost" },
+      { t: "Assembly: total control means total responsibility" },
+      { t: "Process memory: the stack sits at the top and grows DOWN toward lower addresses; the heap grows UP", f: "mem", g: "fix", r: "CH10 S14 (Fig 10.4)", n: "The friend wrote 'data written from HIGHER to LOWER addresses'. That mixes two things: the stack GROWS toward lower addresses, but a buffer write runs from LOW to HIGH addresses, which is what reaches the return address." }
+    ]},
+    { t: "Stack buffer overflow", mn: "Overwrite the return address", items: [
+      { t: "The buffer is on the stack. Used by the Morris worm" },
+      { t: "Stack frame, from high to low address: parameters, return address, old frame pointer, local variables / buffer", f: "stack" },
+      { t: "Attack: write past the buffer, overwrite the saved frame pointer, then the RETURN ADDRESS, so the function returns into attacker code", d: "Like rewriting the 'go back to' sticky note to say 'go to MY code'." },
+      { t: "Order matters: the buffer sits BELOW the return address, and writes go low → high" }
+    ]},
+    { t: "Shellcode", mn: "Attacker-supplied code, usually inside the buffer", items: [
+      { t: "Code SUPPLIED BY THE ATTACKER, often stored in the overflowed buffer" },
+      { t: "Traditionally gives a shell with the program's privileges" },
+      { t: "Machine code, so processor and OS specific" },
+      { t: "Must be position independent (it cannot assume where it loads)" },
+      { t: "NOP sled: a run of no-ops so an imprecise return address still lands on the code" },
+      { t: "Tools such as Metasploit automate it" }
+    ]},
+    { t: "Unsafe C routines", mn: "Unsafe → safer", items: [
+      { t: "gets → fgets" },
+      { t: "strcpy → strncpy or strlcpy" },
+      { t: "strcat → strncat or strlcat" },
+      { t: "sprintf → snprintf" },
+      { t: "scanf / fscanf → use a width limit" }
+    ]},
+    { t: "History", mn: "From Morris to Sasser", items: [
+      { t: "1988 Morris worm (fingerd). 1996 Aleph One, 'Smashing the Stack for Fun and Profit'" },
+      { t: "2001 Code Red (IIS). 2003 Slammer (SQL Server). 2004 Sasser (LSASS)" },
+      { t: "Still a concern: legacy buggy code and careless programmers" }
+    ]},
+    { t: "Compile-time defences", mn: "Harden NEW programs", items: [
+      { t: "Modern high-level language: range checks. Cost: run-time checks and no low-level access" },
+      { t: "Safe coding: inspect and rewrite unsafe code (OpenBSD audited everything)" },
+      { t: "Safe libraries, for example Libsafe, loaded before the standard libraries; needs recompiling" },
+      { t: "Stackguard: a CANARY value placed next to the return address; a changed canary aborts the program", d: "Canary in the coal mine: an overflow must trample it BEFORE the return address. It must be unpredictable." },
+      { t: "Stackshield / RAD: keep a COPY of the return address in safe memory and compare on exit" }
+    ]},
+    { t: "Run-time defences", mn: "Detect and ABORT attacks in EXISTING programs", items: [
+      { t: "Non-executable address space: mark stack and heap non-executable (MMU support); stops injected shellcode" },
+      { t: "ASLR (address space layout randomisation): a random shift of stack, heap, global data and library locations per process" },
+      { t: "Guard pages: illegal pages between memory regions; any access aborts the process (cost: page mappings)" },
+      { t: "Compile-time = new programs. Run-time = existing programs" }
+    ]},
+    { t: "Other overflow types", mn: "Each has its own defence", items: [
+      { t: "Replacement stack frame: the overflow also replaces the frame pointer and the attacker supplies a fake frame. Defence: stack protection" },
+      { t: "Return to system call: the return address points to an existing library function (e.g. system()) with attacker arguments; works on non-executable stacks. Defence: ASLR, block unsafe functions" },
+      { t: "Heap overflow: a buffer in the heap with no return address; overwrites heap data or function pointers. Defence: non-executable or randomised heap" },
+      { t: "Global data overflow: overwrites a function pointer in global data. Defence: randomise, guard pages, move pointers" },
+      { t: "Practical: GDB" }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 11, title: "Software Security", short: "Software security", hue: 140,
+  mn: "Never trust input: size, type, syntax, encoding, signed/unsigned. Least privilege.",
+  br: [
+    { t: "Big picture", mn: "No flaw, no attack", items: [
+      { t: "5 critical web-app flaws: unvalidated input, cross-site scripting (XSS), buffer overflow, injection flaws, improper error handling" },
+      { t: "Root cause: INSUFFICIENT checking and validation of data and error codes" },
+      { t: "CWE/SANS error bucket 1: Insecure interaction between components (SQLi, XSS, CSRF)" },
+      { t: "Bucket 2: Risky resource management (buffer overflow, path traversal, integer overflow)" },
+      { t: "Bucket 3: Porous defences (missing authentication or encryption, hard-coded credentials)", d: "Memory aid: I-R-P.", b: "t111", r: "CH11 Table 11.1", g: "add", n: "Full category lists read from the Table 11.1 slide image (CWE/SANS Top 25, 2011)." }
+    ]},
+    { t: "Reduce vulnerabilities", mn: "Stop, find, reduce", items: [
+      { t: "NISTIR 8151: STOP vulnerabilities before they occur (better methods)" },
+      { t: "FIND them before they are exploited (testing, scanners)" },
+      { t: "REDUCE the impact (resilient architecture)" },
+      { t: "Reliability = ACCIDENTAL failure and random input. Security = DELIBERATE exploitation, where the attacker picks the input", d: "A clumsy person tripping versus a burglar going for the loose window." }
+    ]},
+    { t: "Defensive programming", mn: "NEVER ASSUME ANYTHING", items: [
+      { t: "Keep working even under attack or error" },
+      { t: "Zero-based trust: validate every assumption and handle every error state" },
+      { t: "Use checklists; design security in from the start (SAFECode)" },
+      { t: "Conflicts with business pressure for short development time" }
+    ]},
+    { t: "Handling program input", mn: "Treat ALL input as dangerous", items: [
+      { t: "Input = any data from outside the program" },
+      { t: "Size: an assumed maximum with an unchecked buffer gives an overflow" },
+      { t: "Interpretation: binary vs text, many character sets", d: "Heartbleed (2014): an unchecked length field." },
+      { t: "Validate syntax by comparing to an ALLOW-list (known good), which is safer than a deny-list" },
+      { t: "Alternate encodings (Unicode / UTF-8) can hide bad characters, so canonicalise: convert to ONE standard form first" }
+    ]},
+    { t: "Numeric input & fuzzing", mn: "Signed vs unsigned defeats checks", items: [
+      { t: "Numbers are fixed-size, signed or unsigned" },
+      { t: "Worked example: length 186 + 1 = 187 = 10111011 in 8 bits. Read as unsigned it is 187. Read as signed, the top bit makes it NEGATIVE", d: "Two's complement gives 187 − 256 = −69. Sign-magnitude gives −59 (the slide's value). Either way the number is negative, so the check if (size <= 50) PASSES although the real input is huge.", g: "fix", n: "The friend wrote -69 and flagged that the slide says -59. Both are right under different signed formats (checked by hand: 187-256 = -69; sign-magnitude 0111011 = 59). Do not lose marks on the number; the point is that a negative passes <= 50." },
+      { t: "Fix: use consistent types and validate ranges, including negatives" },
+      { t: "Fuzzing: randomly generated input to find crashes (Barton Miller, 1989)", d: "Cheap and assumption-free, but it misses some bugs, so combine approaches." }
+    ]},
+    { t: "Injection attacks", mn: "Input data influences the FLOW OF EXECUTION", items: [
+      { t: "SQL injection: user input pasted into SQL; the attacker extends it (for example with ; and another command). Defence: validate/escape; prepared statements" },
+      { t: "PHP code injection: include $path.'functions.php' with an attacker URL in the path" },
+      { t: "OS command injection: input reaches a shell command" },
+      { t: "Cross-site scripting (XSS): script input from ONE user is shown to ANOTHER and runs in their browser", d: "Exploits trust: all content from a site is treated equally. Defence: validate input, escape output. Graffiti with a booby-trap on a public wall." }
+    ]},
+    { t: "Writing safe code", mn: "Algorithm, machine code, data, memory, races", items: [
+      { t: "Correct algorithm: handle ALL variants; remove debug and maintenance hooks and easter eggs before release", d: "Example from the slides: TCP sequence numbers used as both identifier AND authenticator." },
+      { t: "Machine code matches the algorithm: a compiler could be hacked; only high-assurance (CC level 7) checks" },
+      { t: "Correct data interpretation: strong typing is safer" },
+      { t: "Correct memory use: a memory leak is a steady heap loss until exhausted" },
+      { t: "Race conditions: shared values corrupted without synchronisation; deadlock leads to DoS" }
+    ]},
+    { t: "Interacting with the OS", mn: "Least privilege", items: [
+      { t: "Environment variables are inherited by processes, so they are UNTRUSTED input (local user vs privileged program)" },
+      { t: "Least privilege: root programs are major targets; use privilege only when needed; split into small modules" },
+      { t: "System calls and libraries: assumptions can be wrong; buffering means you must flush and sync to really shred a file" },
+      { t: "Race on shared resources: use a lockfile; all programs must cooperate" },
+      { t: "Safe temp files: the process ID is predictable, so use RANDOM names" },
+      { t: "Other programs: older programs were not built with security in mind" }
+    ]},
+    { t: "Handling output", mn: "Validate input AND escape output", items: [
+      { t: "Output may be stored, sent or displayed; one operation's output is another's input" },
+      { t: "It must match the EXPECTED form and interpretation" },
+      { t: "Identify permissible content and FILTER untrusted data" },
+      { t: "Specify the character set" },
+      { t: "Validate input AND escape output" }
+    ]}
+  ]
+});
+
+CHAPTERS.push({
+  n: 13, title: "Cloud & IoT Security", short: "Cloud & IoT", hue: 232,
+  mn: "IaaS ⊂ PaaS ⊂ SaaS: the higher you go, the more the provider manages. Fog sits near the sensors; cloud sits in the centre.",
+  br: [
+    { t: "What is cloud computing?", mn: "On-demand access to a SHARED POOL of resources", items: [
+      { t: "NIST SP 800-145: a model for ubiquitous, convenient, ON-DEMAND network access to a SHARED POOL of configurable resources, rapidly provisioned with MINIMAL management effort", r: "CH13 S4" },
+      { t: "Composed of 5 essential characteristics, 3 service models, 4 deployment models", r: "CH13 S4", g: "add", n: "The count is on slide 4. The slide does not list the five." },
+      { t: "The five characteristics: broad network access, rapid elasticity, measured service, on-demand self-service, resource pooling", g: "gen", n: "These are the NIST SP 800-145 characteristics from general knowledge. The lecturer's slides state the number five but do not list them, so do not expect to be marked on the list." },
+      { t: "Not brand new: hosted services, ASPs, distributed and grid computing", r: "CH13 S5" }
+    ]},
+    { t: "Core expectations", mn: "Someone else's problem, with better reliability", items: [
+      { t: "Self-monitoring and self-healing" },
+      { t: "Automation 'galore'" },
+      { t: "Self service" },
+      { t: "Pay only for what you use" },
+      { t: "Greater reliability and availability than older technologies" },
+      { t: "Still client-server, DISTRIBUTED computing; you make it someone else's problem" }
+    ]},
+    { t: "Service models", mn: "IaaS, PaaS, SaaS", items: [
+      { t: "IaaS: virtual hosted servers and machines, pay-as-you-go, self-service, high availability, VM upload/download, self-healing. Example: Amazon Web Services" },
+      { t: "PaaS: for developers; build apps without buying dev/test/production infrastructure. Examples: Google App Engine, Microsoft Azure" },
+      { t: "SaaS: used daily without thinking. Examples: Gmail, Drive, Office365, Dropbox" },
+      { t: "Others: STaaS, SECaaS, DaaS (data / desktop), BPaaS, TEaaS, APIaaS" }
+    ]},
+    { t: "Who manages what?", mn: "Higher up = provider manages MORE, you control LESS", items: [
+      { t: "Fig 13.2 separation of responsibilities by service model", b: "tresp", r: "CH13 S18, S32", d: "IaaS: customer = apps, data, runtime, middleware, OS. PaaS: customer = apps and data only. SaaS: provider manages everything.", g: "add", n: "Layer split read from the slide figures." },
+      { t: "CSA reference model: IaaS ⊂ PaaS ⊂ SaaS (each sits on top of the one below)" }
+    ]},
+    { t: "Deployment models & actors", mn: "Private, Public, Hybrid, Community", items: [
+      { t: "Private: one organisation, the MOST secure" },
+      { t: "Public: open to anyone using that provider" },
+      { t: "Hybrid: public and private together" },
+      { t: "Community: shared by organisations with common interests" },
+      { t: "Table 13.1: comparison of the four deployment models", b: "t131", r: "CH13 S19", g: "add", n: "Values read from the slide text." },
+      { t: "Actors (Fig 13.4): cloud consumer, cloud provider, carrier (the network link), broker (intermediary), auditor" }
+    ]},
+    { t: "Cloud security issues", mn: "Shared responsibility", items: [
+      { t: "Security is a major consideration; concerns often block migration" },
+      { t: "Availability and auditability of data must be ensured" },
+      { t: "Cloud USERS remain responsible for application-level security" },
+      { t: "Cloud VENDORS are responsible for physical security and some software security" },
+      { t: "The intermediate layers of the stack are SHARED responsibility" },
+      { t: "Providers must guard against theft/DoS by their users and protect users from one another" },
+      { t: "Table 13.2 NIST guidelines summary: governance, compliance, trust, architecture, identity and access management, software isolation, data protection, availability, incident response", r: "CH13 S21", g: "add", n: "List read from the slide." }
+    ]},
+    { t: "CSA threats: 1-3", mn: "Abuse, Interfaces, Insiders", items: [
+      { t: "Abuse and nefarious use of cloud computing", d: "Countermeasures: stricter initial registration and validation; enhanced credit-card fraud monitoring and coordination; comprehensive inspection of customer network traffic; monitoring public blacklists for one's own network blocks.", r: "CH13 S24" },
+      { t: "Insecure interfaces and APIs", d: "Countermeasures: analyse the CSP interface security model; strong authentication, access control and encryption; understand the API dependency chain." },
+      { t: "Malicious insiders", d: "Countermeasures: strict supply chain management; HR requirements in the legal contract; transparency and compliance reporting; a breach notification process." }
+    ]},
+    { t: "CSA threats: 4-7", mn: "Shared tech, Data loss, Hijacking, Unknown risk", items: [
+      { t: "Shared technology issues", d: "Countermeasures: security best practices for install/config; monitor for unauthorised changes; strong authentication for admins; SLAs for patching; vulnerability scans and configuration audits." },
+      { t: "Data loss or leakage", d: "Countermeasures: strong API access control; encrypt and protect integrity of data in transit and at rest; analyse data protection at design and run time; strong key generation, storage, management and destruction.", g: "fix", r: "CH13 S28", n: "The friend's notes only listed four of the seven CSA threats. This and the next two were missing." },
+      { t: "Account or service hijacking", d: "Countermeasures: prohibit sharing of account credentials between users and services; strong two-factor authentication where possible; proactive monitoring for unauthorised activity; understand CSP security policies and SLAs.", g: "fix", r: "CH13 S29", n: "Missing from the friend's notes." },
+      { t: "Unknown risk profile", d: "Countermeasures: disclosure of applicable logs and data; partial or full disclosure of infrastructure details; monitoring and alerting on necessary information.", g: "fix", r: "CH13 S30", n: "Missing from the friend's notes." }
+    ]},
+    { t: "Data protection & OpenStack", mn: "Multi-instance vs multi-tenant", items: [
+      { t: "Multi-instance: a uniquely running VM instance per subscriber; complete control over roles and authorisation" },
+      { t: "Multi-tenant: a predefined environment SHARED with other tenants; data is TAGGED with a subscriber ID; the customer relies on the PROVIDER for a sound, secure database" },
+      { t: "OpenStack: an open-source cloud OS that creates and manages large groups of virtual private servers; multi-tenant IaaS; simple and massively scalable" },
+      { t: "Cloud security as a service (SECaaS) is also on the summary slide" }
+    ]},
+    { t: "Internet of Things (IoT)", mn: "Sensor, actuator, microcontroller, transceiver, RFID", items: [
+      { t: "The expanding interconnection of SMART devices (appliances to tiny sensors); people-things and thing-thing communication, usually via the cloud; driven by deeply EMBEDDED devices" },
+      { t: "Components (Fig 13.8): sensor, actuator, microcontroller, transceiver, RFID" },
+      { t: "Edge: IoT devices (sensors + actuators). A gateway translates protocols and may aggregate data" },
+      { t: "Fog: do as much processing as possible near the sensors", d: "Evaluation, formatting, expanding/decoding, distillation/reduction, assessment. Fog hovers low to the ground; clouds are high in the sky." }
+    ]},
+    { t: "Cloud vs fog", mn: "Centre vs edge", items: [
+      { t: "Table 13.4: comparison of cloud and fog features", b: "t134", r: "CH13 S39", g: "add", n: "Values read from the slide text." },
+      { t: "Fog is the opposite trend to cloud: many small smart objects with local storage and processing" }
+    ]},
+    { t: "IoT security", mn: "Six ITU-T Y.2066 requirements", items: [
+      { t: "ITU-T Y.2066: communication security, data management security, service provision security, integration of security policies and techniques, mutual authentication and authorisation, security audit", r: "CH13 S41", g: "add", n: "Count of six read from the slide." },
+      { t: "Security framework elements (Fig 13.10): constrained (C) and unconstrained (U) devices, gateways (G), platforms (A)" },
+      { t: "Patching IoT devices is hard (summary topic: 'the patching vulnerability')" },
+      { t: "MiniSec: an open-source module in TinyOS; LINK-level; low energy and very little memory" },
+      { t: "MiniSec goals: confidentiality, data authentication, replay protection, freshness (message age), resilience to lost messages" },
+      { t: "MiniSec has 2 modes: single-source and multi-source broadcast" }
+    ]}
+  ]
+});
+
+/* Exam facts shown on the chapter card */
+var EXAM = {
+  when: "Sat 21 Nov 2026, 15:00 to 18:00",
+  how: "ClickUP, closed book, 100 marks",
+  scope: "Chapters 1-11 and 13, about equally. Chapter 12 is excluded.",
+  style: "Similar format to the semester test, which leans on application-type questions."
+};
+
+/* Figures, tables and the transposition tool */
+var FIGS = {
+  stack: function () {
+    return '<svg class="fig" viewBox="0 0 440 280" role="img" aria-label="Stack frame from high address at the top to low address at the bottom, with the overflow arrow running from the buffer up to the return address">' +
+      '<defs><marker id="ar-stack" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker></defs>' +
+      '<text x="12" y="22" class="sm">high address</text><text x="12" y="270" class="sm">low address</text>' +
+      '<rect x="130" y="10" width="170" height="46" class="bx"/><text x="215" y="38" text-anchor="middle">Parameters</text>' +
+      '<rect x="130" y="56" width="170" height="46" class="bx hot"/><text x="215" y="84" text-anchor="middle">Return address</text>' +
+      '<rect x="130" y="102" width="170" height="46" class="bx"/><text x="215" y="130" text-anchor="middle">Old frame pointer</text>' +
+      '<rect x="130" y="148" width="170" height="116" class="bx"/><text x="215" y="200" text-anchor="middle">Local variables</text><text x="215" y="220" text-anchor="middle">buffer[ ]</text>' +
+      '<path d="M340 250 L340 78" class="ln hotln" marker-end="url(#ar-stack)"/>' +
+      '<text x="350" y="150" class="sm hotx">overflow writes</text><text x="350" y="166" class="sm hotx">go LOW → HIGH</text>' +
+      '<path d="M96 40 L96 240" class="ln" marker-end="url(#ar-stack)"/>' +
+      '<text x="12" y="140" class="sm">stack grows</text><text x="12" y="156" class="sm">DOWN</text>' +
+      '</svg>';
+  },
+  mem: function () {
+    return '<svg class="fig" viewBox="0 0 440 290" role="img" aria-label="Process memory: stack at the top growing down, heap below growing up, then global data and program code">' +
+      '<defs><marker id="ar-mem" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker></defs>' +
+      '<text x="12" y="22" class="sm">high address</text><text x="12" y="282" class="sm">low address</text>' +
+      '<rect x="130" y="10" width="190" height="60" class="bx"/><text x="225" y="36" text-anchor="middle">Stack</text><text x="225" y="54" text-anchor="middle" class="sm">grows DOWN</text>' +
+      '<path d="M225 76 L225 96" class="ln" marker-end="url(#ar-mem)"/>' +
+      '<text x="225" y="122" text-anchor="middle" class="sm">unused space</text>' +
+      '<path d="M225 164 L225 144" class="ln" marker-end="url(#ar-mem)"/>' +
+      '<rect x="130" y="166" width="190" height="50" class="bx"/><text x="225" y="188" text-anchor="middle">Heap</text><text x="225" y="204" text-anchor="middle" class="sm">grows UP</text>' +
+      '<rect x="130" y="216" width="190" height="30" class="bx"/><text x="225" y="236" text-anchor="middle">Global data</text>' +
+      '<rect x="130" y="246" width="190" height="30" class="bx"/><text x="225" y="266" text-anchor="middle">Program code</text>' +
+      '</svg>';
+  },
+  syn: function () {
+    function half(oy, title, attack) {
+      var o = '<text x="12" y="' + (oy + 20) + '" class="cap">' + title + '</text>' +
+        '<text x="50" y="' + (oy + 46) + '" text-anchor="middle">' + (attack ? 'Attacker' : 'Client') + '</text><text x="230" y="' + (oy + 46) + '" text-anchor="middle">Server</text>' +
+        '<path d="M50 ' + (oy + 54) + ' L50 ' + (oy + 250) + 'M230 ' + (oy + 54) + ' L230 ' + (oy + 250) + '" class="ln thin"/>';
+      if (!attack) {
+        o += '<path d="M50 ' + (oy + 90) + ' L226 ' + (oy + 106) + '" class="ln" marker-end="url(#ar-syn)"/><text x="138" y="' + (oy + 86) + '" text-anchor="middle" class="sm">1  SYN</text>' +
+          '<path d="M230 ' + (oy + 140) + ' L54 ' + (oy + 156) + '" class="ln" marker-end="url(#ar-syn)"/><text x="142" y="' + (oy + 136) + '" text-anchor="middle" class="sm">2  SYN-ACK</text>' +
+          '<path d="M50 ' + (oy + 190) + ' L226 ' + (oy + 206) + '" class="ln" marker-end="url(#ar-syn)"/><text x="138" y="' + (oy + 186) + '" text-anchor="middle" class="sm">3  ACK</text>' +
+          '<text x="140" y="' + (oy + 240) + '" text-anchor="middle" class="sm">connected</text>';
+      } else {
+        o += '<path d="M50 ' + (oy + 84) + ' L226 ' + (oy + 94) + '" class="ln" marker-end="url(#ar-syn)"/><path d="M50 ' + (oy + 106) + ' L226 ' + (oy + 116) + '" class="ln" marker-end="url(#ar-syn)"/><path d="M50 ' + (oy + 128) + ' L226 ' + (oy + 138) + '" class="ln" marker-end="url(#ar-syn)"/>' +
+          '<text x="138" y="' + (oy + 76) + '" text-anchor="middle" class="sm">many SYNs, forged sources</text>' +
+          '<path d="M230 ' + (oy + 164) + ' L150 ' + (oy + 184) + '" class="ln dash hotln" marker-end="url(#ar-syn)"/>' +
+          '<text x="236" y="' + (oy + 178) + '" class="sm hotx">SYN-ACK to a fake address</text>' +
+          '<rect x="60" y="' + (oy + 192) + '" width="210" height="52" class="bx hot"/><text x="165" y="' + (oy + 214) + '" text-anchor="middle">Half-open table FULL</text><text x="165" y="' + (oy + 232) + '" text-anchor="middle" class="sm">no ACK ever arrives</text>';
+      }
+      return o;
+    }
+    return '<svg class="fig" viewBox="0 0 440 540" role="img" aria-label="Top: the normal TCP three-way handshake. Bottom: a SYN flood with forged source addresses filling the server half-open table">' +
+      '<defs><marker id="ar-syn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker></defs>' +
+      half(0, 'Normal handshake', false) + half(280, 'SYN spoofing', true) + '</svg>';
+  },
+  dmz: function () {
+    return '<svg class="fig" viewBox="0 0 440 330" role="img" aria-label="Internet, outer firewall, DMZ with web email and DNS servers, inner firewall, internal network">' +
+      '<rect x="120" y="8" width="200" height="44" class="bx"/><text x="220" y="36" text-anchor="middle">Internet</text>' +
+      '<rect x="100" y="68" width="240" height="14" class="bx hot"/><text x="352" y="80" class="sm">firewall</text>' +
+      '<rect x="40" y="98" width="360" height="124" class="bx dm"/><text x="56" y="122" class="cap">DMZ (externally visible servers)</text>' +
+      '<rect x="56" y="140" width="96" height="62" class="bx"/><text x="104" y="176" text-anchor="middle">Web</text>' +
+      '<rect x="172" y="140" width="96" height="62" class="bx"/><text x="220" y="176" text-anchor="middle">Email</text>' +
+      '<rect x="288" y="140" width="96" height="62" class="bx"/><text x="336" y="176" text-anchor="middle">DNS</text>' +
+      '<rect x="100" y="238" width="240" height="14" class="bx hot"/><text x="352" y="250" class="sm">firewall</text>' +
+      '<rect x="120" y="270" width="200" height="50" class="bx"/><text x="220" y="300" text-anchor="middle">Internal network</text>' +
+      '</svg>';
+  },
+  layers: function () {
+    return '<svg class="fig" viewBox="0 0 440 290" role="img" aria-label="Data center security layers: Data, Network, Physical, Site, drawn as nested rings">' +
+      '<rect x="10" y="10" width="420" height="270" rx="4" class="bx"/><text x="26" y="32" class="cap">Site</text><text x="26" y="48" class="sm">setbacks, redundant utilities, buffer zones, crash barriers</text>' +
+      '<rect x="40" y="62" width="360" height="206" rx="4" class="bx"/><text x="56" y="84" class="cap">Physical</text><text x="56" y="100" class="sm">surveillance, mantraps, 2/3-factor authentication</text>' +
+      '<rect x="70" y="114" width="300" height="140" rx="4" class="bx"/><text x="86" y="136" class="cap">Network</text><text x="86" y="152" class="sm">firewalls, anti-virus, IDS/IPS, authentication</text>' +
+      '<rect x="100" y="166" width="240" height="76" rx="4" class="bx hot"/><text x="116" y="188" class="cap">Data</text><text x="116" y="204" class="sm">encryption, password policy, masking, retention</text>' +
+      '</svg><p class="figcap">Redrawn from the four layer names on slide Fig 5.12. The nesting is my layout, not the slide\'s.</p>';
+  }
+};
+
+var TABLES = {
+  t23: { cap: "Table 2.3: algorithm applications (CH2 S33)", head: ["Algorithm", "Digital signature", "Symmetric key distribution", "Encryption of secret keys"],
+    rows: [["RSA", "Yes", "Yes", "Yes"], ["Diffie-Hellman", "No", "Yes", "No", "fix"], ["DSS", "Yes", "No", "No"], ["Elliptic curve", "Yes", "Yes", "Yes"]] },
+  t54: { cap: "Table 5.4: data center tiers (CH5)", head: ["Tier", "Paths and redundancy", "Availability", "Downtime per year"],
+    rows: [["1", "Single path, no redundancy", "99.671%", "28.8 h"], ["2", "Single path, some redundant components", "99.741%", "22.0 h"], ["3", "Multiple paths, one active", "99.982%", "1.6 h"], ["4", "Multiple active paths", "99.995%", "0.4 h"]] },
+  t83: { cap: "Table 8.3: Snort rule actions (CH8 S42)", head: ["Action", "What it does"],
+    rows: [["alert", "Generate an alert using the selected method, then log the packet"], ["log", "Log the packet"], ["pass", "Ignore the packet"], ["activate", "Alert, then turn on another (dynamic) rule"], ["dynamic", "Stay idle until an activate rule switches it on, then act as a log rule"], ["drop", "Make iptables drop the packet and log it (inline)"], ["reject", "Drop and log, then send a TCP reset (TCP) or ICMP port unreachable (UDP) (inline)"], ["sdrop", "Make iptables drop the packet without logging it (inline)"]] },
+  t111: { cap: "Table 11.1: CWE/SANS Top 25 most dangerous software errors, 2011 (CH11)", head: ["Error category", "Examples from the table"],
+    rows: [["Insecure interaction between components", "SQL injection; OS command injection; cross-site scripting; unrestricted upload of dangerous file type; cross-site request forgery (CSRF); URL redirection to untrusted site"],
+      ["Risky resource management", "Classic buffer overflow; path traversal; download of code without integrity check; inclusion of functionality from untrusted source; use of dangerous function; incorrect buffer size calculation; uncontrolled format string; integer overflow or wraparound"],
+      ["Porous defences", "Missing authentication for critical function; missing authorisation; hard-coded credentials; missing encryption of sensitive data; reliance on untrusted inputs in a security decision; execution with unnecessary privileges; incorrect authorisation; incorrect permission assignment; broken or risky cryptographic algorithm; no limit on authentication attempts; one-way hash without a salt"]] },
+  tresp: { cap: "Fig 13.2: who manages each layer (CH13 S18, S32)", head: ["Layer", "IaaS", "PaaS", "SaaS"],
+    rows: [["Applications", "Customer", "Customer", "Provider"], ["Data", "Customer", "Customer", "Provider"], ["Runtime", "Customer", "Provider", "Provider"], ["Middleware", "Customer", "Provider", "Provider"], ["Operating system", "Customer", "Provider", "Provider"], ["Virtualisation, servers, storage, network", "Provider", "Provider", "Provider"]] },
+  t131: { cap: "Table 13.1: cloud deployment models (CH13 S19)", head: ["", "Private", "Community", "Public", "Hybrid"],
+    rows: [["Scalability", "Limited", "Limited", "Very high", "Very high"], ["Security", "Most secure option", "Very secure", "Moderately secure", "Very secure"], ["Performance", "Very good", "Very good", "Low to medium", "Good"], ["Reliability", "Very high", "Very high", "Medium", "Medium to high"], ["Cost", "High", "Medium", "Low", "Medium"]] },
+  t134: { cap: "Table 13.4: cloud vs fog (CH13 S39)", head: ["Feature", "Cloud", "Fog"],
+    rows: [["Location of processing and storage", "Center", "Edge"], ["Latency", "High", "Low"], ["Access", "Fixed or wireless", "Mainly wireless"], ["Support for mobility", "Not applicable", "Yes"], ["Control", "Centralised / hierarchical (full control)", "Distributed / hierarchical (partial control)"], ["Service access", "Through core", "At the edge / on handheld device"], ["Availability", "99.99%", "Highly volatile / highly redundant"], ["Number of users/devices", "Tens/hundreds of millions", "Tens of billions"], ["Main content generator", "Human", "Devices/sensors"], ["Content generation", "Central location", "Anywhere"], ["Content consumption", "End device", "Anywhere"], ["Software virtual infrastructure", "Central enterprise servers", "User devices"]] }
+};
+
+/* Double columnar transposition. Same procedure as tests/transposition.py, which was
+   checked against the semester test marked answer. */
+var TRANSP = (function () {
+  function keyInfo(phrase) {
+    var L = [], i, c;
+    var up = String(phrase).toUpperCase();
+    for (i = 0; i < up.length; i++) { c = up.charAt(i); if (/[A-Z]/.test(c) && L.indexOf(c) < 0) L.push(c); }
+    var order = L.map(function (_, k) { return k; }).sort(function (a, b) { return L[a] < L[b] ? -1 : 1; });
+    var nums = new Array(L.length);
+    order.forEach(function (idx, rank) { nums[idx] = rank + 1; });
+    return { L: L, nums: nums };
+  }
+  function clean(t) { return String(t).toUpperCase().replace(/[^A-Z]/g, ""); }
+  function encryptOne(text, phrase) {
+    var k = keyInfo(phrase), cols = k.L.length;
+    if (!cols) throw new Error("Key needs at least one letter.");
+    var t = clean(text), rows = Math.ceil(t.length / cols);
+    while (t.length < rows * cols) t += "X";
+    var out = "", n, c, r;
+    for (n = 1; n <= cols; n++) { c = k.nums.indexOf(n); for (r = 0; r < rows; r++) out += t.charAt(r * cols + c); }
+    return { text: out, key: k, rows: rows, gridText: t };
+  }
+  function decryptOne(cipher, phrase) {
+    var k = keyInfo(phrase), cols = k.L.length;
+    if (!cols) throw new Error("Key needs at least one letter.");
+    var t = clean(cipher);
+    if (t.length % cols) throw new Error("Ciphertext has " + t.length + " letters, which is not a multiple of the " + cols + " key columns.");
+    var rows = t.length / cols, grid = [], r, n, c, out = "";
+    for (r = 0; r < rows; r++) grid.push(new Array(cols));
+    for (n = 1; n <= cols; n++) { c = k.nums.indexOf(n); for (r = 0; r < rows; r++) grid[r][c] = t.charAt((n - 1) * rows + r); }
+    for (r = 0; r < rows; r++) out += grid[r].join("");
+    return { text: out, key: k, rows: rows, gridText: out };
+  }
+  return { keyInfo: keyInfo, encryptOne: encryptOne, decryptOne: decryptOne, clean: clean,
+    SAMPLE: { cipher: "EXXTN XXXXX VEONI GSNIL TIILG ONLYR RERSI IVEGN IUNIL NTIBG TASEH GTEER YELIT MFAWE TEANI NRFVE DEDLE ASIRP LNNEN LMIOS",
+      key1: "computer stuff", key2: "security is very easy",
+      plain: "THEGREATESTGLORYINLIVINGLIESNOTINNEVERFAILINGBUTINRISINGEVERYTIMEWEFALLNELSONMINDELAPRESIDENT" } };
+})();
+
+(function () {
+  "use strict";
+  var TAGS = {
+    fix: { label: "Corrected", full: "Corrected from the friend's notes" },
+    add: { label: "Added from slides", full: "Added from the lecturer's slides" },
+    gen: { label: "Not on slides", full: "General knowledge or my assumption, not on the slides" }
+  };
+  var LS = "cos330-mindmap-v1";
+  var store = { known: {} };
+  try { var raw = localStorage.getItem(LS); if (raw) { var p = JSON.parse(raw); if (p && p.known) store = p; } } catch (e) { /* storage may be missing */ }
+  function save() { try { localStorage.setItem(LS, JSON.stringify(store)); } catch (e) { /* ignore */ } }
+
+  function $(s, r) { return (r || document).querySelector(s); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function h(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  // Add study cues at presentation time; never alter the stored course text.
+  function studyText(value) {
+    var text = String(value), spans = [], prefix = /^([^:]{2,55}):/.exec(text);
+    if (prefix && prefix[1].trim().split(/\s+/).length <= 7) spans.push({start:0, end:prefix[1].length, cls:"study-term"});
+    var cues = /\b(?:never|always|only|must|cannot|not|no)\b/gi, cue;
+    while ((cue = cues.exec(text)) && spans.length < 4) {
+      var cueEnd = cue.index + cue[0].length;
+      if (!spans.some(function (s) { return cue.index < s.end && cueEnd > s.start; })) spans.push({start:cue.index, end:cueEnd, cls:"study-cue"});
+    }
+    var terms = /\b(?:prevent(?:ion)?|detect(?:ion)?|recover(?:y)?|confidentiality|integrity|availability|authentication|authori[sz]ation|non-repudiation|vulnerabilit(?:y|ies)|countermeasures?|least privilege|private key|public key|secret key|risk|threat|attack|defen[cs]e|encryption|decryption|plaintext|ciphertext|malware|firewall|hash(?:ing)?|weakness|mitigation)\b/gi, match;
+    while ((match = terms.exec(text)) && spans.length < 4) {
+      var start = match.index, end = start + match[0].length;
+      if (spans.some(function (s) { return start < s.end && end > s.start; })) continue;
+      spans.push({start:start, end:end, cls:/^(never|always|only|must|cannot|not|no)$/i.test(match[0]) ? "study-cue" : "study-term"});
+    }
+    spans.sort(function (a,b) { return a.start-b.start; });
+    var result = "", cursor = 0;
+    spans.forEach(function (span) { result += esc(text.slice(cursor, span.start)) + '<strong class="' + span.cls + '">' + esc(text.slice(span.start, span.end)) + '</strong>'; cursor = span.end; });
+    return result + esc(text.slice(cursor));
+  }
+
+
+  var narrowMQ = window.matchMedia("(max-width: 900px)");
+  var S = { ci: 0, view: "map", recall: false, changes: false, sel: null, expMap: {}, expOut: {}, shown: {} };
+  var total = 0;
+  CHAPTERS.forEach(function (c) { total += c.br.length; });
+
+  function effView() { return S.view; }
+  function hue(c) { return "--hue:" + c.hue; }
+  function key(ci, bi, ii) { return ci + "." + bi + (ii == null ? "" : "." + ii); }
+  function isKnown(ci, bi) { return !!store.known[key(ci, bi)]; }
+  function chapterDone(ci) { var n = 0; CHAPTERS[ci].br.forEach(function (b, bi) { if (isKnown(ci, bi)) n++; }); return n; }
+  function allDone() { var n = 0; CHAPTERS.forEach(function (c, ci) { n += chapterDone(ci); }); return n; }
+  function visibleItems(b) { return S.changes ? b.items.filter(function (i) { return i.g; }) : b.items; }
+  function expanded(ci, bi) {
+    var m = effView() === "map" ? S.expMap : S.expOut, k = key(ci, bi);
+    if (m[k] === undefined) return effView() !== "map";
+    return m[k];
+  }
+  function setExpanded(ci, bi, v) { (effView() === "map" ? S.expMap : S.expOut)[key(ci, bi)] = v; }
+
+  /* ---------- tabs and header ---------- */
+  function renderTabs() {
+    var box = $("#tabs"); box.innerHTML = "";
+    CHAPTERS.forEach(function (c, ci) {
+      var b = h("button", "tab" + (ci === S.ci ? " on" : ""));
+      b.type = "button"; b.setAttribute("style", hue(c));
+      b.setAttribute("aria-current", ci === S.ci ? "true" : "false");
+      b.innerHTML = '<span class="tn">' + c.n + '</span><span class="tt">' + esc(c.short) + '</span><span class="tp">' + chapterDone(ci) + "/" + c.br.length + "</span>";
+      b.addEventListener("click", function () { selectChapter(ci); });
+      box.appendChild(b);
+      if (c.n === 11) {
+        var x = h("span", "tab off", '<span class="tn">12</span><span class="tt">Excluded</span>');
+        x.title = "Chapter 12 is not examined"; box.appendChild(x);
+      }
+    });
+    var d = allDone();
+    $("#overall").textContent = d + " of " + total + " branches marked known";
+    $("#bar").style.width = (100 * d / total) + "%";
+  }
+
+  function countdown() {
+    var t = new Date(2026, 10, 21, 15, 0, 0).getTime() - Date.now(), el = $("#count");
+    if (t <= 0) { el.textContent = ""; return; }
+    var days = Math.floor(t / 864e5), hrs = Math.floor((t % 864e5) / 36e5);
+    el.textContent = "Exam in " + days + "d " + hrs + "h";
+  }
+
+  /* ---------- selecting ---------- */
+  function selectChapter(ci, keepSel) {
+    S.ci = ci; if (!keepSel) S.sel = null;
+    try { history.replaceState(null, "", "#ch" + CHAPTERS[ci].n); } catch (e) { /* ignore */ }
+    renderAll();
+    centreRoot();
+    closeMenu();
+  }
+  function centreRoot() {
+    var r = $(".root"), cv = $("#canvas");
+    if (!r || effView() !== "map") { cv.scrollTo(0, 0); return; }
+    cv.scrollLeft = Math.max(0, (r.offsetLeft + r.offsetWidth / 2) * zoom - cv.clientWidth / 2);
+    cv.scrollTop = Math.max(0, (r.offsetTop + r.offsetHeight / 2) * zoom - cv.clientHeight / 2);
+  }
+  function hashChapter() {
+    var m = /^#ch(\d+)$/.exec(location.hash || "");
+    if (!m) return 0;
+    for (var i = 0; i < CHAPTERS.length; i++) if (CHAPTERS[i].n === +m[1]) return i;
+    return 0;
+  }
+
+  /* ---------- detail rendering (panel and outline share this) ---------- */
+  function tagChip(g) {
+    return '<span class="chip ' + g + '"><i class="dot ' + g + '"></i>' + TAGS[g].label + "</span>";
+  }
+  function tableHTML(k) {
+    var t = TABLES[k]; if (!t) return "";
+    var s = '<div class="tblw"><table class="tbl"><caption>' + esc(t.cap) + "</caption><thead><tr>";
+    t.head.forEach(function (x) { s += "<th>" + esc(x) + "</th>"; });
+    s += "</tr></thead><tbody>";
+    t.rows.forEach(function (r) {
+      s += "<tr" + (r[4] === "fix" ? ' class="fixrow"' : "") + ">";
+      r.slice(0, t.head.length).forEach(function (x, i) { s += (i === 0 ? "<th scope=\"row\">" : "<td>") + esc(x) + (i === 0 ? "</th>" : "</td>"); });
+      s += "</tr>";
+    });
+    return s + "</tbody></table></div>";
+  }
+  function gridHTML(res) {
+    var cols = res.key.L.length, rows = res.rows, s = '<div class="tblw"><table class="grid"><thead><tr>';
+    res.key.L.forEach(function (c) { s += "<th>" + c + "</th>"; });
+    s += "</tr><tr>";
+    res.key.nums.forEach(function (n) { s += '<th class="nn">' + n + "</th>"; });
+    s += "</tr></thead><tbody>";
+    for (var r = 0; r < rows; r++) {
+      s += "<tr>";
+      for (var c = 0; c < cols; c++) s += "<td>" + res.gridText.charAt(r * cols + c) + "</td>";
+      s += "</tr>";
+    }
+    return s + "</tbody></table></div>";
+  }
+  function group5(t) { return t.replace(/(.{5})/g, "$1 ").trim(); }
+
+  function buildTool(box) {
+    var smp = TRANSP.SAMPLE;
+    box.innerHTML =
+      '<div class="tool">' +
+      '<label for="tp-text">Text</label><textarea id="tp-text" rows="3" spellcheck="false"></textarea>' +
+      '<div class="two"><div><label for="tp-k1">Key 1 (applied first when encrypting)</label><input id="tp-k1" type="text" spellcheck="false"></div>' +
+      '<div><label for="tp-k2">Key 2 (applied second when encrypting)</label><input id="tp-k2" type="text" spellcheck="false"></div></div>' +
+      '<div class="btns"><button type="button" class="btn" id="tp-enc">Encrypt</button><button type="button" class="btn" id="tp-dec">Decrypt</button><button type="button" class="btn ghost" id="tp-load">Load semester test Q4</button></div>' +
+      '<div id="tp-out" aria-live="polite"></div></div>';
+    var T = $("#tp-text", box), K1 = $("#tp-k1", box), K2 = $("#tp-k2", box), O = $("#tp-out", box);
+    function load() { T.value = smp.cipher; K1.value = smp.key1; K2.value = smp.key2; run(false); }
+    function stage(title, res) { return '<div class="stg"><div class="stgt">' + title + '</div><div class="mono">' + group5(res.text) + "</div></div>"; }
+    function run(enc) {
+      try {
+        var a, b, html = "";
+        if (enc) {
+          a = TRANSP.encryptOne(T.value, K1.value); b = TRANSP.encryptOne(a.text, K2.value);
+          html += '<div class="stg"><div class="stgt">Step 1: write the text in rows under key 1 (' + esc(K1.value) + "), pad with X</div>" + gridHTML(a) + "</div>" + stage("Step 1 result: read columns in number order", a) +
+            '<div class="stg"><div class="stgt">Step 2: write that result in rows under key 2 (' + esc(K2.value) + ")</div>" + gridHTML(b) + "</div>" + stage("Ciphertext", b);
+        } else {
+          a = TRANSP.decryptOne(T.value, K2.value); b = TRANSP.decryptOne(a.text, K1.value);
+          html += '<div class="stg"><div class="stgt">Step 1: undo key 2 (' + esc(K2.value) + "). Fill columns in number order, read rows</div>" + gridHTML(a) + "</div>" + stage("Step 1 result", a) +
+            '<div class="stg"><div class="stgt">Step 2: undo key 1 (' + esc(K1.value) + ")</div>" + gridHTML(b) + "</div>" + stage("Plaintext (trailing X is padding)", b);
+          if (TRANSP.clean(T.value) === TRANSP.clean(smp.cipher) && b.text.replace(/X+$/, "") === smp.plain) html += '<p class="ok">Matches the marked answer for semester test Q4.</p>';
+        }
+        O.innerHTML = html;
+      } catch (err) { O.innerHTML = '<p class="err">' + esc(err.message) + "</p>"; }
+    }
+    $("#tp-enc", box).addEventListener("click", function () { run(true); });
+    $("#tp-dec", box).addEventListener("click", function () { run(false); });
+    $("#tp-load", box).addEventListener("click", load);
+    load();
+  }
+
+  function renderDetail(it, ci, bi, box) {
+    var c = CHAPTERS[ci], b = c.br[bi];
+    box.innerHTML = "";
+    var head = h("div", "dhead", '<div class="dpath">Ch ' + c.n + " &rsaquo; " + esc(b.t) + "</div>");
+    box.appendChild(head);
+    box.appendChild(h("h3", "dtitle", esc(it.t)));
+    if (it.g) box.appendChild(h("div", "dtag", tagChip(it.g) + (it.n ? '<p class="note">' + esc(it.n) + "</p>" : "")));
+    if (it.d) box.appendChild(h("p", "dbody", studyText(it.d)));
+    if (it.f && FIGS[it.f]) box.appendChild(h("div", "figbox", FIGS[it.f]()));
+    if (it.b) box.appendChild(h("div", "", tableHTML(it.b)));
+    if (it.tool) { var tb = h("div", ""); box.appendChild(tb); buildTool(tb); }
+    if (it.r) box.appendChild(h("p", "ref", "Slide reference: <span class=\"mono\">" + esc(it.r) + "</span>"));
+    if (!it.d && !it.f && !it.b && !it.tool && !it.g) box.appendChild(h("p", "dbody dim", "From the friend's notes, checked against the slides. Mnemonic for this branch: " + esc(b.mn)));
+  }
+  function renderBranchDetail(ci, bi, box) {
+    var c = CHAPTERS[ci], b = c.br[bi];
+    box.innerHTML = "";
+    box.appendChild(h("div", "dpath", "Ch " + c.n + " &rsaquo; branch " + (bi + 1) + " of " + c.br.length));
+    box.appendChild(h("h3", "dtitle", esc(b.t)));
+    box.appendChild(h("p", "mnem", studyText(b.mn)));
+    var n = b.items.length, tg = b.items.filter(function (i) { return i.g; }).length;
+    box.appendChild(h("p", "dbody dim", n + " points" + (tg ? ", " + tg + " corrected or added by me." : ".") + " Click a point for the explanation."));
+    var k = h("button", "btn" + (isKnown(ci, bi) ? " on" : ""), isKnown(ci, bi) ? "Marked as known (click to undo)" : "Mark as known");
+    k.type = "button";
+    k.addEventListener("click", function () { toggleKnown(ci, bi); });
+    box.appendChild(k);
+  }
+  function renderChapterCard(ci, box) {
+    var c = CHAPTERS[ci];
+    box.innerHTML = "";
+    box.appendChild(h("div", "dpath", "Chapter " + c.n + " (12 examined chapters)"));
+    box.appendChild(h("h3", "dtitle", esc(c.title)));
+    box.appendChild(h("p", "mnem", studyText(c.mn)));
+    box.appendChild(h("p", "dbody dim", c.br.length + " branches. Click a branch to open it, then click a point for the explanation."));
+    var leg = h("div", "legend");
+    leg.innerHTML = "<h4>Markers</h4>" +
+      '<p><span class="chip fix"><i class="dot fix"></i>Corrected</span> the friend\'s notes were wrong or incomplete here.</p>' +
+      '<p><span class="chip add"><i class="dot add"></i>Added from slides</span> missing from the friend\'s notes, found on the lecturer\'s slides.</p>' +
+      '<p><span class="chip gen"><i class="dot gen"></i>Not on slides</span> my own addition or assumption. Do not rely on it as examinable wording.</p>' +
+      "<p>No marker means the friend's point, checked against the slides.</p>";
+    box.appendChild(leg);
+    var ex = h("div", "exam");
+    ex.innerHTML = "<h4>The exam</h4><p>" + esc(EXAM.when) + ". " + esc(EXAM.how) + ".</p><p>" + esc(EXAM.scope) + "</p><p>" + esc(EXAM.style) + "</p>";
+    box.appendChild(ex);
+  }
+
+  function toggleKnown(ci, bi) {
+    var k = key(ci, bi);
+    if (store.known[k]) delete store.known[k]; else store.known[k] = true;
+    save(); renderTabs(); refreshBranchMarks();
+    if (S.sel && S.sel.bi === bi && S.sel.ii == null) renderPanel();
+  }
+  function refreshBranchMarks() {
+    document.querySelectorAll("[data-bk]").forEach(function (e) {
+      var parts = e.getAttribute("data-bk").split("."); var on = isKnown(+parts[0], +parts[1]);
+      e.classList.toggle("known", on);
+      var ck = e.querySelector(".chk"); if (ck) { ck.setAttribute("aria-pressed", on ? "true" : "false"); }
+    });
+  }
+
+  function renderPanel() {
+    var box = $("#panel .pin");
+    if (!S.sel) { renderChapterCard(S.ci, box); return; }
+    if (S.sel.ii == null) renderBranchDetail(S.ci, S.sel.bi, box);
+    else renderDetail(CHAPTERS[S.ci].br[S.sel.bi].items[S.sel.ii], S.ci, S.sel.bi, box);
+  }
+
+  /* ---------- map view ---------- */
+  function mkBranchNode(ci, bi) {
+    var b = CHAPTERS[ci].br[bi], open = expanded(ci, bi), vis = visibleItems(b);
+    var n = h("div", "bnode" + (open ? " open" : "") + (isKnown(ci, bi) ? " known" : "") + (S.sel && S.sel.bi === bi && S.sel.ii == null ? " sel" : ""));
+    n.setAttribute("data-bk", key(ci, bi)); n.setAttribute("data-drag", key(ci, bi));
+    var main = h("button", "bmain");
+    main.type = "button"; main.setAttribute("aria-expanded", open ? "true" : "false");
+    main.innerHTML = '<span class="card-number">' + (bi + 1) + '</span><span class="bt">' + esc(b.t) + '</span><span class="bm">' + esc(b.mn) + '</span><span class="bc">' + (S.changes ? (vis.length ? vis.length + " changed" : "unchanged") : b.items.length + (b.items.length === 1 ? " point" : " points")) + "</span>";
+    main.addEventListener("click", function () {
+      setExpanded(ci, bi, !open);
+      S.sel = { bi: bi, ii: null };
+      document.body.classList.add("detail-open");
+      renderCanvas(); renderPanel();
+      if (!open) focusExpandedBranch(ci, bi);
+    });
+    var ck = h("button", "chk");
+    ck.type = "button"; ck.setAttribute("aria-pressed", isKnown(ci, bi) ? "true" : "false"); ck.setAttribute("aria-label", "Mark branch " + b.t + " as known");
+    ck.title = "Mark as known";
+    ck.addEventListener("click", function (ev) { ev.stopPropagation(); toggleKnown(ci, bi); });
+    n.appendChild(main); n.appendChild(ck);
+    return n;
+  }
+  function mkLeaf(ci, bi, ii) {
+    var it = CHAPTERS[ci].br[bi].items[ii], k = key(ci, bi, ii);
+    var hidden = S.recall && !S.shown[k];
+    var l = h("button", "leaf" + (it.g ? " tg-" + it.g : "") + (hidden ? " masked" : "") + (S.sel && S.sel.bi === bi && S.sel.ii === ii ? " sel" : ""));
+    l.type = "button"; l.setAttribute("data-k", k); l.setAttribute("data-drag", k);
+    l.innerHTML = '<span class="card-number">' + (bi + 1) + "." + (ii + 1) + "</span>" + (it.g ? '<i class="dot ' + it.g + '" title="' + esc(TAGS[it.g].full) + '"></i>' : "") + '<span class="lt">' + studyText(it.t) + "</span>" +
+      ((it.d || it.f || it.b || it.tool) ? '<i class="more" aria-hidden="true"></i>' : "");
+    l.addEventListener("click", function () {
+      S.shown[k] = true; S.sel = { bi: bi, ii: ii };
+      document.body.classList.add("detail-open");
+      renderCanvas(); renderPanel();
+    });
+    return l;
+  }
+  function renderMap() {
+    var ci = S.ci, c = CHAPTERS[ci], map = h("div", "map");
+    map.setAttribute("style", hue(c));
+    var left = h("div", "side left"), right = h("div", "side right");
+    var root = h("div", "root"); root.setAttribute("data-drag", key(ci, "root"));
+    root.innerHTML = '<div class="rn">' + c.n + '</div><div class="rt">' + esc(c.title) + '</div><div class="rm">' + esc(c.mn) + "</div>";
+    var k = Math.ceil(c.br.length / 2);
+    c.br.forEach(function (b, bi) {
+      var row = h("div", "brow"), vis = visibleItems(b), open = expanded(ci, bi);
+      row.appendChild(mkBranchNode(ci, bi));
+      if (open) {
+        var lv = h("div", "leaves");
+        if (!vis.length) lv.appendChild(h("div", "empty", "Nothing changed in this branch."));
+        b.items.forEach(function (it, ii) { if (!S.changes || it.g) lv.appendChild(mkLeaf(ci, bi, ii)); });
+        row.appendChild(lv);
+      }
+      (bi < k ? left : right).appendChild(row);
+    });
+    map.appendChild(left); map.appendChild(root); map.appendChild(right);
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); svg.setAttribute("class", "wires"); svg.setAttribute("aria-hidden", "true");
+    map.appendChild(svg);
+    map.querySelectorAll("[data-drag]").forEach(function (node) { var pos = (store.positions || {})[node.getAttribute("data-drag")]; if (pos) { node.style.setProperty("--dx", pos.x + "px"); node.style.setProperty("--dy", pos.y + "px"); } });
+    map.style.zoom = zoom;
+    return map;
+  }
+  // Place open stacks in the outer margins without changing the branch positions.
+  // Stacks on the same side flow downward to avoid covering one another.
+  function arrangeLeaves() {
+    var map = $(".map"); if (!map) return;
+    var mr = map.getBoundingClientRect();
+    map.querySelectorAll(".side").forEach(function (side) {
+      var next = 24;
+      side.querySelectorAll(".brow").forEach(function (row) {
+        var leaves = $(".leaves", row); if (!leaves) return;
+        leaves.style.top = "0px";
+        var rr = row.getBoundingClientRect(), lr = leaves.getBoundingClientRect();
+        var rowTop = (rr.top - mr.top) / zoom;
+        var wanted = Math.max(24, rowTop + (rr.height - lr.height) / (2 * zoom));
+        var top = Math.max(wanted, next);
+        leaves.style.top = (top - rowTop) + "px";
+        next = top + lr.height / zoom + 18;
+      });
+    });
+  }
+  // Centre the opened branch and its notes in the part of the desk not covered by the reading sheet.
+  function focusExpandedBranch(ci, bi) {
+    var cv = $("#canvas"), branch = cv.querySelector('[data-bk="' + key(ci, bi) + '"]');
+    if (!branch) return;
+    var notes = $(".leaves", branch.parentElement), card = branch.getBoundingClientRect();
+    var area = cv.getBoundingClientRect(), panel = $("#panel").getBoundingClientRect();
+    var left = area.left, right = area.right, top = area.top, bottom = area.bottom;
+    if (document.body.classList.contains("detail-open") && panel.left < right && panel.right > left && panel.top < bottom && panel.bottom > top) {
+      if (panel.width > area.width * .6) bottom = Math.min(bottom, panel.top);
+      else right = Math.min(right, panel.left);
+    }
+    var bounds = notes ? notes.getBoundingClientRect() : card;
+    var x = (Math.min(card.left, bounds.left) + Math.max(card.right, bounds.right)) / 2;
+    var y = (Math.min(card.top, bounds.top) + Math.max(card.bottom, bounds.bottom)) / 2;
+    cv.scrollBy({ left: x - (left + right) / 2, top: y - (top + bottom) / 2,
+      behavior: (document.body.classList.contains("reduce-motion") || window.matchMedia("(prefers-reduced-motion: reduce)").matches) ? "auto" : "smooth" });
+  }
+  function drawWires() {
+    var map = $(".map"); if (!map) return;
+    var svg = $(".wires", map), mr = map.getBoundingClientRect(), z = zoom;
+    svg.setAttribute("width", map.scrollWidth); svg.setAttribute("height", map.scrollHeight);
+    var d = "";
+    function pt(e, side) { var r = e.getBoundingClientRect(); return { x: ((side === "r" ? r.right : r.left) - mr.left) / z, y: (r.top + r.height / 2 - mr.top) / z }; }
+    function link(a, as, b, bs) {
+      var p = pt(a, as), q = pt(b, bs), dx = Math.max(24, Math.abs(q.x - p.x) / 2) * (q.x >= p.x ? 1 : -1);
+      d += "M" + p.x + " " + p.y + "C" + (p.x + dx) + " " + p.y + " " + (q.x - dx) + " " + q.y + " " + q.x + " " + q.y;
+    }
+    var root = $(".root", map);
+    map.querySelectorAll(".side").forEach(function (sd) {
+      var isLeft = sd.classList.contains("left");
+      sd.querySelectorAll(".brow").forEach(function (row) {
+        var bn = $(".bnode", row);
+        link(root, isLeft ? "l" : "r", bn, isLeft ? "r" : "l");
+        row.querySelectorAll(".leaf, .empty").forEach(function (lf) { link(bn, isLeft ? "l" : "r", lf, isLeft ? "r" : "l"); });
+      });
+    });
+    svg.innerHTML = '<path class="wire-shadow" d="' + d + '"/><path class="wire-thread" d="' + d + '"/><path class="wire-light" d="' + d + '"/>';
+  }
+  function renderCanvas() {
+    var cv = $("#canvas"), sx = cv.scrollLeft, sy = cv.scrollTop;
+    cv.innerHTML = "";
+    if (effView() === "map") { cv.appendChild(renderMap()); arrangeLeaves(); drawWires(); }
+    else cv.appendChild(renderOutline());
+    cv.scrollLeft = sx; cv.scrollTop = sy;
+    document.body.setAttribute("data-view", effView());
+    $("#recallBtn").setAttribute("aria-pressed", S.recall ? "true" : "false");
+    $("#chgBtn").setAttribute("aria-pressed", S.changes ? "true" : "false");
+  }
+
+  /* ---------- outline view ---------- */
+  function renderOutline() {
+    var ci = S.ci, c = CHAPTERS[ci], wrap = h("div", "outline");
+    wrap.setAttribute("style", hue(c));
+    var head = h("header", "ohead");
+    head.innerHTML = '<div class="rn">' + c.n + '</div><div><h2>' + esc(c.title) + '</h2><p class="mnem">' + esc(c.mn) + "</p></div>";
+    wrap.appendChild(head);
+    var leg = h("details", "oleg", "<summary>What the markers mean</summary>");
+    var lb = h("div", "", ""); renderChapterCard(ci, lb); lb.querySelector(".dtitle").remove(); lb.querySelector(".mnem").remove(); lb.querySelector(".dpath").remove();
+    leg.appendChild(lb); wrap.appendChild(leg);
+    c.br.forEach(function (b, bi) {
+      var open = expanded(ci, bi), sec = h("section", "obr" + (isKnown(ci, bi) ? " known" : ""));
+      sec.setAttribute("data-bk", key(ci, bi));
+      var hd = h("div", "ohd");
+      var tg = h("button", "otg"); tg.type = "button"; tg.setAttribute("aria-expanded", open ? "true" : "false");
+      tg.innerHTML = '<span class="card-number">' + (bi + 1) + '</span><span class="bt">' + esc(b.t) + '</span><span class="bm">' + esc(b.mn) + "</span>";
+      tg.addEventListener("click", function () { setExpanded(ci, bi, !open); renderCanvas(); });
+      var ck = h("button", "chk"); ck.type = "button"; ck.setAttribute("aria-pressed", isKnown(ci, bi) ? "true" : "false"); ck.setAttribute("aria-label", "Mark branch " + b.t + " as known"); ck.title = "Mark as known";
+      ck.addEventListener("click", function () { toggleKnown(ci, bi); });
+      hd.appendChild(tg); hd.appendChild(ck); sec.appendChild(hd);
+      if (open) {
+        var ul = h("ul", "oli");
+        b.items.forEach(function (it, ii) {
+          if (S.changes && !it.g) return;
+          var k = key(ci, bi, ii), li = h("li", ""), hidden = S.recall && !S.shown[k], isSel = S.sel && S.sel.bi === bi && S.sel.ii === ii;
+          var btn = h("button", "oleaf" + (it.g ? " tg-" + it.g : "") + (hidden ? " masked" : "") + (isSel ? " sel" : ""));
+          btn.type = "button"; btn.setAttribute("data-k", k);
+          btn.innerHTML = '<span class="card-number">' + (bi + 1) + "." + (ii + 1) + "</span>" + (it.g ? '<i class="dot ' + it.g + '"></i>' : "") + '<span class="lt">' + studyText(it.t) + "</span>" + ((it.d || it.f || it.b || it.tool || it.g) ? '<i class="more" aria-hidden="true"></i>' : "");
+          li.appendChild(btn);
+          if (isSel && !hidden) { var db = h("div", "inl"); renderDetail(it, ci, bi, db); db.querySelector(".dhead").remove(); db.querySelector(".dtitle").remove(); li.appendChild(db); }
+          btn.addEventListener("click", function () {
+            S.shown[k] = true;
+            S.sel = isSel && !hidden ? null : { bi: bi, ii: ii };
+            renderCanvas();
+          });
+          ul.appendChild(li);
+        });
+        if (!ul.children.length) ul.appendChild(h("li", "empty", "Nothing changed in this branch."));
+        sec.appendChild(ul);
+      }
+      wrap.appendChild(sec);
+    });
+    return wrap;
+  }
+
+  /* ---------- search ---------- */
+  var index = [];
+  CHAPTERS.forEach(function (c, ci) {
+    c.br.forEach(function (b, bi) {
+      index.push({ ci: ci, bi: bi, ii: null, text: b.t, hay: (b.t + " " + b.mn).toLowerCase() });
+      b.items.forEach(function (it, ii) { index.push({ ci: ci, bi: bi, ii: ii, text: it.t, hay: (it.t + " " + (it.d || "")).toLowerCase() }); });
+    });
+  });
+  function runSearch(q) {
+    var box = $("#results"); q = q.trim().toLowerCase();
+    if (!q) { box.hidden = true; box.innerHTML = ""; return; }
+    var terms = q.split(/\s+/), out = [];
+    for (var i = 0; i < index.length && out.length < 40; i++) {
+      var e = index[i], ok = true;
+      for (var t = 0; t < terms.length; t++) if (e.hay.indexOf(terms[t]) < 0) { ok = false; break; }
+      if (ok) out.push(e);
+    }
+    box.hidden = false; box.innerHTML = "";
+    if (!out.length) { box.appendChild(h("p", "none", "Nothing matches. Try a shorter word.")); return; }
+    out.forEach(function (e) {
+      var c = CHAPTERS[e.ci], b = c.br[e.bi];
+      var r = h("button", "res"); r.type = "button"; r.setAttribute("style", hue(c));
+      r.innerHTML = '<span class="rc">Ch ' + c.n + '</span><span class="rx">' + esc(e.text) + '</span><span class="rb">' + esc(b.t) + "</span>";
+      r.addEventListener("click", function () { goTo(e.ci, e.bi, e.ii); box.hidden = true; });
+      box.appendChild(r);
+    });
+  }
+  function goTo(ci, bi, ii) {
+    S.ci = ci; S.expMap[key(ci, bi)] = true; S.expOut[key(ci, bi)] = true;
+    S.changes = false; S.recall = false;
+    S.sel = { bi: bi, ii: ii };
+    document.body.classList.add("detail-open"); closeMenu();
+    try { history.replaceState(null, "", "#ch" + CHAPTERS[ci].n); } catch (e) { /* ignore */ }
+    renderAll();
+    var el = document.querySelector('[data-k="' + key(ci, bi, ii) + '"]') || document.querySelector('[data-bk="' + key(ci, bi) + '"]');
+    if (el) { el.scrollIntoView({ block: "center", inline: "center" }); el.classList.add("flash"); }
+  }
+
+  /* ---------- controls ---------- */
+  function setAll(v) {
+    CHAPTERS[S.ci].br.forEach(function (b, bi) { setExpanded(S.ci, bi, v); });
+    renderCanvas();
+  }
+  function renderAll() { renderTabs(); renderCanvas(); renderPanel(); }
+
+  /* Board controls and persisted card offsets. */
+  var zoom = 1, drag = null, suppressClick = false;
+  function openMenu() { document.body.classList.add("menu-open"); $("#drawer").inert = false; $("#menuToggle").setAttribute("aria-expanded", "true"); $("#menuToggle").setAttribute("aria-label", "Close study menu"); }
+  function closeMenu() { document.body.classList.remove("menu-open"); $("#drawer").inert = true; $("#menuToggle").setAttribute("aria-expanded", "false"); $("#menuToggle").setAttribute("aria-label", "Open study menu"); }
+  $("#menuToggle").addEventListener("click", function () { if (document.body.classList.contains("menu-open")) closeMenu(); else openMenu(); });
+  $("#panelClose").addEventListener("click", function () { document.body.classList.remove("detail-open"); });
+  $("#wireToggle").addEventListener("change", function () { document.body.classList.toggle("no-wires", !this.checked); });
+  $("#decorToggle").addEventListener("change", function () { document.body.classList.toggle("no-decor", !this.checked); });
+  $("#motionToggle").addEventListener("change", function () { document.body.classList.toggle("reduce-motion", this.checked); });
+  $("#surface").addEventListener("change", function () { document.body.dataset.surface = this.value; });
+  function setZoom(value, x, y) {
+    var cv = $("#canvas"), map = $(".map"); if (!map) return;
+    var old = zoom; zoom = Math.max(.55, Math.min(1.4, value));
+    x = x == null ? cv.clientWidth / 2 : x; y = y == null ? cv.clientHeight / 2 : y;
+    var bx = (cv.scrollLeft + x) / old, by = (cv.scrollTop + y) / old;
+    map.style.zoom = zoom; cv.scrollLeft = bx * zoom - x; cv.scrollTop = by * zoom - y;
+    $("#scale").value = Math.round(zoom * 100); drawWires();
+  }
+  $("#zoomIn").addEventListener("click", function () { setZoom(zoom + .2); });
+  $("#zoomOut").addEventListener("click", function () { setZoom(zoom - .2); });
+  $("#scale").addEventListener("input", function () { setZoom(+this.value / 100); });
+  $("#fitView").addEventListener("click", function () { centreRoot(); });
+  $("#quickCollapse").addEventListener("click", function () { setAll(false); document.body.classList.remove("detail-open"); centreRoot(); });
+  var canvas = $("#canvas");
+  canvas.addEventListener("wheel", function (e) { if (effView() !== "map" || e.shiftKey || !e.deltaY) return; e.preventDefault(); var r = canvas.getBoundingClientRect(); setZoom(zoom * Math.exp(-e.deltaY * .003), e.clientX-r.left, e.clientY-r.top); }, { passive:false });
+  canvas.addEventListener("pointerdown", function (e) {
+    if (e.button !== 0 || effView() !== "map") return;
+    var card = e.target.closest("[data-drag]");
+    // Leave empty-desk touch gestures to the browser for native panning and pinch zoom.
+    if (e.pointerType === "touch" && !card) return;
+    if (e.target.closest(".chk")) return;
+    if (!card && e.target.closest("button,input,select,textarea")) return;
+    var pos = card && (store.positions || {})[card.getAttribute("data-drag")] || {x:0,y:0};
+    drag = { card:card, x:e.clientX, y:e.clientY, ox:pos.x, oy:pos.y, sx:canvas.scrollLeft, sy:canvas.scrollTop, moved:false, pointer:e.pointerId };
+  });
+  canvas.addEventListener("pointermove", function (e) {
+    if (!drag || e.pointerId !== drag.pointer) return;
+    var dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+    if (!drag.moved && Math.hypot(dx,dy)<5) return;
+    if (!drag.moved) canvas.setPointerCapture(e.pointerId);
+    drag.moved=true;
+    if (drag.card) { drag.card.classList.add("dragging"); drag.card.style.setProperty("--dx", (drag.ox+dx/zoom)+"px"); drag.card.style.setProperty("--dy", (drag.oy+dy/zoom)+"px"); drawWires(); }
+    else { canvas.classList.add("panning"); canvas.scrollLeft=drag.sx-dx; canvas.scrollTop=drag.sy-dy; }
+  });
+  function endDrag(e) {
+    if (!drag || e.pointerId !== drag.pointer) return;
+    if (drag.moved) { suppressClick=true; setTimeout(function(){suppressClick=false;},0); if (drag.card) { store.positions=store.positions || {}; store.positions[drag.card.getAttribute("data-drag")]={x:drag.ox+(e.clientX-drag.x)/zoom,y:drag.oy+(e.clientY-drag.y)/zoom}; drag.card.classList.remove("dragging"); save(); } }
+    canvas.classList.remove("panning"); drag=null;
+  }
+  canvas.addEventListener("pointerup", endDrag); canvas.addEventListener("pointercancel", endDrag);
+  canvas.addEventListener("click", function(e) { if (suppressClick) { e.preventDefault(); e.stopPropagation(); } }, true);
+
+  $("#expandBtn").addEventListener("click", function () { setAll(true); });
+  $("#collapseBtn").addEventListener("click", function () { setAll(false); });
+  $("#recallBtn").addEventListener("click", function () { S.recall = !S.recall; S.shown = {}; renderCanvas(); });
+  $("#chgBtn").addEventListener("click", function () { S.changes = !S.changes; renderCanvas(); });
+  $("#viewBtn").addEventListener("click", function () { S.view = S.view === "map" ? "outline" : "map"; $("#viewBtn").textContent = S.view === "map" ? "Switch to outline" : "Switch to map"; renderCanvas(); });
+  $("#q").addEventListener("input", function (e) { runSearch(e.target.value); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "/" && document.activeElement && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") { e.preventDefault(); openMenu(); $("#q").focus(); }
+    if (e.key === "Escape") { $("#results").hidden = true; if (document.activeElement === $("#q")) $("#q").blur(); closeMenu(); document.body.classList.remove("detail-open"); }
+  });
+  document.addEventListener("click", function (e) { if (!e.target.closest(".search")) $("#results").hidden = true; });
+  window.addEventListener("hashchange", function () { var ci = hashChapter(); if (ci !== S.ci) { S.ci = ci; S.sel = null; renderAll(); centreRoot(); } });
+  narrowMQ.addEventListener("change", function () { renderCanvas(); renderPanel(); });
+  var rz; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(drawWires, 60); });
+  if (window.ResizeObserver) new ResizeObserver(function () { drawWires(); }).observe($("#canvas"));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { arrangeLeaves(); drawWires(); });
+
+  S.ci = hashChapter();
+  renderAll(); centreRoot(); countdown(); setInterval(countdown, 60000);
+  window.__mindmap = { S: S, goTo: goTo };
+})();
+
+</script>
+</body>
+</html>
