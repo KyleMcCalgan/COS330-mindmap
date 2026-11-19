@@ -405,6 +405,11 @@ body[data-surface="paper"] .canvas { background-color:#e2d9c9; background-image:
 
 .drawer-home { display:block; margin-top:14px; padding:9px 11px; color:#713f34; background:#faf5ea; border:1px solid #cabb9f; text-decoration:none; font-weight:700; }
 .drawer-home:hover { background:#e9ddc9; }
+
+/* Touch gestures are handled by the workspace, not browser page zoom. */
+body[data-view="map"] .canvas { touch-action:none; }
+body[data-view="outline"] .canvas { touch-action:pan-y; }
+
 </style>
 </head>
 <body data-view="map">
@@ -414,8 +419,8 @@ body[data-surface="paper"] .canvas { background-color:#e2d9c9; background-image:
   <div class="brandrow"><div class="brand">The study drawer<small>COS330 &middot; Chapters 1&ndash;11 and 13</small></div><span id="count"></span><div class="prog"><span id="overall"></span><div class="track"><div id="bar"></div></div></div></div>
   <details class="drawer-section" open><summary>Navigation</summary><a class="drawer-home" href="index.html">Study board</a><div class="search"><input id="q" type="search" placeholder="Search all chapters ( / )" aria-label="Search every chapter" autocomplete="off"><div id="results" hidden></div></div><nav class="tabs" id="tabs" aria-label="Chapters"></nav></details>
   <details class="drawer-section"><summary>Study tools</summary><div class="tools"><button type="button" class="btn" id="expandBtn">Expand all</button><button type="button" class="btn" id="collapseBtn">Collapse all</button><button type="button" class="btn" id="recallBtn" aria-pressed="false" title="Blur points to test yourself; click to reveal.">Recall mode</button><button type="button" class="btn" id="chgBtn" aria-pressed="false" title="Show only corrected or added points.">Changes only</button><button type="button" class="btn" id="viewBtn">Switch to outline</button></div></details>
-  <details class="drawer-section"><summary>Display settings</summary><label class="setting"><input type="checkbox" id="wireToggle" checked> Show string</label><label class="setting"><input type="checkbox" id="decorToggle" checked> Show pins</label><label class="setting"><input type="checkbox" id="motionToggle"> Reduce motion</label><label class="setting">Desk surface <select id="surface"><option value="wood">Wood</option><option value="cork">Cork</option><option value="paper">Paper</option></select></label><label class="setting">Card scale <input id="scale" type="range" min="55" max="140" value="100" step="5" aria-label="Card scale"></label></details>
-  <details class="drawer-section"><summary>Using the board</summary><p class="help">Choose a chapter above. Select a branch to unfold its notes, and select a note to read more. Drag a card to rearrange it; drag or swipe the empty desk to pan. Use the zoom controls or mouse wheel to zoom towards the pointer. Hold Shift while scrolling to pan horizontally. The checkboxes mark branches you know. Press / to search and Escape to close panels. Your progress and card positions are saved on this device.</p></details>
+  <details class="drawer-section"><summary>Display settings</summary><label class="setting"><input type="checkbox" id="wireToggle" checked> Show string</label><label class="setting"><input type="checkbox" id="decorToggle" checked> Show pins</label><label class="setting"><input type="checkbox" id="motionToggle"> Reduce motion</label><label class="setting">Desk surface <select id="surface"><option value="wood">Wood</option><option value="cork">Cork</option><option value="paper">Paper</option></select></label><label class="setting">Card scale <input id="scale" type="range" min="25" max="250" value="100" step="5" aria-label="Card scale"></label></details>
+  <details class="drawer-section"><summary>Using the board</summary><p class="help">Choose a chapter above. Select a branch to unfold its notes, and select a note to read more. Drag a card to rearrange it; drag or swipe the empty desk to pan. Pinch to zoom on touchscreens; use the zoom controls or mouse wheel on a computer. Touch and hold a card, then drag it to reposition it. Hold Shift while scrolling to pan horizontally. The checkboxes mark branches you know. Press / to search and Escape to close panels. Your progress and card positions are saved on this device.</p></details>
 </header>
 <main class="main"><div class="canvas" id="canvas" aria-label="Mind map workspace"></div><aside class="panel" id="panel" aria-label="Study note" aria-live="polite"><button class="panel-close" type="button" id="panelClose" aria-label="Close study note">&times;</button><div class="pin"></div></aside></main>
 <div class="zoom-controls" aria-label="Board navigation"><button type="button" id="zoomOut" aria-label="Zoom out">&minus;</button><button type="button" id="zoomIn" aria-label="Zoom in">+</button><button type="button" class="fit" id="fitView">Centre view</button><button type="button" class="quick" id="quickCollapse">Collapse all</button></div>
@@ -1928,7 +1933,7 @@ var TRANSP = (function () {
   $("#surface").addEventListener("change", function () { document.body.dataset.surface = this.value; });
   function setZoom(value, x, y) {
     var cv = $("#canvas"), map = $(".map"); if (!map) return;
-    var old = zoom; zoom = Math.max(.55, Math.min(1.4, value));
+    var old = zoom; zoom = Math.max(.25, Math.min(2.5, value));
     x = x == null ? cv.clientWidth / 2 : x; y = y == null ? cv.clientHeight / 2 : y;
     var bx = (cv.scrollLeft + x) / old, by = (cv.scrollTop + y) / old;
     map.style.zoom = zoom; cv.scrollLeft = bx * zoom - x; cv.scrollTop = by * zoom - y;
@@ -1941,11 +1946,70 @@ var TRANSP = (function () {
   $("#quickCollapse").addEventListener("click", function () { setAll(false); document.body.classList.remove("detail-open"); centreRoot(); });
   var canvas = $("#canvas");
   canvas.addEventListener("wheel", function (e) { if (effView() !== "map" || e.shiftKey || !e.deltaY) return; e.preventDefault(); var r = canvas.getBoundingClientRect(); setZoom(zoom * Math.exp(-e.deltaY * .003), e.clientX-r.left, e.clientY-r.top); }, { passive:false });
+  // Touch: swipe anywhere to pan, pinch around the fingers to zoom, and
+  // hold a card briefly before dragging when rearranging the board.
+  var touchGesture = null, holdTimer = null;
+  function clearHold() { if (holdTimer) clearTimeout(holdTimer); holdTimer = null; }
+  function touchPoint(t) { return {x:t.clientX, y:t.clientY}; }
+  function pinchInfo(touches) {
+    var a=touchPoint(touches[0]), b=touchPoint(touches[1]);
+    return {x:(a.x+b.x)/2, y:(a.y+b.y)/2, distance:Math.hypot(a.x-b.x,a.y-b.y)};
+  }
+  canvas.addEventListener("touchstart", function(e) {
+    if (effView() !== "map") return;
+    if (e.touches.length >= 2) {
+      clearHold(); if (touchGesture && touchGesture.card) touchGesture.card.classList.remove("dragging");
+      var pinch=pinchInfo(e.touches); touchGesture={mode:"pinch", last:pinch, moved:true}; e.preventDefault(); return;
+    }
+    if (e.target.closest(".chk") || e.touches.length !== 1) return;
+    var t=touchPoint(e.touches[0]), card=e.target.closest("[data-drag]");
+    touchGesture={mode:"pan", start:t, last:t, card:null, moved:false};
+    if (card) holdTimer=setTimeout(function(){
+      if (!touchGesture || touchGesture.moved || touchGesture.mode!=="pan") return;
+      var pos=(store.positions||{})[card.getAttribute("data-drag")] || {x:0,y:0};
+      touchGesture.mode="card"; touchGesture.card=card; touchGesture.ox=pos.x; touchGesture.oy=pos.y;
+      card.classList.add("dragging");
+    },450);
+  }, {passive:false});
+  canvas.addEventListener("touchmove", function(e) {
+    if (!touchGesture || effView() !== "map") return;
+    if (e.touches.length >= 2) {
+      clearHold(); var now=pinchInfo(e.touches), prev=touchGesture.last;
+      if (touchGesture.mode!=="pinch") { touchGesture={mode:"pinch",last:now,moved:true}; e.preventDefault(); return; }
+      var r=canvas.getBoundingClientRect();
+      if (prev.distance>0) setZoom(zoom*now.distance/prev.distance,prev.x-r.left,prev.y-r.top);
+      canvas.scrollLeft+=prev.x-now.x; canvas.scrollTop+=prev.y-now.y;
+      touchGesture.last=now; touchGesture.moved=true; e.preventDefault(); return;
+    }
+    if (e.touches.length!==1) return;
+    var t=touchPoint(e.touches[0]);
+    if (touchGesture.mode==="pinch") { touchGesture={mode:"pan",start:t,last:t,moved:true}; e.preventDefault(); return; }
+    var dx=t.x-touchGesture.start.x, dy=t.y-touchGesture.start.y;
+    if (!touchGesture.moved && Math.hypot(dx,dy)<5) return;
+    clearHold(); touchGesture.moved=true;
+    if (touchGesture.mode==="card") {
+      touchGesture.card.style.setProperty("--dx",(touchGesture.ox+dx/zoom)+"px");
+      touchGesture.card.style.setProperty("--dy",(touchGesture.oy+dy/zoom)+"px"); drawWires();
+    } else { canvas.scrollLeft-=t.x-touchGesture.last.x; canvas.scrollTop-=t.y-touchGesture.last.y; }
+    touchGesture.last=t; e.preventDefault();
+  }, {passive:false});
+  function endTouch(e) {
+    clearHold(); if (!touchGesture) return;
+    if (e.touches.length>=1) {
+      if (touchGesture.mode==="pinch") { var t=touchPoint(e.touches[0]); touchGesture={mode:"pan",start:t,last:t,moved:true}; }
+      return;
+    }
+    if (touchGesture.card) {
+      var card=touchGesture.card; card.classList.remove("dragging");
+      if (touchGesture.moved) { var dx=touchGesture.last.x-touchGesture.start.x,dy=touchGesture.last.y-touchGesture.start.y; store.positions=store.positions||{}; store.positions[card.getAttribute("data-drag")]={x:touchGesture.ox+dx/zoom,y:touchGesture.oy+dy/zoom}; save(); }
+    }
+    if (touchGesture.moved) { suppressClick=true; setTimeout(function(){suppressClick=false;},400); if(e.cancelable)e.preventDefault(); }
+    touchGesture=null;
+  }
+  canvas.addEventListener("touchend",endTouch,{passive:false}); canvas.addEventListener("touchcancel",endTouch,{passive:false});
   canvas.addEventListener("pointerdown", function (e) {
-    if (e.button !== 0 || effView() !== "map") return;
+    if (e.pointerType === "touch" || e.button !== 0 || effView() !== "map") return;
     var card = e.target.closest("[data-drag]");
-    // Leave empty-desk touch gestures to the browser for native panning and pinch zoom.
-    if (e.pointerType === "touch" && !card) return;
     if (e.target.closest(".chk")) return;
     if (!card && e.target.closest("button,input,select,textarea")) return;
     var pos = card && (store.positions || {})[card.getAttribute("data-drag")] || {x:0,y:0};
