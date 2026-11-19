@@ -13,6 +13,21 @@
 @media(max-width:700px){.controls{display:flex;gap:8px}.controls label{font-size:.9rem}.controls select{width:0;flex:1}.controls button{padding:9px 12px}.card-inner{min-height:280px}.face{padding:26px 23px}}
 @media(prefers-reduced-motion:reduce){.card-inner{transition:none!important}}
 
+
+/* Both sides are complete sheets of paper, including their edges and shadows. */
+.card { height:clamp(330px,48vh,410px); min-height:0; padding:0; border:0; background:transparent; box-shadow:none; transform:none; overflow:visible; }
+.card:hover { box-shadow:none; }
+.card:before { display:none; }
+.card-inner { height:100%; min-height:0; }
+.face { min-height:0; height:100%; overflow-y:auto; overscroll-behavior:contain; border:1px solid #cebea5; background:repeating-linear-gradient(#faf5e9 0,#faf5e9 33px,#dbe1dd 34px,#faf5e9 35px); box-shadow:2px 7px 10px #51402c2b,7px 15px 28px #51402c2b; scrollbar-width:thin; }
+.face.back-face { background:repeating-linear-gradient(#f8f0e0 0,#f8f0e0 33px,#dbe1dd 34px,#f8f0e0 35px); }
+.card.swipe-next { animation:slide-next .28s ease-out; }
+.card.swipe-previous { animation:slide-previous .28s ease-out; }
+@keyframes slide-next { from { opacity:.35; transform:translateX(26px); } to { opacity:1; transform:translateX(0); } }
+@keyframes slide-previous { from { opacity:.35; transform:translateX(-26px); } to { opacity:1; transform:translateX(0); } }
+@media(max-width:700px){.card{height:clamp(300px,45vh,380px);min-height:0}.card-inner{min-height:0}}
+@media(prefers-reduced-motion:reduce){.card.swipe-next,.card.swipe-previous{animation:none!important}}
+
 </style>
 </head>
 <body><div class="shell">
@@ -37,7 +52,7 @@
     card.classList.remove('flipped');card.innerHTML='<span class="card-inner"><span class="face front-face">'+front+'</span><span class="face back-face">'+back+'</span></span>';updateFlip();$('previous').disabled=position===0;$('next').disabled=position===deck.length-1;$('source').href='COS330%20Security%20Mindmap.html#ch'+x.chapter}
   function reset(){var chosen=$('chapter').value;deck=all.filter(function(x){return chosen==='all'||String(x.chapter)===chosen});position=0;revealed=false;render()}
   function flip(){revealed=!revealed;updateFlip()}
-  function move(n){position=Math.max(0,Math.min(deck.length-1,position+n));revealed=false;render()}
+  function move(n){var next=Math.max(0,Math.min(deck.length-1,position+n));if(next===position)return;position=next;revealed=false;var card=$('card');card.classList.remove('swipe-next','swipe-previous');render();void card.offsetWidth;card.classList.add(n>0?'swipe-next':'swipe-previous')}
   $('chapter').addEventListener('change',reset);$('card').addEventListener('click',flip);$('flip').addEventListener('click',flip);$('previous').addEventListener('click',function(){move(-1)});$('next').addEventListener('click',function(){move(1)});$('shuffle').addEventListener('click',function(){for(var i=deck.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=deck[i];deck[i]=deck[j];deck[j]=t}position=0;revealed=false;render()});document.addEventListener('keydown',function(e){if(/^(INPUT|SELECT|TEXTAREA|BUTTON|A)$/.test(document.activeElement.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();move(1)}else if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}else if(e.key===' '){e.preventDefault();flip()}});reset();
 })();
 </script></body></html>
