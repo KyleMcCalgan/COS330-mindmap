@@ -447,65 +447,65 @@ CHAPTERS.push({
       { t: "Impact if breached: Low (limited), Moderate (serious), High (severe or catastrophic)", d: "The level always depends on context. A leaked menu is Low; a leaked patient database is High.", g: "gen", n: "The Low/Moderate/High names are FIPS 199 as used again in Chapter 3. The one-line examples are mine." }
     ]},
     { t: "Security vs usability", mn: "Attacker needs ONE weakness; defender must close ALL", items: [
-      { t: "Always a trade-off: passwords and tokens add security but add friction" },
-      { t: "Attacker needs one weakness, defender must close all, so defence is always playing catch-up" },
+      { t: "Always a trade-off: passwords and tokens add security but add friction", d: "Every control that makes a system safer also makes it harder to use. Longer passwords, tokens and extra logins protect the system but slow down the people it is meant to serve, so designers look for a balance rather than maximum security." },
+      { t: "Attacker needs one weakness, defender must close all, so defence is always playing catch-up", d: "This is the asymmetry of defence. The attacker picks the single weakest point, while the defender has to cover every point, so the attacker only has to be right once. That is why defence is always reacting." },
       { t: "Physical security is as important as logical security", d: "If someone can walk off with the server, the firewall does not matter." }
     ]},
     { t: "Core vocabulary", mn: "Vulnerability → Threat → Attack; countermeasures break the chain", items: [
-      { t: "Adversary (threat agent): individual, group, organisation or government conducting harmful activity" },
+      { t: "Adversary (threat agent): individual, group, organisation or government conducting harmful activity", d: "The adversary is the person or group behind an attack (also called the threat agent). It can be a lone hacker, a criminal gang, a company or a government. The word is about who is attacking, not what they use." },
       { t: "Vulnerability: a weakness that could be exploited", d: "A weakness, not an event." },
       { t: "Threat: the potential for harm", d: "It has NOT happened yet. This is the favourite definition to mix up with attack." },
       { t: "Attack: a threat carried out", d: "Attack = threat that actually happens." },
-      { t: "Countermeasure: reduces a vulnerability or impairs an attack" },
+      { t: "Countermeasure: reduces a vulnerability or impairs an attack", d: "A countermeasure is any control (a firewall, a patch, a policy, a lock) that either removes a vulnerability or makes an attack less effective. In the chain Vulnerability, Threat, Attack, countermeasures are what break the chain." },
       { t: "Risk = f(impact if it happens, likelihood it happens)", d: "High impact with low likelihood and low impact with high likelihood can both land at the same risk level. This is why risk assessment ranks things." }
     ]},
     { t: "Assets & vulnerabilities", mn: "H-S-D-C  |  Corrupted, Leaky, Unavailable", items: [
-      { t: "Assets: Hardware, Software, Data, Communication facilities and networks" },
+      { t: "Assets: Hardware, Software, Data, Communication facilities and networks", d: "These are the four kinds of asset an attacker can target. Hardware is the machines, software is programs and OS, data is files and databases, and communication facilities are the networks that connect them. Each can lose confidentiality, integrity or availability." },
       { t: "Corrupted: loss of INTEGRITY", d: "The system works but gives wrong answers." },
       { t: "Leaky: loss of CONFIDENTIALITY", d: "Someone who should not see the data can." },
-      { t: "Unavailable or very slow: loss of AVAILABILITY" }
+      { t: "Unavailable or very slow: loss of AVAILABILITY", d: "An unavailable asset is one that is down or too slow to use when needed. For example, a server that crashes or is flooded with traffic. It is the Availability letter of CIA failing." }
     ]},
     { t: "Attacks", mn: "Passive = Peeking. Active = Acting", items: [
       { t: "Passive: observe only, do not affect resources; hard to DETECT, easy to prevent", d: "Release of message contents and traffic analysis. Nothing changes, so nothing looks wrong." },
       { t: "Active: alter resources or operation; easy to detect, hard to prevent", d: "Replay, masquerade, modification of messages, denial of service. The damage is visible, but you cannot stop every attempt." },
-      { t: "Insider: inside the perimeter. Outsider: outside it" },
+      { t: "Insider: inside the perimeter. Outsider: outside it", d: "An insider attack comes from someone already inside the security perimeter, such as an employee with a legitimate account. An outsider attack comes from someone without that access. Insiders are dangerous because they already hold trust and knowledge." },
       { t: "Traffic analysis can leak information even when the content is encrypted", d: "The attacker sees who talks to whom and how often, not what is said.", g: "gen", n: "Explanation is general networking knowledge, not copied from the slides." }
     ]},
     { t: "Threat consequences (RFC 4949)", mn: "Disclosure, Deception, Disruption, Usurpation", items: [
-      { t: "Unauthorised disclosure: exposure, interception, inference, intrusion" },
-      { t: "Deception: masquerade, falsification, repudiation" },
-      { t: "Disruption: incapacitation, corruption, obstruction" },
+      { t: "Unauthorised disclosure: exposure, interception, inference, intrusion", d: "Disclosure means data reaches someone who should not have it. RFC 4949 lists four ways: exposure (data released directly), interception (captured in transit), inference (worked out from related data) and intrusion (the attacker breaks in and reads it). It is a Confidentiality failure." },
+      { t: "Deception: masquerade, falsification, repudiation", d: "Deception means the receiver is misled into believing something false. Masquerade is pretending to be someone else, falsification is altering data, and repudiation is denying you sent or received something. It mostly attacks Integrity and Authenticity." },
+      { t: "Disruption: incapacitation, corruption, obstruction", d: "Disruption means the system stops working correctly. Incapacitation disables it, corruption makes it give wrong results, and obstruction blocks communication or slows it down. It mostly attacks Availability and Integrity." },
       { t: "Usurpation: misappropriation, misuse", d: "Taking over control of a resource or using it for something it was not meant for." }
     ]},
     { t: "Countermeasures", mn: "Prevent, Detect, Recover", items: [
-      { t: "Three actions: Prevent, Detect, Recover" },
-      { t: "Residual vulnerabilities may remain, so 100% security is never guaranteed", r: "CH1 S15", g: "add", n: "Added from the slide. The countermeasures slide also says a countermeasure may itself introduce new vulnerabilities, and the goal is to minimise the residual level of risk to the assets." },
+      { t: "Three actions: Prevent, Detect, Recover", d: "These are the three things you do about an attack. Prevent it from happening, detect it if prevention fails, and recover to normal operation afterwards. Chapters 6 to 9 each map onto one or more of these." },
+      { t: "Residual vulnerabilities may remain, so 100% security is never guaranteed", d: "Residual vulnerabilities are weaknesses that are still there after all the controls are in place. Since the attacker only needs one, no system can be guaranteed 100% secure, so you aim to manage risk, not remove it.", r: "CH1 S15", g: "add", n: "Added from the slide. The countermeasures slide also says a countermeasure may itself introduce new vulnerabilities, and the goal is to minimise the residual level of risk to the assets." },
       { t: "A countermeasure can itself introduce a new vulnerability", d: "Example: a complex firewall rule set creates new misconfiguration risk.", g: "add", r: "CH1 S15", n: "The slide point is real; the firewall example is mine." }
     ]},
     { t: "Functional requirements (FIPS 200)", mn: "Know the category names and the core idea of each", items: [
-      { t: "Access control: limit system access to authorised users and processes" },
-      { t: "Identification & authentication; Audit & accountability (trace actions to a user)" },
-      { t: "Awareness & training; Personnel security" },
-      { t: "Certification, accreditation & security assessment: test that the controls work" },
-      { t: "Configuration management: baselines and secure settings" },
-      { t: "Contingency planning: backup and disaster recovery; Incident response" },
-      { t: "Maintenance; Media protection; Physical & environmental protection" },
-      { t: "Planning; Risk assessment; Systems & services acquisition" },
-      { t: "System & communications protection; System & information integrity" }
+      { t: "Access control: limit system access to authorised users and processes", d: "FIPS 200 is a list of 17 security requirement areas for federal systems. Access control means only authorised users, and the processes acting for them, can reach the system. This is the subject of Chapter 4." },
+      { t: "Identification & authentication; Audit & accountability (trace actions to a user)", d: "Identification and authentication means every user is identified and proven before getting in (Chapter 3). Audit and accountability means actions are logged so they can be traced back to one user." },
+      { t: "Awareness & training; Personnel security", d: "Awareness and training teaches users about security risks and their responsibilities. Personnel security covers screening staff and managing their access when they join or leave." },
+      { t: "Certification, accreditation & security assessment: test that the controls work", d: "This area checks that the controls actually work. Assessment tests them, certification confirms they meet the requirements, and accreditation is formal management approval to run the system." },
+      { t: "Configuration management: baselines and secure settings", d: "Configuration management means keeping a known baseline of how systems should be set up and controlling every change to it, so insecure default settings or unauthorised changes do not creep in." },
+      { t: "Contingency planning: backup and disaster recovery; Incident response", d: "Contingency planning prepares for disaster with backups and recovery plans. Incident response is the planned process for handling an attack when it happens." },
+      { t: "Maintenance; Media protection; Physical & environmental protection", d: "Maintenance means servicing systems safely. Media protection secures disks, tapes and USB drives. Physical and environmental protection covers locks, power and fire control." },
+      { t: "Planning; Risk assessment; Systems & services acquisition", d: "Planning means writing and updating security plans. Risk assessment means finding and rating risks. Systems and services acquisition means building security into what you buy or develop." },
+      { t: "System & communications protection; System & information integrity", d: "System and communications protection secures boundaries and data in transit (firewalls, encryption). System and information integrity means finding and fixing flaws, and detecting malware and tampering." }
     ]},
     { t: "Attack surface & attack tree", mn: "Network, Software, Human", items: [
-      { t: "Attack surface: the reachable and exploitable vulnerabilities in a system" },
-      { t: "Network attack surface: open ports, protocols, services" },
-      { t: "Software attack surface: code that processes incoming data (web, email, documents)" },
-      { t: "Human attack surface: staff open to social engineering" },
+      { t: "Attack surface: the reachable and exploitable vulnerabilities in a system", d: "The attack surface is every place an attacker could try to get in. The smaller the surface, the fewer chances for an attacker, so reducing it is a core defence strategy." },
+      { t: "Network attack surface: open ports, protocols, services", d: "The network attack surface is everything reachable over a network: open ports, running services and protocols. Closing unused ports and services shrinks it." },
+      { t: "Software attack surface: code that processes incoming data (web, email, documents)", d: "The software attack surface is any code that handles data from outside, such as web servers, email clients and document readers. Bugs in that code are what attackers exploit." },
+      { t: "Human attack surface: staff open to social engineering", d: "The human attack surface is the people who can be tricked. Social engineering, such as phishing, targets staff rather than technology." },
       { t: "Attack tree: branching diagram of ways to reach an attacker's goal", d: "Root = goal. Branches = sub-attacks (malware, brute-force PIN, man-in-the-middle, session hijack). Reducing the attack surface removes branches." }
     ]},
     { t: "Security strategy & standards bodies", mn: "Policy → Implementation → Assurance → Evaluation", items: [
-      { t: "Security policy: formal rules for protecting resources" },
-      { t: "Implementation: Prevention, Detection, Response, Recovery" },
-      { t: "Assurance: confidence that the measures work as intended" },
-      { t: "Evaluation: examining a product against criteria (Common Criteria)" },
-      { t: "NIST (US federal measurement science and standards); ISOC (Internet standards); ITU-T (UN telecom agency); ISO (international standards)" }
+      { t: "Security policy: formal rules for protecting resources", d: "A security policy is the written set of rules saying what is allowed to protect the organisation's resources. All technical controls are meant to enforce it." },
+      { t: "Implementation: Prevention, Detection, Response, Recovery", d: "Implementation is the four actions that put the policy into practice: prevent attacks, detect them, respond to them and recover afterwards." },
+      { t: "Assurance: confidence that the measures work as intended", d: "Assurance is how confident you can be that the security measures really do what they claim. It is about trust in the design and the implementation." },
+      { t: "Evaluation: examining a product against criteria (Common Criteria)", d: "Evaluation is testing a product against agreed criteria, such as the Common Criteria, so that buyers can compare how trustworthy different products are." },
+      { t: "NIST (US federal measurement science and standards); ISOC (Internet standards); ITU-T (UN telecom agency); ISO (international standards)", d: "These are the four standards bodies to recognise: NIST publishes US federal standards (FIPS, SP 800 series), ISOC is the Internet Society behind IETF/RFCs, ITU-T is the United Nations telecom agency, and ISO is the international standards body." }
     ]}
   ]
 });
@@ -516,65 +516,65 @@ CHAPTERS.push({
   br: [
     { t: "Symmetric encryption", mn: "SAME key encrypts and decrypts", items: [
       { t: "The universal technique for CONFIDENTIALITY", d: "Plaintext and key go into the algorithm and ciphertext comes out. The same key reverses it." },
-      { t: "Needs a strong algorithm and a secret key shared securely" },
+      { t: "Needs a strong algorithm and a secret key shared securely", d: "Symmetric encryption only works if the algorithm is strong enough that knowing it does not help break the cipher, and if the sender and receiver share the same secret key safely. Distributing that key is the hard part." },
       { t: "Weakness is KEY DISTRIBUTION", d: "If the key is intercepted the attacker decrypts everything. Alice, Bob and Mike: if Mike intercepts K and the ciphertext, he reads it too." },
-      { t: "Block cipher: one BLOCK at a time, one output block per input block" },
-      { t: "Stream cipher: continuous, byte by byte; faster; needs a good pseudorandom keystream" },
+      { t: "Block cipher: one BLOCK at a time, one output block per input block", d: "A block cipher splits the message into fixed-size blocks and encrypts each block into one output block of the same size. DES and AES are block ciphers." },
+      { t: "Stream cipher: continuous, byte by byte; faster; needs a good pseudorandom keystream", d: "A stream cipher encrypts one bit or byte at a time by combining it with a keystream. It is fast and good for continuous data, but only as secure as the pseudorandom keystream." },
       { t: "ECB mode is weak: identical plaintext blocks give identical ciphertext, so patterns leak", d: "Avoid it. Block ciphers can be used in other modes that hide repeats." }
     ]},
     { t: "Symmetric algorithms", mn: "DES → 3DES → AES", items: [
-      { t: "DES: 64-bit block, 56-bit key; weak, brute-forceable" },
-      { t: "3DES: applies DES three times, 112 or 168-bit key; slow" },
-      { t: "AES: 128-bit block, 128 / 192 / 256-bit key; NIST 2001 (Rijndael); the current standard" },
+      { t: "DES: 64-bit block, 56-bit key; weak, brute-forceable", d: "DES is the old standard. It takes 64-bit blocks and uses a 56-bit key, which is short enough today that it can be brute forced, so it is considered broken." },
+      { t: "3DES: applies DES three times, 112 or 168-bit key; slow", d: "Triple DES runs DES three times with two or three keys, giving an effective 112 or 168-bit key. It is more secure than DES but slow, because of the three passes." },
+      { t: "AES: 128-bit block, 128 / 192 / 256-bit key; NIST 2001 (Rijndael); the current standard", d: "AES is the current standard, chosen by NIST in 2001 (the Rijndael cipher). It works on 128-bit blocks with 128, 192 or 256-bit keys, and is fast and secure." },
       { t: "Each extra key bit DOUBLES the brute-force work (2^n)", d: "That is exponential growth, so a modest increase in key length is an enormous increase in cracking time." },
-      { t: "56-bit key: about 1.125 years at 10^9 decryptions/s, about 1 hour at 10^13 decryptions/s", g: "fix", r: "Table 2.2", n: "The friend's note said '56-bit: hours'. The slide's Table 2.2 gives 1.125 years at 10^9 decryptions per second and 1 hour at 10^13 per second. 'Hours' is only true for the fast attacker." },
-      { t: "128-bit key: roughly 5 × 10^21 years at 10^9 decryptions/s, far longer than the age of the universe", g: "gen", n: "My own arithmetic: 2^127 / 10^9 per second / seconds per year. Check Table 2.2 for the slide's exact figure." }
+      { t: "56-bit key: about 1.125 years at 10^9 decryptions/s, about 1 hour at 10^13 decryptions/s", d: "This shows why DES is weak. A 56-bit key has about 7.2 x 10^16 possibilities. At a billion tries a second it takes roughly a year, and with specialised fast hardware it takes about an hour.", g: "fix", r: "Table 2.2", n: "The friend's note said '56-bit: hours'. The slide's Table 2.2 gives 1.125 years at 10^9 decryptions per second and 1 hour at 10^13 per second. 'Hours' is only true for the fast attacker." },
+      { t: "128-bit key: roughly 5 × 10^21 years at 10^9 decryptions/s, far longer than the age of the universe", d: "This shows why AES is safe. A 128-bit key has about 3.4 x 10^38 possibilities, so even at a billion tries a second the search takes about 5 x 10^21 years, far longer than the universe has existed.", g: "gen", n: "My own arithmetic: 2^127 / 10^9 per second / seconds per year. Check Table 2.2 for the slide's exact figure." }
     ]},
     { t: "Hash functions", mn: "INTEGRITY, not secrecy: a fingerprint", items: [
-      { t: "Any-size input → FIXED-length digest" },
+      { t: "Any-size input → FIXED-length digest", d: "A hash function takes input of any length and always produces an output of the same fixed length, called the digest or hash. Even a tiny change to the input changes the digest completely." },
       { t: "Six properties: variable input size, fixed output, easy to compute, pre-image resistant (one-way), second pre-image resistant, collision resistant", g: "fix", n: "The friend's list was missing second pre-image resistance. The slides give six properties.", d: "Pre-image: given h, you cannot find any x with H(x)=h. Second pre-image: given x, you cannot find a different y with H(y)=H(x). Collision: you cannot find any pair x,y that hash the same." },
       { t: "A 1-bit change in the input gives a completely different hash", d: "This is why hashes detect tampering.", g: "gen", n: "Standard hash behaviour (avalanche effect); not stated in these words on the slides." },
       { t: "Algorithms: MD5, SHA-1, SHA-2 / SHA-256", d: "MD5 and SHA-1 are considered broken today.", g: "gen", n: "'Weak' for MD5/SHA-1 is general knowledge, not from the slides." },
-      { t: "Uses: password storage (store H(password)), file integrity checks, digital forensics" }
+      { t: "Uses: password storage (store H(password)), file integrity checks, digital forensics", d: "Hashes are used for password storage (keep H(password) instead of the password), for checking that a file has not changed, and for forensics (proving a disk copy matches the original)." }
     ]},
     { t: "MAC vs hash", mn: "MAC = hash + SHARED SECRET KEY", items: [
-      { t: "MAC: a short tag from a message plus a shared secret key; gives integrity AND authenticity" },
+      { t: "MAC: a short tag from a message plus a shared secret key; gives integrity AND authenticity", d: "A MAC is a short tag computed from the message and a secret key that both sides share. The receiver recomputes it to confirm the message was not changed and that it came from someone holding the key." },
       { t: "Hash: no key; anyone can compute it, so it cannot authenticate by itself", d: "An attacker can alter the message and recompute the hash. With a MAC they cannot, because they lack the key." },
       { t: "MAC does not give non-repudiation", d: "Both sides share the key, so either could have made the tag. Signatures fix that (see Digital signatures).", g: "gen", n: "Reasoning from the shared-key property; the slide summary only says Signature = + non-repudiation." }
     ]},
     { t: "Public-key (asymmetric)", mn: "What one key locks, only its PAIR unlocks", items: [
-      { t: "Two mathematically linked keys" },
-      { t: "Public key: shared with anyone; used to ENCRYPT or VERIFY" },
-      { t: "Private key: kept secret; used to DECRYPT or SIGN" },
+      { t: "Two mathematically linked keys", d: "Asymmetric encryption uses a pair of keys that are mathematically linked. What one key does, only the other can undo. This removes the need to share a secret in advance." },
+      { t: "Public key: shared with anyone; used to ENCRYPT or VERIFY", d: "The public key can be given to everyone. Others use it to encrypt messages to you or to verify your signature." },
+      { t: "Private key: kept secret; used to DECRYPT or SIGN", d: "The private key is never shared. You use it to decrypt messages sent to you and to create your digital signature." },
       { t: "Solves key distribution because the private key never travels", d: "The price is speed. Asymmetric operations are much slower than symmetric ones, which is why the digital envelope exists." }
     ]},
     { t: "Algorithm applications", mn: "RSA and Elliptic Curve do all three. DSS signs only. Diffie-Hellman only distributes keys.", items: [
       { t: "Table 2.3: which algorithm does which job", b: "t23", r: "CH2 S33", g: "fix", n: "The friend had the Diffie-Hellman row wrong (signature yes, key distribution NO). On slide 33 Diffie-Hellman is signature NO, symmetric key distribution YES, encryption of secret keys NO." }
     ]},
     { t: "Digital signatures", mn: "Signature = hash + private key", items: [
-      { t: "NIST FIPS 186-4: gives origin authentication, data integrity and signatory non-repudiation" },
-      { t: "Sign: hash the document, then encrypt the hash with your PRIVATE key" },
+      { t: "NIST FIPS 186-4: gives origin authentication, data integrity and signatory non-repudiation", d: "The Digital Signature Standard (FIPS 186-4) says a signature provides three things: it proves who sent the message (origin authentication), that it was not altered (integrity), and that the signer cannot deny it (non-repudiation)." },
+      { t: "Sign: hash the document, then encrypt the hash with your PRIVATE key", d: "To sign, you first hash the document and then encrypt that hash with your private key. The result is the signature, which is attached to the document. Hashing first makes the signature short and fast." },
       { t: "Verify: decrypt with the sender's PUBLIC key, compare the hashes", d: "If the two hashes match, the document is unchanged and the signer held the private key." },
-      { t: "Non-repudiation: only the sender has the private key, so they cannot deny signing" }
+      { t: "Non-repudiation: only the sender has the private key, so they cannot deny signing", d: "Because only the sender holds their private key, only they could have produced a signature that verifies with their public key. So they cannot later claim someone else signed it. A MAC cannot give this, because both sides share the key." }
     ]},
     { t: "Digital envelope", mn: "Hybrid: symmetric speed + asymmetric key delivery", items: [
-      { t: "Encrypt the message with a fast symmetric key, then encrypt THAT key with the receiver's public key" },
+      { t: "Encrypt the message with a fast symmetric key, then encrypt THAT key with the receiver's public key", d: "A digital envelope combines both kinds of encryption. The bulk message is encrypted with a fast symmetric session key, and that small key is then encrypted with the receiver's public key and sent along. You get the speed of symmetric and the key distribution of asymmetric." },
       { t: "You get the speed of symmetric and the key-distribution benefit of asymmetric", d: "The receiver unwraps the symmetric key with their private key, then decrypts the long message with it." }
     ]},
     { t: "Random numbers & stored data", mn: "True random vs pseudorandom", items: [
-      { t: "Random numbers are used for keys, session keys, stream keystreams and handshakes (anti-replay)" },
-      { t: "True random: unpredictable and independent. Pseudorandom: algorithmic but passes statistical tests" },
-      { t: "Encrypting STORED data is rarer than in transit because it interferes with access and search" },
-      { t: "'Deleted' files are often recoverable until the sectors are overwritten" }
+      { t: "Random numbers are used for keys, session keys, stream keystreams and handshakes (anti-replay)", d: "Random numbers are needed for generating keys and session keys, for stream cipher keystreams, and for nonces in handshakes that stop replay attacks." },
+      { t: "True random: unpredictable and independent. Pseudorandom: algorithmic but passes statistical tests", d: "A true random number comes from a physical process and cannot be predicted. A pseudorandom number comes from an algorithm, so it is repeatable, but it is acceptable if it passes statistical randomness tests." },
+      { t: "Encrypting STORED data is rarer than in transit because it interferes with access and search", d: "Encrypting stored data is less common than encrypting data in transit because it makes searching, indexing and sharing harder and adds key management work." },
+      { t: "'Deleted' files are often recoverable until the sectors are overwritten", d: "Deleting a file usually only removes its directory entry, so the data stays on disk until the sectors are overwritten. For real destruction you must overwrite the data or encrypt it first." }
     ]},
     { t: "Worked example: double transposition", mn: "Number the key letters, fill rows, read columns, repeat with the other key", items: [
       { t: "Double columnar transposition (semester test Q4 style)", tool: "transp", g: "add", r: "COS330 - ST1 Q4", n: "Procedure and answer are from the semester test's marked solution and re-checked by running the code: the ciphertext decrypts to the marked plaintext and re-encrypts back to the exact ciphertext. Treat which keyword counts as 'first' as set by the question wording.", d: "Steps: (1) take each key phrase, drop repeated letters, keep the first occurrence. (2) Number the letters alphabetically, 1 for the earliest. (3) To encrypt, write the text in rows under the key and read the columns in number order. (4) Pad short text with X. (5) Repeat with the second key. To decrypt, undo the LAST key first." }
     ]},
     { t: "Summary lines", mn: "Reversible vs one-way", items: [
-      { t: "Symmetric = 1 key (fast, distribution problem). DES → 3DES → AES" },
-      { t: "Asymmetric = key pair (RSA, DH, DSS, ECC)" },
-      { t: "Encryption is reversible (confidentiality). Hashing is one-way (integrity)" },
-      { t: "MAC = integrity + authentication. Signature = integrity + authentication + non-repudiation" }
+      { t: "Symmetric = 1 key (fast, distribution problem). DES → 3DES → AES", d: "Symmetric encryption uses one shared key. It is fast but you have to get the key to the other person safely. The chain DES, 3DES, AES shows the algorithms in order of age." },
+      { t: "Asymmetric = key pair (RSA, DH, DSS, ECC)", d: "Asymmetric encryption uses a key pair. The named algorithms are RSA, Diffie-Hellman (key exchange), DSS (signatures) and ECC (elliptic curve)." },
+      { t: "Encryption is reversible (confidentiality). Hashing is one-way (integrity)", d: "Encryption can be reversed with the key, so it protects confidentiality. A hash cannot be reversed, so it is used to check integrity." },
+      { t: "MAC = integrity + authentication. Signature = integrity + authentication + non-repudiation", d: "Each tool adds more: a MAC gives integrity and authentication. A signature gives those two plus non-repudiation, because it uses a private key only the sender holds." }
     ]}
   ]
 });
@@ -584,65 +584,65 @@ CHAPTERS.push({
   mn: "Identification = claim. Authentication = proof. Know / Have / Are / Do.",
   br: [
     { t: "Identification vs authentication", mn: "Username claims. Password proves.", items: [
-      { t: "Identification: claiming who you are (username)" },
-      { t: "Authentication: PROVING it (password, token, biometric)" },
-      { t: "NIST SP 800-63-3: establishing confidence in electronically presented identities" },
-      { t: "SP 800-171 checklist: multi-factor for privileged accounts; replay-resistant mechanisms; no reuse of identifiers and disable inactive ones; minimum password complexity with periodic change; store and transmit only cryptographically protected passwords; OBSCURE feedback" },
+      { t: "Identification: claiming who you are (username)", d: "Identification is just stating who you are, for example giving a username. Nothing has been checked at this point." },
+      { t: "Authentication: PROVING it (password, token, biometric)", d: "Authentication is proving the claim is true, with something like a password, a token or a biometric. Identification says who you are, authentication proves it." },
+      { t: "NIST SP 800-63-3: establishing confidence in electronically presented identities", d: "NIST SP 800-63-3 defines digital authentication as building confidence that an identity presented electronically really belongs to the person presenting it. It is about confidence, not certainty." },
+      { t: "SP 800-171 checklist: multi-factor for privileged accounts; replay-resistant mechanisms; no reuse of identifiers and disable inactive ones; minimum password complexity with periodic change; store and transmit only cryptographically protected passwords; OBSCURE feedback", d: "SP 800-171 lists the minimum authentication controls: multi-factor for privileged accounts, resistance to replay, never reusing identifiers, disabling inactive accounts, password complexity and periodic change, storing and sending only cryptographically protected passwords, and obscuring feedback (showing dots instead of the typed password)." },
       { t: "Obscure feedback: never reveal which field was wrong", d: "'Invalid username or password' tells the attacker nothing. 'Wrong password' confirms the username exists." }
     ]},
     { t: "Four means of authentication", mn: "KNOW, HAVE, ARE, DO", items: [
-      { t: "KNOW: password, PIN, security questions" },
-      { t: "HAVE (token): smartcard, keycard, physical key" },
-      { t: "ARE (static biometric): fingerprint, retina, face" },
-      { t: "DO (dynamic biometric): voice, handwriting, typing rhythm" },
+      { t: "KNOW: password, PIN, security questions", d: "Something you KNOW, such as a password, PIN or answer to a security question. It is cheap but can be guessed, stolen or shared." },
+      { t: "HAVE (token): smartcard, keycard, physical key", d: "Something you HAVE, called a token: a smartcard, keycard or physical key. It can be lost or stolen." },
+      { t: "ARE (static biometric): fingerprint, retina, face", d: "Something you ARE, a static biometric based on a physical feature: fingerprint, retina, face." },
+      { t: "DO (dynamic biometric): voice, handwriting, typing rhythm", d: "Something you DO, a dynamic biometric based on behaviour: voice, handwriting, typing rhythm." },
       { t: "Multifactor = 2 or more factors", d: "A bank card (have) plus PIN (know). Two passwords is NOT multifactor, because both are 'know'." }
     ]},
     { t: "Risk assessment", mn: "Assurance level, areas of risk, potential impact", items: [
-      { t: "Assurance level: confidence that the person is who they claim (SP 800-63-3: 4 levels, little to very high)" },
-      { t: "Areas of risk: where in the system authentication risk applies" },
+      { t: "Assurance level: confidence that the person is who they claim (SP 800-63-3: 4 levels, little to very high)", d: "The assurance level is how much confidence the system needs that a person is who they claim. SP 800-63-3 defines four levels from little confidence to very high confidence, matched to how damaging a wrong decision would be." },
+      { t: "Areas of risk: where in the system authentication risk applies", d: "Areas of risk are the places in the system where wrong authentication would cause harm. You assess these first so you know which assurance level to require." },
       { t: "Potential impact (FIPS 199): Low / Moderate / High if authentication fails", d: "Impact categories include inconvenience or reputation, financial loss, harm to programs, unauthorised release of sensitive information, personal safety, civil or criminal violations.", g: "add", r: "CH3 Table 3.2", n: "Categories read from the Table 3.2 slide." }
     ]},
     { t: "Password attacks", mn: "Combinations = (alphabet size) ^ (length)", items: [
-      { t: "Offline dictionary attack: steal the password file, try words offline" },
-      { t: "Guessing against one user: birthday, pet names" },
+      { t: "Offline dictionary attack: steal the password file, try words offline", d: "In an offline dictionary attack, the attacker steals the password file and then tries every word in a list against the hashes on their own machine. Nothing is logged and there is no lockout." },
+      { t: "Guessing against one user: birthday, pet names", d: "Targeting one known user, the attacker guesses using personal information such as birthdays, pet names or family names that people often use as passwords." },
       { t: "Brute force: every combination", d: "Worked example: 52 letters (a-z, A-Z) over 8 characters = 52^8 = 53,459,728,531,456, about 5.3 × 10^13 combinations. Adding digits (62 characters) makes it 62^8, about 2.2 × 10^14.", g: "gen", n: "Arithmetic checked in code. The 52^8 case is the friend's example; the 62-character case is mine." },
       { t: "Bigger alphabet and longer length hugely raise cracking time", d: "Length is the stronger lever because it is the exponent." }
     ]},
     { t: "Salting", mn: "Salt + password, THEN hash", items: [
-      { t: "UNIX: a random salt is combined with the password BEFORE hashing; the entry stores salt + hash" },
+      { t: "UNIX: a random salt is combined with the password BEFORE hashing; the entry stores salt + hash", d: "On UNIX a random salt is added to the password before hashing. The stored entry holds the salt and the hash, so two users with the same password get different hashes." },
       { t: "Identical passwords hash DIFFERENTLY", d: "Two users with 'letmein' get different stored values, so cracking one does not crack the other." },
-      { t: "Defeats rainbow tables: the attacker would need one table per possible salt" },
-      { t: "Does NOT stop brute force against a single account" },
-      { t: "Rainbow table = precomputed hash → password lookup" }
+      { t: "Defeats rainbow tables: the attacker would need one table per possible salt", d: "A salt defeats rainbow tables because each possible salt would need its own precomputed table, which makes the tables too big to build." },
+      { t: "Does NOT stop brute force against a single account", d: "Salting only makes bulk precomputation useless. An attacker can still brute force one specific account by trying passwords with its salt." },
+      { t: "Rainbow table = precomputed hash → password lookup", d: "A rainbow table is a huge precomputed list that maps hashes back to passwords, so cracking becomes a quick lookup. Salting is the defence." }
     ]},
     { t: "Protecting passwords", mn: "Hide the file, check passwords up front", items: [
-      { t: "Password file access control: readable by privileged users only (shadow password file)" },
-      { t: "Proactive checking: rule enforcement (composition rules)" },
-      { t: "Proactive checking: dictionary checker (large do-not-use list)" },
+      { t: "Password file access control: readable by privileged users only (shadow password file)", d: "The hashed passwords are kept in a shadow file that only privileged users can read, so ordinary users cannot copy it for an offline attack." },
+      { t: "Proactive checking: rule enforcement (composition rules)", d: "Proactive checking rejects a weak password at the moment it is chosen. One method is enforcing composition rules such as minimum length and character mix." },
+      { t: "Proactive checking: dictionary checker (large do-not-use list)", d: "Another proactive check compares the new password to a big list of known words and common passwords and refuses any match." },
       { t: "Proactive checking: Bloom filter, a space-efficient hash table of bad passwords", d: "It can say 'definitely not on the list' or 'probably on the list', so a good password is never rejected for being on a list it is not on, and checking is fast and small.", g: "gen", n: "Bloom filter behaviour is general computer science; the slides only name it as a space-efficient bad-password check." }
     ]},
     { t: "Token-based", mn: "Memory card stores. Smart card computes.", items: [
-      { t: "Memory card: stores but does NOT process (magnetic stripe, hotel key)" },
-      { t: "Smart card or token: has an embedded MICROPROCESSOR (processor, memory, I/O)" },
-      { t: "Smart card protocols: static, dynamic password generator, challenge-response" },
-      { t: "Smart card memory: ROM (permanent), EEPROM (programs and app data), RAM (working data)" },
-      { t: "eID card: a smart card used as a national ID with government-verified identity" }
+      { t: "Memory card: stores but does NOT process (magnetic stripe, hotel key)", d: "A memory card can store data but has no processor to compute or decide anything. A magnetic stripe card or hotel key is an example, and it can be copied easily." },
+      { t: "Smart card or token: has an embedded MICROPROCESSOR (processor, memory, I/O)", d: "A smart card contains a microprocessor with its own memory and I/O, so it can perform computations such as challenge-response. This makes it much harder to clone." },
+      { t: "Smart card protocols: static, dynamic password generator, challenge-response", d: "Smart cards authenticate in three ways: a static password sent to the reader, a dynamic password that changes every time, or challenge-response where the card answers a random challenge using a key." },
+      { t: "Smart card memory: ROM (permanent), EEPROM (programs and app data), RAM (working data)", d: "ROM holds fixed data and the card's operating system and cannot be changed. EEPROM holds programs and application data that can be updated. RAM is temporary working memory." },
+      { t: "eID card: a smart card used as a national ID with government-verified identity", d: "An eID card is a smart card used as an official national identity document. The government has verified the holder's identity, so it gives high assurance." }
     ]},
     { t: "Biometrics", mn: "Enrol once, verify every time", items: [
-      { t: "Authenticates UNIQUE physical characteristics by pattern recognition; more complex and expensive" },
-      { t: "Face, fingerprint, hand geometry, retina, iris, signature, voice" },
-      { t: "Enrollment: capture and store a template" },
-      { t: "Verification: capture again and compare to the template" },
-      { t: "Needs a PHYSICAL scanner present" }
+      { t: "Authenticates UNIQUE physical characteristics by pattern recognition; more complex and expensive", d: "Biometrics identify you by unique physical features using pattern recognition. They are harder to lose or share than passwords, but are more complex and costly and cannot be changed if stolen." },
+      { t: "Face, fingerprint, hand geometry, retina, iris, signature, voice", d: "Common biometric traits are face, fingerprint, hand geometry, retina, iris, signature and voice. They differ in accuracy and cost." },
+      { t: "Enrollment: capture and store a template", d: "Enrollment is the first step. The system captures the person's biometric and stores a template, a mathematical summary of it." },
+      { t: "Verification: capture again and compare to the template", d: "In verification the person provides the biometric again, and the system compares it to the stored template. A match within a threshold means success." },
+      { t: "Needs a PHYSICAL scanner present", d: "Biometrics require a physical scanner at the point of access, so they do not work well for remote logins over the Internet." }
     ]},
     { t: "Remote authentication", mn: "Challenge-response beats replay", items: [
-      { t: "Information travels across a network, so there is extra risk" },
-      { t: "Threats: eavesdropping, password capture, REPLAY of a seen sequence" },
+      { t: "Information travels across a network, so there is extra risk", d: "In remote authentication the credentials cross a network, so attackers get extra chances to intercept them compared with logging in at a local machine." },
+      { t: "Threats: eavesdropping, password capture, REPLAY of a seen sequence", d: "The threats are eavesdropping (watching the traffic), password capture, and replay, where the attacker records a valid login and sends it again later. Challenge-response with fresh nonces defends against replay." },
       { t: "Defence: challenge-response. The server sends a changing challenge so an old response cannot be reused", d: "Because the challenge is different each time, a recorded reply is useless." }
     ]},
     { t: "Summary & exam note", mn: "Pracs 1-3 concepts are examinable", items: [
-      { t: "Identification = claim. Authentication = proof. KNOW / HAVE / ARE / DO" },
-      { t: "Passwords: salted + hashed + protected file + proactive checks" },
+      { t: "Identification = claim. Authentication = proof. KNOW / HAVE / ARE / DO", d: "Identification is the claim and authentication is the proof. The proof comes from what you know, have, are or do." },
+      { t: "Passwords: salted + hashed + protected file + proactive checks", d: "Good password protection combines four things: salted hashes, a protected password file, and proactive checks to stop weak choices." },
       { t: "Practical concepts (Pracs 1-3) are examinable", d: "Taken from the friend's lecture notes on the semester test scope." }
     ]}
   ]
@@ -654,64 +654,64 @@ CHAPTERS.push({
   mn: "DAC = owner's discretion. MAC = central labels. RBAC = job role. ABAC = attributes and context.",
   br: [
     { t: "What is access control?", mn: "Authenticate FIRST, then access control decides WHAT you may do", items: [
-      { t: "NISTIR 7298: granting or denying requests to (1) obtain and use information and services, (2) enter physical facilities" },
-      { t: "RFC 4949: use of resources regulated by a security policy, permitted only to authorised entities" },
-      { t: "Authenticate first, then access control decides what you may do" },
-      { t: "Policy is defined, but ultimately set by a human" },
-      { t: "Auditing feeds digital forensics" }
+      { t: "NISTIR 7298: granting or denying requests to (1) obtain and use information and services, (2) enter physical facilities", d: "NISTIR 7298 defines access control as the process of granting or denying requests to do two things: get and use information and services, and enter physical places such as buildings." },
+      { t: "RFC 4949: use of resources regulated by a security policy, permitted only to authorised entities", d: "RFC 4949 defines it as controlling the use of system resources according to a security policy, so that only authorised entities (users, programs, processes, other systems) can use them." },
+      { t: "Authenticate first, then access control decides what you may do", d: "Authentication comes first and access control second. First the system works out who you are, then it decides what that identity may do." },
+      { t: "Policy is defined, but ultimately set by a human", d: "The access control policy is a set of rules that someone decides. Tools only enforce it, so a person ultimately has to decide who gets access to what." },
+      { t: "Auditing feeds digital forensics", d: "Auditing records who did what. Those logs are what investigators use in digital forensics to reconstruct an incident." }
     ]},
     { t: "The four models", mn: "DAC, MAC, RBAC, ABAC", items: [
       { t: "DAC: identity plus access rules; the OWNER decides who gets access", d: "Typical example: UNIX file permissions. Flexible, but a careless owner can give away too much." },
       { t: "MAC: security LABELS compared against CLEARANCES; a central authority decides (military)", d: "Users cannot change the labels on their own files. Nested levels, with higher clearance able to read lower labels.", g: "fix", n: "The friend named the levels 'Top Secret > Secret > Private > Public'. Those exact names are not on the slides. Treat them as an illustration of the idea of ordered levels, not as examinable wording." },
-      { t: "RBAC: access based on the ROLE in the organisation" },
+      { t: "RBAC: access based on the ROLE in the organisation", d: "In RBAC, permissions are attached to a job role, such as Teller or Manager, and users get access by being given a role. It matches how organisations are structured." },
       { t: "ABAC: attributes of the user, the resource and the environment", d: "Example: allow access only during business hours, from a company device, for someone in the right department." }
     ]},
     { t: "Subjects, objects, rights", mn: "ACL per OBJECT. Capability list per SUBJECT.", items: [
-      { t: "Subject: an entity able to access objects (a user, a process)" },
-      { t: "Object: a resource whose access is controlled (a file)" },
-      { t: "Access right: HOW a subject may access an object (read, write, execute, own)" },
+      { t: "Subject: an entity able to access objects (a user, a process)", d: "A subject is the active entity that tries to access something, such as a user or a running process." },
+      { t: "Object: a resource whose access is controlled (a file)", d: "An object is the thing being accessed and protected, such as a file, record or device." },
+      { t: "Access right: HOW a subject may access an object (read, write, execute, own)", d: "An access right is what a subject is allowed to do to an object, for example read, write, execute or own." },
       { t: "Access matrix: subjects as rows, objects as columns", d: "Reading a COLUMN gives the ACL for that object (who can access THIS file). Reading a ROW gives that subject's capability list (what can THIS user access)." },
-      { t: "ACL is stored per OBJECT. Capability list is stored per SUBJECT" },
-      { t: "Extended matrix adds processes and disk drives as subjects/objects; rights can include a copy flag" }
+      { t: "ACL is stored per OBJECT. Capability list is stored per SUBJECT", d: "The same access matrix can be stored two ways. Reading down a column gives an access control list (ACL), kept with the object. Reading across a row gives a capability list, kept with the subject." },
+      { t: "Extended matrix adds processes and disk drives as subjects/objects; rights can include a copy flag", d: "The extended access matrix treats processes and disk drives as subjects and objects too, and adds rights such as a copy flag that lets a subject pass on its own right." }
     ]},
     { t: "UNIX file access control", mn: "inode, owner/group/other, r/w/x", items: [
-      { t: "Files are managed via inodes (attributes, permissions, control info)" },
+      { t: "Files are managed via inodes (attributes, permissions, control info)", d: "UNIX stores each file's attributes, permissions and control information in an inode. The inode, not the filename, is what the system uses to manage access." },
       { t: "One inode = one file; many names can point to one inode", d: "That is how hard links work." },
-      { t: "Directories are a tree of filenames plus inode pointers" },
-      { t: "Traditional: user ID + group ID + 12 protection bits (r/w/x for owner, group, other)" },
-      { t: "Modern UNIX: ACLs (setfacl) for fine-grained rules" }
+      { t: "Directories are a tree of filenames plus inode pointers", d: "A directory is a file that lists filenames and the inode each one points to. Directories form a tree, with access controlled the same way as files." },
+      { t: "Traditional: user ID + group ID + 12 protection bits (r/w/x for owner, group, other)", d: "Traditional UNIX permissions use the file's owner ID and group ID plus 12 protection bits. The main nine are read, write and execute for owner, group and everyone else (other)." },
+      { t: "Modern UNIX: ACLs (setfacl) for fine-grained rules", d: "Modern UNIX also supports ACLs, set with setfacl, so you can give rights to specific named users or groups beyond the basic owner, group and other." }
     ]},
     { t: "RBAC", mn: "Rights attach to the job, not the person", items: [
-      { t: "Rights are granted to ROLES; users are assigned to roles" },
-      { t: "A job change means changing only the role assignment" },
+      { t: "Rights are granted to ROLES; users are assigned to roles", d: "In role-based access control the rights belong to roles, and users are linked to roles. A user gets exactly the rights of the roles they hold." },
+      { t: "A job change means changing only the role assignment", d: "RBAC makes admin easy. When someone changes job you change their role assignment, instead of editing the permissions on every resource." },
       { t: "Users ↔ Roles ↔ Permissions is many-to-many", d: "Fig 4.7 shows this as two matrices: users against roles, then roles against objects (and roles can also be given rights over other roles, such as owner or control).", r: "CH4 S24", g: "add", n: "Fig 4.7 viewed in the slide image." }
     ]},
     { t: "ABAC", mn: "Flexible and expressive; slower to evaluate", items: [
-      { t: "Strength: flexible and expressive. Obstacle: performance overhead of evaluating attribute predicates" },
-      { t: "Subject attributes: identifier, name, organisation, job title, role" },
-      { t: "Object attributes: ownership, service taxonomy, QoS" },
-      { t: "Environment attributes: date/time, threat level, network type" },
-      { t: "XACML: the standard for expressing ABAC policies (web services)" }
+      { t: "Strength: flexible and expressive. Obstacle: performance overhead of evaluating attribute predicates", d: "ABAC is flexible and can express very detailed policies, but evaluating many attribute conditions for every request costs performance." },
+      { t: "Subject attributes: identifier, name, organisation, job title, role", d: "Subject attributes describe the requester: ID, name, organisation, job title, role." },
+      { t: "Object attributes: ownership, service taxonomy, QoS", d: "Object attributes describe the resource: who owns it, what type of service it belongs to, QoS settings." },
+      { t: "Environment attributes: date/time, threat level, network type", d: "Environment attributes describe the context of the request: time of day, current threat level, type of network. This is what lets ABAC make context-sensitive decisions." },
+      { t: "XACML: the standard for expressing ABAC policies (web services)", d: "XACML is the standard XML-based language for writing ABAC policies, mostly used with web services." }
     ]},
     { t: "ICAM", mn: "Sponsor → Enroll → Produce → Issue → Maintain", items: [
-      { t: "US-government approach: create digital identities, give them credentials, use them to grant authorised access" },
-      { t: "Identity management: attributes bound to a digital identity linked to a real person or an NPE (non-person entity); trustworthy and independent of any one application" },
-      { t: "Credential management, step 1 Sponsorship: an authorised person sponsors the credential" },
-      { t: "Step 2 Enrollment: identity proofing, capture of biographic/biometric data" },
-      { t: "Step 3 Credential production: encryption, digital signature, smart card creation" },
-      { t: "Step 4 Issuance: the credential is given to the individual or NPE" },
-      { t: "Step 5 Maintenance: revocation, reissuance, expiry, PIN reset, suspension" },
-      { t: "Credentials include smart cards, key pairs and digital certificates" },
+      { t: "US-government approach: create digital identities, give them credentials, use them to grant authorised access", d: "ICAM is how the US government manages access: give each person a digital identity, issue credentials bound to it, then use those to grant authorised access to systems." },
+      { t: "Identity management: attributes bound to a digital identity linked to a real person or an NPE (non-person entity); trustworthy and independent of any one application", d: "Identity management attaches attributes to a digital identity that links to a real person or to a non-person entity (NPE) such as a device or service. It must be trustworthy and not depend on one application." },
+      { t: "Credential management, step 1 Sponsorship: an authorised person sponsors the credential", d: "Step 1 of credential management is sponsorship: an authorised person vouches that the individual should get a credential." },
+      { t: "Step 2 Enrollment: identity proofing, capture of biographic/biometric data", d: "Step 2 is enrollment: the person's identity is proofed, and biographic or biometric data is captured." },
+      { t: "Step 3 Credential production: encryption, digital signature, smart card creation", d: "Step 3 is credential production: the credential is actually created, for example by encrypting data, applying a digital signature and making the smart card." },
+      { t: "Step 4 Issuance: the credential is given to the individual or NPE", d: "Step 4 is issuance: the finished credential is handed to the person or NPE." },
+      { t: "Step 5 Maintenance: revocation, reissuance, expiry, PIN reset, suspension", d: "Step 5 is maintenance: managing it through its life, including revocation, reissue, expiry, PIN resets and suspension." },
+      { t: "Credentials include smart cards, key pairs and digital certificates", d: "Credentials are the things used to prove identity. Examples are smart cards, cryptographic key pairs and digital certificates." },
       { t: "Access management has 3 elements: resource management, privilege management, policy management", d: "Resource management = rules for accessing a resource. Privilege management = maintains entitlement/privilege attributes. Policy management = what is allowable or unallowable in a transaction." }
     ]},
     { t: "Identity federation", mn: "One organisation trusts identities issued by another", items: [
-      { t: "Solves how to trust identities from EXTERNAL organisations on YOUR systems" },
-      { t: "Solves how to vouch for YOUR people at external organisations" },
-      { t: "Frameworks named in the slides: OpenID, OITF, OIDF, ICF, OIX, AXN" }
+      { t: "Solves how to trust identities from EXTERNAL organisations on YOUR systems", d: "Identity federation lets your systems trust identities that were issued by another organisation, so outside users do not need separate accounts with you." },
+      { t: "Solves how to vouch for YOUR people at external organisations", d: "The other direction: your own staff can use their identity at external organisations, which vouch for them based on your assertion." },
+      { t: "Frameworks named in the slides: OpenID, OITF, OIDF, ICF, OIX, AXN", d: "The slides name these identity federation frameworks and groups: OpenID, OITF, OIDF, ICF, OIX and AXN. Just recognise the names." }
     ]},
     { t: "Summary lines", mn: "Models at a glance", items: [
-      { t: "DAC = owner's discretion | MAC = central labels | RBAC = job role | ABAC = attributes + context" },
-      { t: "ACL per object; capability list per subject" }
+      { t: "DAC = owner's discretion | MAC = central labels | RBAC = job role | ABAC = attributes + context", d: "Quick comparison: DAC lets the owner decide, MAC uses central labels, RBAC uses job roles, and ABAC uses attributes plus context." },
+      { t: "ACL per object; capability list per subject", d: "An ACL is stored with each object and lists who may access it. A capability list is stored with each subject and lists what it may access." }
     ]}
   ]
 });
@@ -721,67 +721,67 @@ CHAPTERS.push({
   mn: "SQLi: terminate the string, append a command, comment out the rest. Data centers: Data, Network, Physical, Site.",
   br: [
     { t: "Database background", mn: "Relation = table, tuple = row, attribute = column", items: [
-      { t: "Database: a structured data collection that stores RELATIONSHIPS too" },
-      { t: "DBMS: programs to build and maintain the database; ad hoc queries for many users" },
-      { t: "DBMS parts: DDL processor, DML/query processor, authorisation table, file manager" },
-      { t: "Relational database: tables of rows and columns linked by a shared key, queried with SQL" },
-      { t: "Primary key uniquely identifies a row; foreign key links tables" },
-      { t: "View: a query result used for SECURITY, because it limits what a user sees" }
+      { t: "Database: a structured data collection that stores RELATIONSHIPS too", d: "A database is an organised collection of data that also records the relationships between the data, so it is more than a pile of files." },
+      { t: "DBMS: programs to build and maintain the database; ad hoc queries for many users", d: "A DBMS is the software used to create and maintain the database. It lets many users query the data, including with ad hoc queries." },
+      { t: "DBMS parts: DDL processor, DML/query processor, authorisation table, file manager", d: "The DBMS has four parts you should name: the DDL processor (defines structure), the DML/query processor (handles queries), the authorisation table (who may do what) and the file manager." },
+      { t: "Relational database: tables of rows and columns linked by a shared key, queried with SQL", d: "A relational database stores data in tables made of rows and columns. Tables are linked through a shared key and queried using SQL." },
+      { t: "Primary key uniquely identifies a row; foreign key links tables", d: "A primary key uniquely identifies each row in a table. A foreign key is a column that holds another table's primary key, which links the two tables." },
+      { t: "View: a query result used for SECURITY, because it limits what a user sees", d: "A view is a saved query result that behaves like a table. It is a security tool because it shows a user only the columns and rows they are allowed to see." }
     ]},
     { t: "SQL injection (SQLi)", mn: "Terminate the string, append a command, end with --", items: [
-      { t: "Malicious SQL hidden in normal-looking input; the usual goal is BULK DATA extraction" },
+      { t: "Malicious SQL hidden in normal-looking input; the usual goal is BULK DATA extraction", d: "SQL injection hides malicious SQL inside input that looks normal, so the database runs the attacker's commands. The usual goal is to pull out large amounts of data." },
       { t: "Technique: prematurely TERMINATE a string, append a command, end with a -- comment", d: "The comment marker throws away whatever the programmer wrote after your input, such as the closing quote or a password check." },
-      { t: "Avenues: user input, server variables (forged headers), second-order injection (stored, triggered later), cookies, physical user input" }
+      { t: "Avenues: user input, server variables (forged headers), second-order injection (stored, triggered later), cookies, physical user input", d: "SQLi can enter through user input, server variables (such as forged HTTP headers), cookies, and physical input. Second-order injection stores the payload first and it runs later when the data is used." }
     ]},
     { t: "Three types of SQLi", mn: "In-band, Inferential, Out-of-band", items: [
       { t: "In-band: the same channel is used to inject AND get results", d: "Tautology, end-of-line comment, piggybacked queries." },
       { t: "Inferential: no data is transferred; the attacker reconstructs information from server behaviour", d: "Illegal or incorrect queries, and blind SQLi." },
-      { t: "Out-of-band: data is retrieved through a DIFFERENT channel (for example, emailed out)" }
+      { t: "Out-of-band: data is retrieved through a DIFFERENT channel (for example, emailed out)", d: "In out-of-band SQLi the data comes back through a different channel than the one used to send the attack, for example the database emails it or makes a DNS request to the attacker." }
     ]},
     { t: "SQLi countermeasures", mn: "Defensive coding, detection, run-time prevention", items: [
-      { t: "Defensive coding: manual secure coding, signature/anomaly detection, code analysis, data-type validation and escaping" },
-      { t: "Detection: check queries at run time against EXPECTED structures" },
+      { t: "Defensive coding: manual secure coding, signature/anomaly detection, code analysis, data-type validation and escaping", d: "Defensive coding means writing code that does not trust input: secure coding practices, detecting signatures or anomalies, code analysis, and validating and escaping data types." },
+      { t: "Detection: check queries at run time against EXPECTED structures", d: "Detection means checking each SQL query as it runs and comparing it against the structure expected for that application. A query with extra clauses is flagged." },
       { t: "Run-time prevention: block or alter suspicious queries", d: "Prepared statements are the standard coding fix and are covered again in Chapter 11.", g: "gen", n: "Linking to Chapter 11's prepared statements is my cross-reference." }
     ]},
     { t: "Database access control", mn: "GRANT and REVOKE", items: [
-      { t: "Ownership-based: the creator of a table grants and revokes rights" },
-      { t: "Decentralised: the owner lets others grant and revoke on their behalf" },
-      { t: "GRANT (can allow re-grant) and REVOKE" },
-      { t: "Rights: SELECT, INSERT, UPDATE, DELETE, REFERENCES" },
+      { t: "Ownership-based: the creator of a table grants and revokes rights", d: "In ownership-based access control the creator of a table owns it and decides who may have rights to it, and can take them away." },
+      { t: "Decentralised: the owner lets others grant and revoke on their behalf", d: "Decentralised administration lets the owner delegate the power to grant and revoke rights to other users." },
+      { t: "GRANT (can allow re-grant) and REVOKE", d: "GRANT gives a user rights on a table, and can include permission to pass the right on to others. REVOKE removes rights." },
+      { t: "Rights: SELECT, INSERT, UPDATE, DELETE, REFERENCES", d: "The rights that can be granted are SELECT (read), INSERT (add rows), UPDATE (change), DELETE (remove) and REFERENCES (use a column as a foreign key)." },
       { t: "Cascading revocation: a grant stays valid only if the granter still holds the right through a valid, earlier grant (or is the owner)", d: "Method: for each remaining grant G→H at time t, check that G is the owner or still holds the right through a valid grant with an EARLIER timestamp. Remove grants that fail. Repeat until nothing changes.", g: "gen", n: "This rule is my own assumption, not stated on the slides. It matched all 5 revocation scenarios in the semester test when checked, but confirm against your lecturer's wording." }
     ]},
     { t: "Roles in databases", mn: "Owner, end user, administrator", items: [
-      { t: "Application owner: owns the DB objects of an application" },
-      { t: "End user: operates through an application and owns nothing" },
-      { t: "Administrator: responsible for part or all of the database" },
-      { t: "MS SQL Server fixed roles: sysadmin, securityadmin, db_owner, db_datareader / db_datawriter, db_denydatareader / db_denydatawriter" }
+      { t: "Application owner: owns the DB objects of an application", d: "The application owner is the user who owns the database objects (tables, views) that belong to an application." },
+      { t: "End user: operates through an application and owns nothing", d: "An end user works with the data only through the application and owns no objects." },
+      { t: "Administrator: responsible for part or all of the database", d: "An administrator is responsible for managing part or all of the database." },
+      { t: "MS SQL Server fixed roles: sysadmin, securityadmin, db_owner, db_datareader / db_datawriter, db_denydatareader / db_denydatawriter", d: "SQL Server has built-in fixed roles: sysadmin (everything), securityadmin (manage logins and permissions), db_owner (full control of one database), reader and writer roles for data, and deny roles that block reading or writing." }
     ]},
     { t: "Inference", mn: "Allowed queries combined reveal forbidden data", items: [
-      { t: "Inference: figuring out forbidden data by combining the results of several ALLOWED queries" },
-      { t: "Detection during DB design: change the structure or access control up front; often too strict and lowers availability" },
-      { t: "Detection at query time: detect the violation as queries run and deny or alter them; more flexible, harder to build" }
+      { t: "Inference: figuring out forbidden data by combining the results of several ALLOWED queries", d: "Inference is working out information you are not allowed to see by combining the answers of several queries that you are allowed to run." },
+      { t: "Detection during DB design: change the structure or access control up front; often too strict and lowers availability", d: "Detection at design time restructures the database or tightens access control up front so inference is impossible. It is often too strict and lowers availability." },
+      { t: "Detection at query time: detect the violation as queries run and deny or alter them; more flexible, harder to build", d: "Detection at query time watches queries as they run and refuses or modifies any that would reveal forbidden data. It is more flexible but harder to build." }
     ]},
     { t: "Database encryption", mn: "The last line of defence", items: [
-      { t: "A database is the richest, most concentrated target; encryption is an important LAST line of defence" },
-      { t: "Challenge: key management overhead (many keys)" },
-      { t: "Challenge: inflexibility, since searching and indexing get harder" },
-      { t: "Searching encrypted data means decrypting first (costly); an index over encrypted data helps" }
+      { t: "A database is the richest, most concentrated target; encryption is an important LAST line of defence", d: "The database holds the richest concentrated data, so encryption is an important last line of defence if everything else fails." },
+      { t: "Challenge: key management overhead (many keys)", d: "Key management is hard because there may be many keys to generate, store and distribute." },
+      { t: "Challenge: inflexibility, since searching and indexing get harder", d: "Encryption is inflexible because encrypted data cannot be easily searched or indexed." },
+      { t: "Searching encrypted data means decrypting first (costly); an index over encrypted data helps", d: "To search encrypted data you would have to decrypt it first, which is costly. An index built over the encrypted data speeds this up." }
     ]},
     { t: "Data center security", mn: "Data, Network, Physical, Site", items: [
-      { t: "Data center: an enterprise facility (room to building) housing IT infrastructure (cloud, search engines, research)" },
+      { t: "Data center: an enterprise facility (room to building) housing IT infrastructure (cloud, search engines, research)", d: "A data center is a facility, from one room to a whole building, that holds IT infrastructure such as cloud services and search engines." },
       { t: "Layered model, Fig 5.12: Data, Network, Physical, Site", f: "layers", g: "fix", r: "CH5 Fig 5.12", n: "The friend's second layer was 'Application'. The slide figure says Network." },
-      { t: "Data layer: encryption, password policy, masking, retention (ISO 27002)" },
-      { t: "Network layer: firewalls, anti-virus, IDS/IPS, authentication" },
-      { t: "Physical layer: surveillance, mantraps, 2/3-factor authentication, zones (ISO 27001/27002)" },
-      { t: "Site layer: setbacks, redundant utilities, buffer zones, crash barriers, controlled entry" },
-      { t: "TIA-942: minimum telecom infrastructure requirements (hosting, distribution, environmental control, cabling)" }
+      { t: "Data layer: encryption, password policy, masking, retention (ISO 27002)", d: "The data layer protects the data itself: encryption, password policy, masking and retention rules (ISO 27002)." },
+      { t: "Network layer: firewalls, anti-virus, IDS/IPS, authentication", d: "The network layer protects connections: firewalls, anti-virus, IDS/IPS and authentication." },
+      { t: "Physical layer: surveillance, mantraps, 2/3-factor authentication, zones (ISO 27001/27002)", d: "The physical layer controls entry to the building: surveillance, mantraps (a two-door entry), two or three-factor authentication and security zones (ISO 27001/27002)." },
+      { t: "Site layer: setbacks, redundant utilities, buffer zones, crash barriers, controlled entry", d: "The site layer is about the grounds: setbacks from the road, redundant utilities, buffer zones, crash barriers and controlled entry." },
+      { t: "TIA-942: minimum telecom infrastructure requirements (hosting, distribution, environmental control, cabling)", d: "TIA-942 is the standard for minimum telecom infrastructure of a data center, covering hosting, distribution, environmental control and cabling." }
     ]},
     { t: "Data center tiers", mn: "Higher tier = more redundancy = less downtime", items: [
       { t: "Table 5.4: tier, redundancy and yearly downtime", b: "t54", r: "CH5 Table 5.4", g: "add", n: "Percentages and downtime hours read from the slide image of Table 5.4." },
-      { t: "Tier 1: single path, no redundancy, shut down for maintenance" },
-      { t: "Tier 2: single path plus some redundant components" },
-      { t: "Tier 3: multiple paths, ONE active; maintenance without disruption" },
-      { t: "Tier 4: multiple ACTIVE paths; survives a worst-case event" }
+      { t: "Tier 1: single path, no redundancy, shut down for maintenance", d: "Tier 1 has a single path for power and cooling and no redundancy, so it must shut down for maintenance." },
+      { t: "Tier 2: single path plus some redundant components", d: "Tier 2 still has one path but adds some redundant components." },
+      { t: "Tier 3: multiple paths, ONE active; maintenance without disruption", d: "Tier 3 has multiple paths but only one is active at a time, so maintenance can be done without taking the data center down." },
+      { t: "Tier 4: multiple ACTIVE paths; survives a worst-case event", d: "Tier 4 has several active paths at once, so it keeps running even through the worst-case failure." }
     ]}
   ]
 });
@@ -791,83 +791,83 @@ CHAPTERS.push({
   mn: "Describe any malware with two questions: how does it SPREAD (propagation) and what does it DO (payload)?",
   br: [
     { t: "What is malware?", mn: "Propagation + Payload", items: [
-      { t: "NIST: a program inserted covertly to compromise the C-I-A of victim data, apps or OS, or just to annoy" },
-      { t: "Propagation: HOW it spreads (infect content, exploit vulnerabilities, social engineering)" },
-      { t: "Payload: WHAT it does (corrupt, make a bot, steal info, stay hidden)" }
+      { t: "NIST: a program inserted covertly to compromise the C-I-A of victim data, apps or OS, or just to annoy", d: "NIST defines malware as a program secretly inserted into a system to harm the confidentiality, integrity or availability of the victim's data, applications or OS, or just to annoy the victim." },
+      { t: "Propagation: HOW it spreads (infect content, exploit vulnerabilities, social engineering)", d: "Propagation is how the malware spreads: infecting content, exploiting vulnerabilities, or tricking users with social engineering." },
+      { t: "Payload: WHAT it does (corrupt, make a bot, steal info, stay hidden)", d: "The payload is what the malware does once it has arrived: corrupt data, turn the machine into a bot, steal information or hide itself." }
     ]},
     { t: "Classification & terms", mn: "Parasitic vs independent; replicates or not", items: [
-      { t: "Needs a HOST program (parasitic): virus. Independent: worm, trojan, bot" },
-      { t: "Replicates: virus, worm. Does NOT replicate: trojan, spam" },
-      { t: "Attack kit (Zeus, Angler, Metasploit): lets novices build malware" },
-      { t: "Downloader installs bigger malware. Exploit = code for one vulnerability" },
-      { t: "Logic bomb waits for a condition. Keylogger. Spyware" },
-      { t: "Zombie/bot attacks others on command. Flooder = DoS client" }
+      { t: "Needs a HOST program (parasitic): virus. Independent: worm, trojan, bot", d: "A virus needs a host program to attach to (it is parasitic). Worms, trojans and bots run on their own and are independent." },
+      { t: "Replicates: virus, worm. Does NOT replicate: trojan, spam", d: "Viruses and worms replicate (make copies of themselves). Trojans and spam do not replicate and depend on the user to spread them." },
+      { t: "Attack kit (Zeus, Angler, Metasploit): lets novices build malware", d: "Attack kits such as Zeus, Angler and Metasploit let people with little skill build and launch malware." },
+      { t: "Downloader installs bigger malware. Exploit = code for one vulnerability", d: "A downloader's job is to install other, larger malware. An exploit is code written to abuse one specific vulnerability." },
+      { t: "Logic bomb waits for a condition. Keylogger. Spyware", d: "A logic bomb lies dormant until a condition is met. A keylogger records keystrokes. Spyware monitors what you do and reports it." },
+      { t: "Zombie/bot attacks others on command. Flooder = DoS client", d: "A zombie or bot is a compromised machine that attacks others when its controller commands it. A flooder is the DoS client that sends the flood traffic." }
     ]},
     { t: "APT (Advanced Persistent Threat)", mn: "Advanced, Persistent, Threat", items: [
-      { t: "Well-resourced, often state-sponsored; targets ONE organisation for a long time" },
-      { t: "Examples: Aurora, RSA, APT1, Stuxnet" },
-      { t: "Techniques: spear-phishing, drive-by downloads, watering hole" },
-      { t: "Aim: steal intellectual property or infrastructure data" },
+      { t: "Well-resourced, often state-sponsored; targets ONE organisation for a long time", d: "An advanced persistent threat is a well-funded, often state-backed attacker that targets one organisation and stays hidden for a long time." },
+      { t: "Examples: Aurora, RSA, APT1, Stuxnet", d: "Well-known APT examples are Aurora, RSA, APT1 and Stuxnet." },
+      { t: "Techniques: spear-phishing, drive-by downloads, watering hole", d: "Typical APT techniques are spear-phishing, drive-by downloads and watering hole attacks." },
+      { t: "Aim: steal intellectual property or infrastructure data", d: "The goal is usually stealing intellectual property or data about infrastructure, not quick financial gain." },
       { t: "Advanced = many tools. Persistent = never gives up. Threat = humans behind it", d: "A patient burglar casing ONE house." }
     ]},
     { t: "Viruses", mn: "Dormant, Propagation, Triggering, Execution: 'Dogs Prefer Treats Eagerly'", items: [
-      { t: "Infects a program by modifying it to include a copy of itself; runs when the host runs" },
-      { t: "3 components: infection mechanism, trigger (logic bomb), payload" },
-      { t: "4 phases: Dormant (idle), Propagation (copies itself), Triggering (event activates), Execution (payload runs)" },
+      { t: "Infects a program by modifying it to include a copy of itself; runs when the host runs", d: "A virus infects a program by modifying it to include a copy of itself, and spreads when the infected program is run." },
+      { t: "3 components: infection mechanism, trigger (logic bomb), payload", d: "A virus has three parts: an infection mechanism (how it spreads), a trigger (the condition that sets it off, like a logic bomb) and the payload (what it does)." },
+      { t: "4 phases: Dormant (idle), Propagation (copies itself), Triggering (event activates), Execution (payload runs)", d: "A virus goes through four phases: dormant (idle), propagation (it copies itself), triggering (an event activates it) and execution (the payload runs)." },
       { t: "By TARGET: boot sector, file infector, macro, multipartite", d: "Macro viruses infect DOCUMENTS and are platform independent (Melissa, 1998)." },
-      { t: "By CONCEALMENT: encrypted, stealth, polymorphic, metamorphic" },
+      { t: "By CONCEALMENT: encrypted, stealth, polymorphic, metamorphic", d: "Viruses classified by how they hide: encrypted (scrambles its body), stealth (hides from the OS or scanner), polymorphic (changes its form each copy) and metamorphic (rewrites its whole code each time)." },
       { t: "Polymorphic mutates its APPEARANCE each infection. Metamorphic rewrites itself completely (code AND behaviour)", d: "Same person in new clothes vs a new person each time." }
     ]},
     { t: "Worms", mn: "A worm WALKS across networks. A virus HITCHHIKES in a file.", items: [
-      { t: "Runs independently and copies a COMPLETE version of itself across networks" },
-      { t: "Replication: email/IM, remote execution, remote login" },
+      { t: "Runs independently and copies a COMPLETE version of itself across networks", d: "A worm runs independently and copies a complete version of itself from machine to machine over a network, without needing a host program." },
+      { t: "Replication: email/IM, remote execution, remote login", d: "Worms replicate by email or instant messaging, by remote execution on another machine, or by remote login." },
       { t: "Target discovery: random (lots of traffic)", d: "Random IPs. Noisy." },
-      { t: "Target discovery: hit-list (fast, stealthy), topological (uses victim info such as address books), local subnet (behind a firewall, scans its own LAN)" },
-      { t: "Spread is an S-curve: slow start, fast spread, slow finish" },
+      { t: "Target discovery: hit-list (fast, stealthy), topological (uses victim info such as address books), local subnet (behind a firewall, scans its own LAN)", d: "Target discovery means how the worm finds new victims. Hit-list uses a pre-made list (fast and stealthy). Topological uses info on the victim such as address books. Local subnet scans its own LAN, which works from behind a firewall." },
+      { t: "Spread is an S-curve: slow start, fast spread, slow finish", d: "A worm's spread follows an S-curve: it starts slowly, then spreads very fast as the number of infected machines grows, then slows when most vulnerable hosts are infected." },
       { t: "Timeline: Morris 1988, Melissa 1998, Code Red 2001, Nimda 2001, Slammer 2003, Mydoom 2004, Conficker 2008, Stuxnet 2010, WannaCry 2017", d: "Morris: UNIX, password cracking, finger bug, debug trapdoor in mail. Code Red: IIS buffer overflow. Slammer: SQL Server overflow, very fast. WannaCry: ransomware worm using an SMB flaw, with a kill switch. Mobile worms: Cabir 2004, Lasco, CommWarrior (Bluetooth/MMS)." }
     ]},
     { t: "Client-side attacks", mn: "Drive-by = any visitor. Watering hole = the target. Malvertising = the ad.", items: [
-      { t: "Mobile code: Java applets, ActiveX, JavaScript, VBScript; shipped unchanged to many platforms" },
-      { t: "Drive-by download: just visiting a page installs malware (browser or plugin flaw)" },
-      { t: "Watering hole: compromise the site YOUR TARGET visits, then wait" },
-      { t: "Malvertising: paid ads carrying malware on legitimate sites; the site itself is NOT compromised" },
-      { t: "Clickjacking: hidden frames, so you click what you cannot see" },
-      { t: "Social engineering: tricking users (spam, trojans)" }
+      { t: "Mobile code: Java applets, ActiveX, JavaScript, VBScript; shipped unchanged to many platforms", d: "Mobile code is a program that is sent unchanged to many platforms and runs there, such as Java applets, ActiveX, JavaScript and VBScript. Attackers use it to run malware." },
+      { t: "Drive-by download: just visiting a page installs malware (browser or plugin flaw)", d: "In a drive-by download, simply visiting a web page installs malware, using a flaw in the browser or a plugin. The user does not click anything." },
+      { t: "Watering hole: compromise the site YOUR TARGET visits, then wait", d: "In a watering hole attack, the attacker compromises a site that their target is known to visit, and waits for the target to arrive." },
+      { t: "Malvertising: paid ads carrying malware on legitimate sites; the site itself is NOT compromised", d: "Malvertising places malware in paid adverts shown on legitimate sites. The site itself is not compromised, only the ad content." },
+      { t: "Clickjacking: hidden frames, so you click what you cannot see", d: "Clickjacking uses hidden frames so that when you click what looks like a normal button, you are actually clicking something else on a page you cannot see." },
+      { t: "Social engineering: tricking users (spam, trojans)", d: "Social engineering tricks people into helping the attack, for example via spam or a trojan that looks like useful software." }
     ]},
     { t: "Payload: corruption", mn: "Ransomware, BIOS damage, logic bombs", items: [
-      { t: "Ransomware encrypts files and demands payment (WannaCry); backups are the recovery" },
-      { t: "Chernobyl virus rewrites the BIOS, which means physical damage" },
-      { t: "Stuxnet: industrial sabotage" },
-      { t: "Logic bomb explodes when a condition is met" }
+      { t: "Ransomware encrypts files and demands payment (WannaCry); backups are the recovery", d: "Ransomware encrypts the victim's files and demands payment for the key, as WannaCry did. Backups are the best way to recover without paying." },
+      { t: "Chernobyl virus rewrites the BIOS, which means physical damage", d: "The Chernobyl virus rewrote the BIOS, making machines unbootable, which counts as physical damage because the hardware had to be repaired." },
+      { t: "Stuxnet: industrial sabotage", d: "Stuxnet was malware that sabotaged industrial equipment (Iranian centrifuges) rather than stealing data." },
+      { t: "Logic bomb explodes when a condition is met", d: "A logic bomb sits idle until a set condition is met (such as a date or a user being removed) and then damages data or systems." }
     ]},
     { t: "Payload: bots & zombies", mn: "Remote control is what separates a bot from a worm", items: [
-      { t: "A bot takes over an Internet computer to launch attacks; a botnet is a coordinated collection of bots" },
-      { t: "Uses: DDoS, spam, sniffing, keylogging, spreading malware, adware, manipulating polls and games" },
-      { t: "Remote control: IRC channel commands (classic), HTTP covert channels, P2P (no single point of failure)" }
+      { t: "A bot takes over an Internet computer to launch attacks; a botnet is a coordinated collection of bots", d: "A bot is a compromised Internet computer that an attacker controls remotely. A botnet is a group of bots that the attacker coordinates." },
+      { t: "Uses: DDoS, spam, sniffing, keylogging, spreading malware, adware, manipulating polls and games", d: "Botnets are used for DDoS, spam, sniffing traffic, keylogging, spreading more malware, showing adware and manipulating online polls and games." },
+      { t: "Remote control: IRC channel commands (classic), HTTP covert channels, P2P (no single point of failure)", d: "A botnet is controlled remotely via IRC channel commands (the classic way), covert channels hidden in HTTP, or P2P networks, which have no single point of failure." }
     ]},
     { t: "Payload: information theft", mn: "Phishing = net. Spear-phishing = spear.", items: [
-      { t: "Keylogger: captures keystrokes and filters for 'login' or 'password'" },
-      { t: "Spyware: monitors browsing and redirects to fake sites" },
-      { t: "Phishing: spam email pointing to a fake bank or login site" },
-      { t: "Spear-phishing: researched, personalised email to one person" }
+      { t: "Keylogger: captures keystrokes and filters for 'login' or 'password'", d: "A keylogger captures every keystroke and filters for useful strings such as when you type 'login' or 'password'." },
+      { t: "Spyware: monitors browsing and redirects to fake sites", d: "Spyware monitors your browsing and can redirect you to fake sites to collect your information." },
+      { t: "Phishing: spam email pointing to a fake bank or login site", d: "Phishing is bulk spam email that links to a fake bank or login page so victims enter their credentials." },
+      { t: "Spear-phishing: researched, personalised email to one person", d: "Spear-phishing is the targeted version: an email researched and personalised for one individual so it looks genuine." }
     ]},
     { t: "Payload: stealthing", mn: "Backdoor = hidden door in. Rootkit = hidden room and cloak once inside.", items: [
-      { t: "Backdoor (trapdoor): a secret entry that bypasses security" },
-      { t: "Maintenance hook: a backdoor used by programmers to debug" },
-      { t: "Rootkit: HIDDEN tools installed after root access; hides processes, files, registry" },
-      { t: "Rootkit classes: persistent (survives reboot), memory-based (RAM only), user mode (intercepts APIs), kernel mode (alters the system call table, e.g. knark), virtual-machine based (thin hypervisor), external mode (BIOS / SMM)" }
+      { t: "Backdoor (trapdoor): a secret entry that bypasses security", d: "A backdoor (trapdoor) is a hidden entry point that skips the normal security checks." },
+      { t: "Maintenance hook: a backdoor used by programmers to debug", d: "A maintenance hook is a backdoor that programmers left in on purpose to help debug, which can be abused if it stays in the product." },
+      { t: "Rootkit: HIDDEN tools installed after root access; hides processes, files, registry", d: "A rootkit is a set of hidden tools installed after the attacker gains root access. It hides processes, files and registry entries so that the intruder is not seen." },
+      { t: "Rootkit classes: persistent (survives reboot), memory-based (RAM only), user mode (intercepts APIs), kernel mode (alters the system call table, e.g. knark), virtual-machine based (thin hypervisor), external mode (BIOS / SMM)", d: "Rootkit types by where they live: persistent (survives reboots), memory-based (RAM only), user mode (intercepts API calls), kernel mode (modifies the system call table, e.g. knark), virtual-machine based (a thin hypervisor under the OS) and external mode (BIOS or SMM)." }
     ]},
     { t: "Countermeasures", mn: "Anti-virus generations: S-H-A-F", items: [
-      { t: "PREVENTION first: policy, awareness, vulnerability mitigation, threat mitigation" },
-      { t: "If prevention fails: detect → identify → remove" },
-      { t: "1st generation Signature scanners (known malware only)" },
-      { t: "2nd generation Heuristic (rules, checksums)" },
-      { t: "3rd generation Activity traps (watch ACTIONS)" },
-      { t: "4th generation Full-featured (all combined plus access control)" },
-      { t: "Sandbox analysis: run in an emulator and watch behaviour; good against polymorphic and metamorphic malware" },
-      { t: "Behaviour blocking: real-time monitoring. Con: the malware must RUN first, and false positives happen" },
-      { t: "Perimeter scanning: ingress monitors (enterprise ↔ Internet border) and egress monitors (LAN borders; honeypot-style traffic to unused IPs)" },
-      { t: "Practical 5: problem 6.2 (can program D decide whether a program is a virus?) and 6.3 (metamorphic code sequence, dummy instructions)" }
+      { t: "PREVENTION first: policy, awareness, vulnerability mitigation, threat mitigation", d: "Prevention is the best defence: policy, user awareness, patching vulnerabilities and reducing threats. It is much cheaper than cleaning up." },
+      { t: "If prevention fails: detect → identify → remove", d: "When prevention fails you work through three steps: detect the infection, identify which malware it is, then remove it." },
+      { t: "1st generation Signature scanners (known malware only)", d: "First generation scanners look for known signatures, so they only catch malware that is already known." },
+      { t: "2nd generation Heuristic (rules, checksums)", d: "Second generation scanners use heuristic rules and integrity checksums to find malware that has not been seen before." },
+      { t: "3rd generation Activity traps (watch ACTIONS)", d: "Third generation tools are activity traps that sit in memory and detect malware by the actions it performs, not by its code." },
+      { t: "4th generation Full-featured (all combined plus access control)", d: "Fourth generation tools combine all the earlier techniques plus access control." },
+      { t: "Sandbox analysis: run in an emulator and watch behaviour; good against polymorphic and metamorphic malware", d: "Sandbox analysis runs a suspect program in an emulated environment and watches what it does. This is useful against polymorphic and metamorphic malware that changes its code but not its behaviour." },
+      { t: "Behaviour blocking: real-time monitoring. Con: the malware must RUN first, and false positives happen", d: "Behaviour blocking monitors programs in real time and blocks harmful actions. The drawback is that the malware has to run first, and legitimate programs can be falsely blocked." },
+      { t: "Perimeter scanning: ingress monitors (enterprise ↔ Internet border) and egress monitors (LAN borders; honeypot-style traffic to unused IPs)", d: "Perimeter scanning checks at network borders. Ingress monitors watch traffic coming in from the Internet. Egress monitors watch traffic leaving LANs, and can use honeypot-style traffic to unused IP addresses." },
+      { t: "Practical 5: problem 6.2 (can program D decide whether a program is a virus?) and 6.3 (metamorphic code sequence, dummy instructions)", d: "Practical 5 covers two textbook problems: 6.2 on whether a program D can decide if another program is a virus, and 6.3 on metamorphic code with dummy instructions." }
     ]}
   ]
 });
@@ -878,67 +878,67 @@ CHAPTERS.push({
   mn: "DoS attacks AVAILABILITY by exhausting a resource: bandwidth, system tables, or the application.",
   br: [
     { t: "What is DoS?", mn: "Exhaust bandwidth, system or application resources", items: [
-      { t: "An action that PREVENTS or IMPAIRS authorised use of networks, systems or apps by exhausting resources (CPU, memory, bandwidth, disk)" },
-      { t: "An attack on AVAILABILITY, the A in CIA" },
-      { t: "Network bandwidth: ping flood, UDP flood" },
-      { t: "System resources: SYN spoofing (OS network code, tables)" },
+      { t: "An action that PREVENTS or IMPAIRS authorised use of networks, systems or apps by exhausting resources (CPU, memory, bandwidth, disk)", d: "A denial-of-service attack stops or slows legitimate use of a network, system or application by using up a resource it needs: CPU, memory, bandwidth or disk space." },
+      { t: "An attack on AVAILABILITY, the A in CIA", d: "DoS attacks target Availability, the A in CIA. The data is not stolen or changed, it just cannot be reached." },
+      { t: "Network bandwidth: ping flood, UDP flood", d: "One target resource is network bandwidth. A ping flood or UDP flood fills the link so real traffic cannot get through." },
+      { t: "System resources: SYN spoofing (OS network code, tables)", d: "The other target is system resources inside the server. SYN spoofing, for example, fills up the OS's table of connections." },
       { t: "Application resources: HTTP flood, Slowloris", d: "Road jammed, till overloaded, cashiers stuck on one fake customer." }
     ]},
     { t: "Classic DoS", mn: "Flooding ping, source spoofing, SYN spoofing", items: [
-      { t: "Flooding ping: overwhelm the link capacity; the attacker is identifiable unless spoofed" },
-      { t: "Source address spoofing: a forged source (raw sockets); hard to trace" },
+      { t: "Flooding ping: overwhelm the link capacity; the attacker is identifiable unless spoofed", d: "A flooding ping sends so many echo requests that it overwhelms the target's link. Unless the source is spoofed, the attacker's address is visible." },
+      { t: "Source address spoofing: a forged source (raw sockets); hard to trace", d: "Source address spoofing means the attacker forges the source IP in the packets, usually using raw sockets. Replies go elsewhere and the real sender is hard to trace." },
       { t: "Backscatter: replies landing at innocent addresses", d: "Spoofed packets make the victim reply to random third parties. Defenders can watch backscatter to spot attacks.", g: "gen", n: "The defender-side observation is general knowledge; the slides define backscatter only as the stray replies." },
-      { t: "SYN spoofing: attacks the connection table (the most common)" }
+      { t: "SYN spoofing: attacks the connection table (the most common)", d: "SYN spoofing attacks the connection table, not the bandwidth, and it is the most common classic DoS attack." }
     ]},
     { t: "TCP handshake & SYN spoofing", mn: "1000 fake reservations: tables held for nobody", items: [
       { t: "3-way handshake: SYN, SYN-ACK, ACK, connected", f: "syn" },
-      { t: "Attack: flood SYNs with FORGED source addresses" },
-      { t: "The server sends SYN-ACKs to the fake addresses and holds half-open entries waiting for an ACK that never comes" },
-      { t: "The table fills up, so real users are refused" }
+      { t: "Attack: flood SYNs with FORGED source addresses", d: "The attacker sends a flood of SYN packets, each with a forged source address, so the server believes many different clients are trying to connect." },
+      { t: "The server sends SYN-ACKs to the fake addresses and holds half-open entries waiting for an ACK that never comes", d: "The server replies with a SYN-ACK to each fake address and keeps a half-open entry waiting for the final ACK. The ACK never arrives because the fake host never sent the SYN." },
+      { t: "The table fills up, so real users are refused", d: "Once the table of half-open connections is full, the server refuses new connections, including those from real users." }
     ]},
     { t: "Flooding attacks", mn: "Volume wins; any packet type works", items: [
-      { t: "Aim: overload network capacity with VOLUME" },
-      { t: "ICMP flood: echo requests (ping is allowed in as a diagnostic tool)" },
-      { t: "UDP flood: packets to a port on the target" },
-      { t: "TCP SYN flood: TCP packets to the target" }
+      { t: "Aim: overload network capacity with VOLUME", d: "A flooding attack aims to overload network capacity with sheer volume of traffic." },
+      { t: "ICMP flood: echo requests (ping is allowed in as a diagnostic tool)", d: "An ICMP flood sends echo requests (pings). It works because ping is normally allowed through as a diagnostic tool." },
+      { t: "UDP flood: packets to a port on the target", d: "A UDP flood sends a large number of UDP packets to a port on the target." },
+      { t: "TCP SYN flood: TCP packets to the target", d: "A TCP SYN flood sends large numbers of TCP connection requests to the target." }
     ]},
     { t: "DDoS (distributed)", mn: "Attacker → Handlers → Zombies → Target", items: [
-      { t: "Many systems (a botnet of zombies) attack at once" },
-      { t: "Chain: Attacker → Handlers → Zombies (agents) → Target" },
-      { t: "Needs less attacker bandwidth and is harder to trace" },
-      { t: "SIP flood: a flood of INVITE requests overwhelms the SIP proxy (VoIP signalling)" }
+      { t: "Many systems (a botnet of zombies) attack at once", d: "In a distributed DoS, many systems, usually a botnet of zombies, attack the target at the same moment." },
+      { t: "Chain: Attacker → Handlers → Zombies (agents) → Target", d: "The control chain is Attacker, then handlers (control programs), then zombies (agents), then the target. The attacker never contacts the target directly." },
+      { t: "Needs less attacker bandwidth and is harder to trace", d: "DDoS needs less bandwidth from the attacker, because the zombies supply it, and is harder to trace because the traffic comes from many innocent machines." },
+      { t: "SIP flood: a flood of INVITE requests overwhelms the SIP proxy (VoIP signalling)", d: "A SIP flood sends a mass of INVITE requests to a SIP proxy, overwhelming the VoIP signalling that sets up phone calls." }
     ]},
     { t: "HTTP-based attacks", mn: "Flood = shouting. Slowloris = mumbling and never finishing.", items: [
       { t: "HTTP flood: lots of HTTP requests at a web server", d: "Spidering: bots follow ALL links recursively." },
       { t: "Slowloris: partial requests that NEVER complete", d: "It hogs every request-handling thread until capacity is used up. It looks legitimate, so signature-based IDS/IPS misses it." }
     ]},
     { t: "Reflection & amplification", mn: "Reflection = bounce. Amplification = bounce with a bigger reply.", items: [
-      { t: "Reflection: the spoofed source is the TARGET, so an intermediary (the reflector) replies to the target" },
-      { t: "DNS amplification: a small query produces a MUCH larger response sent to the target" },
-      { t: "Defence: block spoofed source addresses" }
+      { t: "Reflection: the spoofed source is the TARGET, so an intermediary (the reflector) replies to the target", d: "In reflection, the attacker sends requests to an intermediary (the reflector) with the target's address as the spoofed source. The reflector's replies go to the target, not the attacker." },
+      { t: "DNS amplification: a small query produces a MUCH larger response sent to the target", d: "In DNS amplification a small DNS query makes the server send a much bigger response to the spoofed victim. The attacker gets more traffic for the bandwidth they spend." },
+      { t: "Defence: block spoofed source addresses", d: "Blocking packets with spoofed source addresses at the network edge stops the attack from working, since reflection depends on forging the source." }
     ]},
     { t: "Four lines of defence", mn: "Before, during, tracing, after", items: [
-      { t: "1. Prevention & pre-emption (before): policies, firewalls, block spoofing" },
-      { t: "2. Detection & filtering (during)" },
-      { t: "3. Traceback & identification (the ISP traces the source)" },
-      { t: "4. Reaction (after): eliminate the cause, update the response plan" },
-      { t: "DoS cannot be fully prevented, because high traffic may be legitimate (a flash crowd)" }
+      { t: "1. Prevention & pre-emption (before): policies, firewalls, block spoofing", d: "Before an attack: prevent and pre-empt. Set policies, use firewalls and block spoofed traffic so attacks never succeed." },
+      { t: "2. Detection & filtering (during)", d: "During an attack: detect the attack quickly and filter out the attack traffic." },
+      { t: "3. Traceback & identification (the ISP traces the source)", d: "Traceback: work out where the attack comes from. This usually needs the ISP to trace the traffic back step by step." },
+      { t: "4. Reaction (after): eliminate the cause, update the response plan", d: "After the attack: react by removing the cause, and update the response plan with what you learned." },
+      { t: "DoS cannot be fully prevented, because high traffic may be legitimate (a flash crowd)", d: "DoS can never be fully prevented because a surge of real users, called a flash crowd, looks the same as an attack. You cannot block high traffic without also blocking customers." }
     ]},
     { t: "Prevention methods", mn: "Filter, cookie, CAPTCHA, replicate", items: [
-      { t: "Block spoofed addresses: routers as close to the source as possible; check the path back to the source" },
+      { t: "Block spoofed addresses: routers as close to the source as possible; check the path back to the source", d: "Block spoofed source addresses with routers as near to the source as possible, and check that the path back to the claimed source is valid." },
       { t: "SYN cookies (modified TCP handling): a cryptographic cookie as the initial sequence number; drop old half-open entries when the table overflows", d: "The server stores nothing for a half-open connection, so there is no table to fill." },
-      { t: "Block IP-directed broadcasts and suspicious services" },
-      { t: "CAPTCHA separates humans from bots (application attacks)" },
-      { t: "Mirrored or replicated servers for high availability" },
-      { t: "Routes cannot be encrypted, so rely on filtering" }
+      { t: "Block IP-directed broadcasts and suspicious services", d: "Block IP-directed broadcasts, which are used for amplification, and disable suspicious or unneeded services." },
+      { t: "CAPTCHA separates humans from bots (application attacks)", d: "CAPTCHA tests that a human is present and stops bots from flooding application-level features." },
+      { t: "Mirrored or replicated servers for high availability", d: "Mirrored or replicated servers spread the load and keep the service up if one server is attacked." },
+      { t: "Routes cannot be encrypted, so rely on filtering", d: "Because the route and addresses cannot be encrypted away, you cannot just hide from the attack. The practical defence is filtering traffic." }
     ]},
     { t: "Responding to an attack", mn: "Plan, identify, filter, trace, recover, learn", items: [
-      { t: "Before: a good incident response plan (ISP contacts, monitors, IDS)" },
-      { t: "Identify the TYPE of attack before countering it" },
-      { t: "Capture and analyse packets, design filters, or fix the app/system bug" },
-      { t: "The ISP traces the packet flow back (slow, needed for legal action)" },
-      { t: "Contingency: backup servers, or a new site or new addresses" },
-      { t: "Afterwards: analyse and update the response plan" }
+      { t: "Before: a good incident response plan (ISP contacts, monitors, IDS)", d: "Preparing before an attack matters most: have an incident response plan, ISP contacts, monitoring and an IDS in place." },
+      { t: "Identify the TYPE of attack before countering it", d: "First identify what kind of attack it is (flood, SYN spoofing, application attack) because the right defence depends on the type." },
+      { t: "Capture and analyse packets, design filters, or fix the app/system bug", d: "Then capture and analyse the packets, design filters to block the attack traffic, or fix the bug in the application or system that is being exploited." },
+      { t: "The ISP traces the packet flow back (slow, needed for legal action)", d: "The ISP can trace the flow of packets back toward the source. This is slow, but it is needed if legal action is planned." },
+      { t: "Contingency: backup servers, or a new site or new addresses", d: "Contingency options: switch to backup servers, or move to a new site or new addresses." },
+      { t: "Afterwards: analyse and update the response plan", d: "Afterwards, analyse what happened and update the response plan so the next attack is handled better." }
     ]}
   ]
 });
@@ -948,66 +948,66 @@ CHAPTERS.push({
   mn: "Sensors collect, analysers decide, the user interface shows. HIDS, NIDS, distributed. Signature vs anomaly.",
   br: [
     { t: "Intruders", mn: "Classes and skill levels", items: [
-      { t: "Cyber criminals: financial reward, identity theft, data theft" },
-      { t: "Activists: social or political cause (hacktivists), often low skill" },
-      { t: "State-sponsored: espionage or sabotage, highly skilled" },
-      { t: "Others: hobbyists, curiosity" },
-      { t: "Apprentice USES existing toolkits (most numerous, EASIEST to stop)" },
-      { t: "Journeyman MODIFIES and extends tools" },
-      { t: "Master FINDS new vulnerabilities and MAKES tools (HARDEST to stop)" }
+      { t: "Cyber criminals: financial reward, identity theft, data theft", d: "Cyber criminals are motivated by money: financial gain, stealing identities or selling stolen data." },
+      { t: "Activists: social or political cause (hacktivists), often low skill", d: "Activists (hacktivists) act for a social or political cause. They tend to have little skill and often work in groups." },
+      { t: "State-sponsored: espionage or sabotage, highly skilled", d: "State-sponsored attackers do espionage or sabotage for a government and are highly skilled and well resourced." },
+      { t: "Others: hobbyists, curiosity", d: "Other intruders include hobbyists and people who are just curious." },
+      { t: "Apprentice USES existing toolkits (most numerous, EASIEST to stop)", d: "The apprentice only uses existing tools and toolkits. They are the most numerous but the easiest to stop, since known defences work against known tools." },
+      { t: "Journeyman MODIFIES and extends tools", d: "The journeyman modifies and extends existing tools so that they work against new targets or avoid detection." },
+      { t: "Master FINDS new vulnerabilities and MAKES tools (HARDEST to stop)", d: "The master finds new vulnerabilities and writes the tools others use. There are few of them and they are the hardest to stop." }
     ]},
     { t: "Intruder behaviour", mn: "I-A-P-G-M-C: 'I Always Plan Great Mischief, Carefully'", items: [
-      { t: "1. Information gathering: DNS, WHOIS, NMAP, probe services" },
-      { t: "2. Initial access: brute-force password, plugin exploit, spear-phish" },
-      { t: "3. Privilege escalation: local exploits, sniffers for admin passwords" },
-      { t: "4. Gather / exploit: find data, transfer documents out" },
-      { t: "5. Maintain access: rootkit, remote admin tool, disable AV/IDS" },
-      { t: "6. Cover tracks: hide files, edit logs" }
+      { t: "1. Information gathering: DNS, WHOIS, NMAP, probe services", d: "Step 1 is information gathering (reconnaissance): looking up DNS and WHOIS records, scanning with NMAP and probing for which services are running." },
+      { t: "2. Initial access: brute-force password, plugin exploit, spear-phish", d: "Step 2 is gaining initial access, for example by brute-forcing a password, exploiting a plugin or spear-phishing a user." },
+      { t: "3. Privilege escalation: local exploits, sniffers for admin passwords", d: "Step 3 is privilege escalation: using local exploits, or sniffing for admin passwords, to go from a normal user to an administrator." },
+      { t: "4. Gather / exploit: find data, transfer documents out", d: "Step 4 is the actual objective: find the valuable data and transfer documents out." },
+      { t: "5. Maintain access: rootkit, remote admin tool, disable AV/IDS", d: "Step 5 is keeping access for later, by installing a rootkit or a remote admin tool and disabling antivirus or the IDS." },
+      { t: "6. Cover tracks: hide files, edit logs", d: "Step 6 is covering tracks: hiding files and editing logs so the intrusion is not noticed." }
     ]},
     { t: "IDS basics", mn: "Sensors, Analyzers, User interface", items: [
-      { t: "Intrusion detection = gathering and analysing information to identify possible intrusions" },
-      { t: "Sensors COLLECT data. Analyzers DECIDE whether an intrusion occurred. The user interface shows output and controls the IDS" },
-      { t: "HIDS: monitors one host. NIDS: monitors network traffic and protocols. Distributed/hybrid: many sensors, central analysis" }
+      { t: "Intrusion detection = gathering and analysing information to identify possible intrusions", d: "Intrusion detection means collecting and analysing information from a system or network to spot possible intrusions." },
+      { t: "Sensors COLLECT data. Analyzers DECIDE whether an intrusion occurred. The user interface shows output and controls the IDS", d: "An IDS has three parts. Sensors collect the data, analyzers decide whether an intrusion has happened, and the user interface shows results and lets an admin control the system." },
+      { t: "HIDS: monitors one host. NIDS: monitors network traffic and protocols. Distributed/hybrid: many sensors, central analysis", d: "A HIDS monitors a single host. A NIDS monitors network traffic and protocols. A distributed or hybrid IDS uses many sensors reporting to a central analysis point." }
     ]},
     { t: "IDS requirements", mn: "Always on, hard to fool, light", items: [
-      { t: "Run continually, fault tolerant, resist subversion" },
-      { t: "Minimal overhead, configurable to policy" },
-      { t: "Adapt to changes, scale well" },
-      { t: "Graceful degradation, dynamic reconfiguration" },
-      { t: "An IDS can cause DoS: cutting off the intruder may cut off ALL users" }
+      { t: "Run continually, fault tolerant, resist subversion", d: "An IDS should run continually, tolerate faults and resist being attacked or tampered with." },
+      { t: "Minimal overhead, configurable to policy", d: "It should use little overhead on the system it monitors and be configurable to match the organisation's policy." },
+      { t: "Adapt to changes, scale well", d: "It should adapt as the system changes and scale to protect more hosts." },
+      { t: "Graceful degradation, dynamic reconfiguration", d: "It should degrade gracefully when part fails, and be reconfigurable without restarting." },
+      { t: "An IDS can cause DoS: cutting off the intruder may cut off ALL users", d: "An IDS that reacts automatically can cause a DoS itself: blocking the intruder could also cut off every legitimate user." }
     ]},
     { t: "Analysis approaches", mn: "Signature = wanted poster. Anomaly = bouncer who knows the regulars.", items: [
-      { t: "Signature / heuristic (rule-based): matches known-bad patterns; FAST; cannot detect without a signature" },
-      { t: "Anomaly: learn NORMAL, flag deviations; slower with a learning curve, but catches NEW attacks" },
-      { t: "The big problem with anomaly detection is FALSE POSITIVES" },
-      { t: "Anomaly types: statistical, knowledge-based (expert rules), machine learning" }
+      { t: "Signature / heuristic (rule-based): matches known-bad patterns; FAST; cannot detect without a signature", d: "Signature or heuristic (rule-based) detection matches traffic against patterns of known attacks. It is fast, but it cannot detect an attack that has no signature yet." },
+      { t: "Anomaly: learn NORMAL, flag deviations; slower with a learning curve, but catches NEW attacks", d: "Anomaly detection learns what is normal and flags anything that deviates. It is slower and needs a learning period, but it can catch new, unknown attacks." },
+      { t: "The big problem with anomaly detection is FALSE POSITIVES", d: "The main weakness of anomaly detection is false positives: unusual but harmless activity gets flagged as an attack." },
+      { t: "Anomaly types: statistical, knowledge-based (expert rules), machine learning", d: "Anomaly detection can be statistical (measures against normal numbers), knowledge-based (expert rules) or machine learning (learned from data)." }
     ]},
     { t: "Host-based IDS (HIDS)", mn: "System calls, logs, file hashes, registry", items: [
-      { t: "An extra security layer on sensitive hosts; anomaly or signature" },
-      { t: "Data source: system call traces (OS calls made by a process)" },
-      { t: "Data source: audit (log) records (Windows/Linux logs)" },
-      { t: "Data source: file integrity checksums (HASHING); malware changes the hash" },
-      { t: "Data source: registry access (Windows registry changes)" },
-      { t: "Distributed HIDS: agents report to a central manager" }
+      { t: "An extra security layer on sensitive hosts; anomaly or signature", d: "A HIDS adds an extra layer of protection on sensitive hosts. It can use anomaly or signature detection." },
+      { t: "Data source: system call traces (OS calls made by a process)", d: "One data source is system call traces: the sequence of OS calls a process makes, which reveals abnormal behaviour." },
+      { t: "Data source: audit (log) records (Windows/Linux logs)", d: "Another source is audit (log) records from Windows or Linux, which record user and system activity." },
+      { t: "Data source: file integrity checksums (HASHING); malware changes the hash", d: "File integrity checksums use hashing. If malware modifies a file, its hash changes and the HIDS notices." },
+      { t: "Data source: registry access (Windows registry changes)", d: "Registry access monitoring watches changes to the Windows registry, which malware often edits to persist." },
+      { t: "Distributed HIDS: agents report to a central manager", d: "In a distributed HIDS, agents on each host send their findings to a central manager for correlation." }
     ]},
     { t: "Network-based IDS (NIDS)", mn: "Inline can block; passive watches a copy", items: [
-      { t: "Monitors traffic at selected points, near real time, including protocol activity" },
-      { t: "Inline sensor: IN the path, can block. Risk: a bottleneck" },
-      { t: "Passive sensor: monitors a COPY of the traffic (a tap); no performance hit" },
-      { t: "Stateful protocol analysis: compares to benign protocol profiles and tracks states (heavy on resources)" },
-      { t: "Alert logging: timestamp, session ID, type, protocols, IPs/ports, bytes, payload" },
-      { t: "IDMEF is the standard alert exchange format" }
+      { t: "Monitors traffic at selected points, near real time, including protocol activity", d: "A NIDS monitors traffic at chosen points on the network in near real time, including activity at the protocol level." },
+      { t: "Inline sensor: IN the path, can block. Risk: a bottleneck", d: "An inline sensor sits directly in the traffic path, so it can block attacks. The risk is that it becomes a bottleneck or a single point of failure." },
+      { t: "Passive sensor: monitors a COPY of the traffic (a tap); no performance hit", d: "A passive sensor watches a copy of the traffic (taken from a tap or mirror port), so it has no effect on performance but cannot block traffic itself." },
+      { t: "Stateful protocol analysis: compares to benign protocol profiles and tracks states (heavy on resources)", d: "Stateful protocol analysis compares traffic to profiles of normal protocol behaviour and tracks the state of each session. It is accurate but heavy on resources." },
+      { t: "Alert logging: timestamp, session ID, type, protocols, IPs/ports, bytes, payload", d: "A NIDS alert record logs timestamp, session ID, type of alert, protocols, IP addresses and ports, bytes and the payload." },
+      { t: "IDMEF is the standard alert exchange format", d: "IDMEF (Intrusion Detection Message Exchange Format) is the standard format for sharing alerts between IDS tools." }
     ]},
     { t: "Honeypots", mn: "Fake honey jar: only a bear touches it", items: [
-      { t: "Decoy systems with fabricated information and NO production value, so any use is suspicious" },
-      { t: "Purpose: divert attackers from critical systems, collect information, keep them busy until admins respond" },
-      { t: "Low interaction: emulates a few services; low risk" },
-      { t: "High interaction: real systems; richer data but more risk" },
-      { t: "Practical: virtual honeypot demo (screen video, name + student number)" }
+      { t: "Decoy systems with fabricated information and NO production value, so any use is suspicious", d: "A honeypot is a decoy system with fabricated data and no real production value. Since nobody legitimate should touch it, any activity on it is suspicious." },
+      { t: "Purpose: divert attackers from critical systems, collect information, keep them busy until admins respond", d: "Honeypots divert attackers away from critical systems, collect information about their methods, and keep them busy while administrators respond." },
+      { t: "Low interaction: emulates a few services; low risk", d: "A low-interaction honeypot only emulates a few services. It is simple and low risk, but gives less information." },
+      { t: "High interaction: real systems; richer data but more risk", d: "A high-interaction honeypot is a real system with real services. It records much richer detail but carries more risk because the attacker can really compromise it." },
+      { t: "Practical: virtual honeypot demo (screen video, name + student number)", d: "The practical task is to build a virtual honeypot and submit a screen video showing your name and student number." }
     ]},
     { t: "Snort", mn: "Header (action, protocol, addresses, ports, direction) + options", items: [
-      { t: "Open-source, lightweight, rule-based NIDS / IPS" },
-      { t: "A rule has a HEADER (action, protocol, source address and port, direction, destination address and port) and OPTIONS in brackets", r: "CH8 S41", g: "add", n: "Header field list read from the Snort rule format slide." },
+      { t: "Open-source, lightweight, rule-based NIDS / IPS", d: "Snort is an open-source, lightweight network IDS/IPS that works by matching traffic against rules." },
+      { t: "A rule has a HEADER (action, protocol, source address and port, direction, destination address and port) and OPTIONS in brackets", d: "A Snort rule has a header (action, protocol, source address and port, direction, destination address and port) followed by options written in brackets.", r: "CH8 S41", g: "add", n: "Header field list read from the Snort rule format slide." },
       { t: "Table 8.3: the eight Snort rule actions", b: "t83", r: "CH8 S42", g: "add", n: "Descriptions read from the Table 8.3 slide image." },
       { t: "Example shape (illustrative): alert tcp any any -> 192.168.1.0/24 80 (msg:\"web probe\"; content:\"/etc/passwd\";)", d: "Read left to right: action, protocol, source address, source port, direction arrow, destination address, destination port, then options.", g: "gen", n: "This sample rule is mine to show the layout. It is not from the slides." }
     ]}
@@ -1019,84 +1019,84 @@ CHAPTERS.push({
   mn: "Firewall = bouncer at the one door. IDS = camera. IPS = guard who can act.",
   br: [
     { t: "The need for firewalls", mn: "Single choke point", items: [
-      { t: "An effective way to protect LANs: a controlled link between the premises network and the Internet" },
-      { t: "Single choke point: perimeter defence that imposes security and auditing" },
-      { t: "Design goal 1: ALL traffic (in ↔ out) must pass through the firewall" },
-      { t: "Design goal 2: ONLY authorised traffic (defined by policy) may pass" },
-      { t: "Design goal 3: the firewall itself is IMMUNE to penetration (hardened system, secure OS)" }
+      { t: "An effective way to protect LANs: a controlled link between the premises network and the Internet", d: "A firewall is a controlled link between the internal network and the Internet, and is an effective way to protect a LAN." },
+      { t: "Single choke point: perimeter defence that imposes security and auditing", d: "The firewall acts as a single choke point: all traffic must go through one place, where security rules and auditing can be applied." },
+      { t: "Design goal 1: ALL traffic (in ↔ out) must pass through the firewall", d: "Goal 1: all traffic in either direction must pass through the firewall. If there is another route around it, the firewall is useless." },
+      { t: "Design goal 2: ONLY authorised traffic (defined by policy) may pass", d: "Goal 2: only traffic that the security policy authorises may pass. Everything else is blocked." },
+      { t: "Design goal 3: the firewall itself is IMMUNE to penetration (hardened system, secure OS)", d: "Goal 3: the firewall itself must be immune to attack, which means a hardened system running a secure operating system." }
     ]},
     { t: "Access policy & filters", mn: "From the risk assessment + security policy", items: [
-      { t: "Access policy: the types of traffic authorised to pass" },
-      { t: "Filter on IP address and protocol values (limit access to services)" },
-      { t: "Filter on application protocol (used by gateways)" },
-      { t: "Filter on user identity (inside users authenticated)" },
-      { t: "Filter on network activity (time, rate of requests)" }
+      { t: "Access policy: the types of traffic authorised to pass", d: "The access policy lists the types of traffic that are allowed to cross the firewall. The firewall is configured to enforce it." },
+      { t: "Filter on IP address and protocol values (limit access to services)", d: "Filtering by IP address and protocol values limits which hosts and services can be reached. This is the basic packet filter." },
+      { t: "Filter on application protocol (used by gateways)", d: "Filtering by application protocol, for example allowing only certain web or mail commands, is done by gateways." },
+      { t: "Filter on user identity (inside users authenticated)", d: "Filtering by user identity allows access only to authenticated internal users." },
+      { t: "Filter on network activity (time, rate of requests)", d: "Filtering by network activity looks at things like time of day or the rate of requests." }
     ]},
     { t: "Capabilities & limitations", mn: "Cannot stop what bypasses it", items: [
-      { t: "Capability: a single choke point" },
-      { t: "Capability: a location for monitoring security events" },
-      { t: "Capability: a platform for non-security Internet functions (NAT, logging)" },
-      { t: "Capability: a platform for IPSec (VPN)" },
-      { t: "Limitation: cannot protect against attacks that BYPASS it" },
-      { t: "Limitation: not fully effective against INTERNAL threats" },
-      { t: "Limitation: an improperly secured WLAN accessed from outside" },
-      { t: "Limitation: portable storage and laptops infected outside (BYOD)" }
+      { t: "Capability: a single choke point", d: "Strength: it provides a single choke point where all security decisions are made." },
+      { t: "Capability: a location for monitoring security events", d: "Strength: it is a good place to monitor and log security events." },
+      { t: "Capability: a platform for non-security Internet functions (NAT, logging)", d: "Strength: it can host non-security Internet functions such as NAT and logging." },
+      { t: "Capability: a platform for IPSec (VPN)", d: "Strength: it can be the platform that runs IPSec to build VPNs." },
+      { t: "Limitation: cannot protect against attacks that BYPASS it", d: "Limit: a firewall cannot protect against attacks that go around it, such as a dial-up modem or an unauthorised wireless link." },
+      { t: "Limitation: not fully effective against INTERNAL threats", d: "Limit: it is not fully effective against internal threats, such as a disgruntled employee." },
+      { t: "Limitation: an improperly secured WLAN accessed from outside", d: "Limit: an insecure wireless LAN that an outsider can access gives them a way in behind the firewall." },
+      { t: "Limitation: portable storage and laptops infected outside (BYOD)", d: "Limit: a laptop or USB drive infected outside the network (BYOD) brings malware straight past the firewall when it is plugged in." }
     ]},
     { t: "Packet filtering firewall", mn: "No memory: each packet judged alone", items: [
-      { t: "Rules applied to EACH IP packet using the IP/TCP header (source/destination IP, ports, protocol field)" },
-      { t: "Default policy DISCARD: prohibit unless permitted (SAFER)" },
-      { t: "Default policy FORWARD: permit unless prohibited" },
-      { t: "Advantages: simple, transparent, very fast" },
-      { t: "Disadvantages: cannot stop app-specific attacks, limited logging, no advanced user authentication, vulnerable to TCP/IP spoofing" }
+      { t: "Rules applied to EACH IP packet using the IP/TCP header (source/destination IP, ports, protocol field)", d: "A packet filter looks at each IP packet by itself and applies rules to the header fields: source and destination address, ports and the protocol field." },
+      { t: "Default policy DISCARD: prohibit unless permitted (SAFER)", d: "Default policy DISCARD means everything is blocked unless a rule permits it. This is the safer choice." },
+      { t: "Default policy FORWARD: permit unless prohibited", d: "Default policy FORWARD means everything is permitted unless a rule blocks it. This is easier but less safe." },
+      { t: "Advantages: simple, transparent, very fast", d: "Advantages: it is simple, transparent to users and very fast." },
+      { t: "Disadvantages: cannot stop app-specific attacks, limited logging, no advanced user authentication, vulnerable to TCP/IP spoofing", d: "Disadvantages: it cannot stop attacks specific to an application, logs little, has no strong user authentication, and can be fooled by spoofed TCP/IP addresses." }
     ]},
     { t: "Stateful inspection firewall", mn: "Remembers the conversation", items: [
-      { t: "Keeps a directory of outbound TCP connections (one entry per connection)" },
-      { t: "Allows incoming traffic to high ports ONLY if it matches an entry" },
-      { t: "Tracks TCP sequence numbers" },
-      { t: "A packet filter has NO memory. A stateful firewall remembers the conversation" }
+      { t: "Keeps a directory of outbound TCP connections (one entry per connection)", d: "A stateful inspection firewall keeps a table of outgoing TCP connections, with one entry per connection." },
+      { t: "Allows incoming traffic to high ports ONLY if it matches an entry", d: "It only allows incoming traffic to a high port if it matches an entry in that table, meaning it is a reply to something an inside host started." },
+      { t: "Tracks TCP sequence numbers", d: "It also tracks TCP sequence numbers to make sure packets belong to the connection." },
+      { t: "A packet filter has NO memory. A stateful firewall remembers the conversation", d: "The key difference: a simple packet filter has no memory, but a stateful firewall remembers the whole conversation." }
     ]},
     { t: "Application-level gateway (proxy)", mn: "Reads the letter", items: [
-      { t: "Relays application traffic: User → gateway (user authenticated) → application" },
-      { t: "Needs proxy code for EACH application; more secure" },
-      { t: "Disadvantage: extra processing overhead per connection" }
+      { t: "Relays application traffic: User → gateway (user authenticated) → application", d: "An application-level gateway (proxy) relays application traffic. The user connects to the gateway and is authenticated, then the gateway connects to the real application on their behalf." },
+      { t: "Needs proxy code for EACH application; more secure", d: "It needs separate proxy code for each application. This makes it more secure, since it understands the application protocol." },
+      { t: "Disadvantage: extra processing overhead per connection", d: "The cost is extra processing for every connection, because each one is handled twice." }
     ]},
     { t: "Circuit-level gateway", mn: "Checks the envelope only", items: [
-      { t: "Relays TCP segments from one connection to another WITHOUT examining contents" },
-      { t: "Checks that the handshake is legitimate, NOT the payload" },
-      { t: "Can be application-level for inbound and circuit-level for outbound" },
-      { t: "SOCKS v5 is a common circuit-level framework" }
+      { t: "Relays TCP segments from one connection to another WITHOUT examining contents", d: "A circuit-level gateway relays TCP segments from one connection to another without looking at their contents." },
+      { t: "Checks that the handshake is legitimate, NOT the payload", d: "It checks that the TCP handshake is legitimate but does not inspect the payload." },
+      { t: "Can be application-level for inbound and circuit-level for outbound", d: "A hybrid is possible: application-level for inbound traffic and circuit-level for outbound traffic." },
+      { t: "SOCKS v5 is a common circuit-level framework", d: "SOCKS v5 is the common framework for circuit-level gateways." }
     ]},
     { t: "Firewall basing", mn: "Bastion, host-based, personal", items: [
-      { t: "Bastion host: a critical strong point on the network boundary; runs proxies; a hardened central control point" },
-      { t: "Host-based firewall: secures an individual host (OS or add-on); rules specific to that host; independent of network topology" },
-      { t: "Personal firewall: controls traffic between a PC and the Internet; a software module or in a home router; denies unauthorised INBOUND access" }
+      { t: "Bastion host: a critical strong point on the network boundary; runs proxies; a hardened central control point", d: "A bastion host is a hardened, critical system on the network boundary. It runs proxies and acts as a strong central control point." },
+      { t: "Host-based firewall: secures an individual host (OS or add-on); rules specific to that host; independent of network topology", d: "A host-based firewall protects one individual host (built into the OS or added on). Its rules are specific to that host and work regardless of the network layout." },
+      { t: "Personal firewall: controls traffic between a PC and the Internet; a software module or in a home router; denies unauthorised INBOUND access", d: "A personal firewall controls traffic between a PC and the Internet. It can be software or in a home router, and denies unauthorised inbound access." }
     ]},
     { t: "Locations & topologies", mn: "DMZ = hotel lobby", items: [
-      { t: "Configurations: host-resident firewall, screening router, single bastion inline, single bastion T, double bastion inline / T, distributed firewall" },
+      { t: "Configurations: host-resident firewall, screening router, single bastion inline, single bastion T, double bastion inline / T, distributed firewall", d: "Firewalls can be arranged as host-resident, with a screening router, with one or two bastion hosts (inline or in a T layout) or distributed. The more layers, the more protection and the more complexity." },
       { t: "DMZ (demilitarised zone): a segment between the Internet and the internal network holding externally visible servers (web, email, DNS)", f: "dmz", d: "The public can enter the lobby, but staff rooms are behind another door." },
-      { t: "VPN: IPSec in firewalls/routers; encrypted tunnels across the Internet between sites or from a remote user" }
+      { t: "VPN: IPSec in firewalls/routers; encrypted tunnels across the Internet between sites or from a remote user", d: "A VPN uses IPSec in firewalls or routers to build encrypted tunnels over the Internet, either between sites or from a remote user to the network." }
     ]},
     { t: "Intrusion prevention (IPS)", mn: "IDS = camera. IPS = guard.", items: [
-      { t: "An extension of IDS that can BLOCK or prevent detected malicious activity" },
-      { t: "Can be host-based, network-based or hybrid" },
-      { t: "Detection: anomaly (not legitimate use) or signature/heuristic (known malicious)" },
-      { t: "Blocks traffic like a firewall but uses IDS-style algorithms to decide" }
+      { t: "An extension of IDS that can BLOCK or prevent detected malicious activity", d: "An IPS extends an IDS so it can block or prevent detected malicious activity, not just report it." },
+      { t: "Can be host-based, network-based or hybrid", d: "An IPS can be host-based, network-based or a hybrid of both." },
+      { t: "Detection: anomaly (not legitimate use) or signature/heuristic (known malicious)", d: "It detects using anomaly methods (activity that is not legitimate use) or signature/heuristic methods (matches known malicious patterns)." },
+      { t: "Blocks traffic like a firewall but uses IDS-style algorithms to decide", d: "It blocks traffic like a firewall does, but makes the decision with IDS-style detection algorithms." }
     ]},
     { t: "Host-based IPS (HIPS)", mn: "Typically protects desktops", items: [
-      { t: "Signature: content of app network traffic or system-call sequences matching malicious patterns" },
-      { t: "Anomaly: behaviour patterns that indicate malware" },
-      { t: "Malicious behaviour: privilege escalation, buffer overflow, modifying system resources" },
-      { t: "Sandbox approach: quarantines code in an isolated area, runs it and monitors behaviour" },
-      { t: "Role: integrates endpoint security into ONE suite (tools work together, easier management)" }
+      { t: "Signature: content of app network traffic or system-call sequences matching malicious patterns", d: "HIPS signatures look at the content of application network traffic or sequences of system calls that match known malicious patterns." },
+      { t: "Anomaly: behaviour patterns that indicate malware", d: "HIPS anomaly detection looks for behaviour patterns that suggest malware." },
+      { t: "Malicious behaviour: privilege escalation, buffer overflow, modifying system resources", d: "Malicious behaviours HIPS watches for are privilege escalation, buffer overflows and modification of system resources." },
+      { t: "Sandbox approach: quarantines code in an isolated area, runs it and monitors behaviour", d: "The sandbox approach quarantines untrusted code in an isolated area, runs it there and monitors what it does before allowing it." },
+      { t: "Role: integrates endpoint security into ONE suite (tools work together, easier management)", d: "HIPS brings endpoint security tools into one suite so they work together and are easier to manage." }
     ]},
     { t: "Network-based IPS (NIPS)", mn: "An inline NIDS with authority to act", items: [
-      { t: "A dedicated device at the network boundary; filters traffic between network segments" },
-      { t: "An inline NIDS with authority to modify or discard packets and tear down TCP connections" },
-      { t: "Pattern matching: known byte sequences (signature)" },
-      { t: "Stateful matching: a signature in the context of the traffic STREAM" },
-      { t: "Protocol anomaly: compared against standard protocol definitions" },
-      { t: "Traffic anomaly: unusual traffic activity" },
-      { t: "Statistical anomaly: profiles of normal traffic; flag deviations" }
+      { t: "A dedicated device at the network boundary; filters traffic between network segments", d: "A NIPS is a dedicated device at the network boundary that filters traffic between network segments." },
+      { t: "An inline NIDS with authority to modify or discard packets and tear down TCP connections", d: "It is effectively an inline NIDS that is allowed to modify or discard packets and to tear down TCP connections." },
+      { t: "Pattern matching: known byte sequences (signature)", d: "Pattern matching searches packets for known byte sequences, which are the signatures of attacks." },
+      { t: "Stateful matching: a signature in the context of the traffic STREAM", d: "Stateful matching looks for a signature in the context of the whole traffic stream rather than in a single packet." },
+      { t: "Protocol anomaly: compared against standard protocol definitions", d: "Protocol anomaly detection compares traffic with the standard protocol definitions and flags deviations." },
+      { t: "Traffic anomaly: unusual traffic activity", d: "Traffic anomaly detection flags unusual traffic activity, such as an unexpected surge." },
+      { t: "Statistical anomaly: profiles of normal traffic; flag deviations", d: "Statistical anomaly detection builds profiles of normal traffic and flags traffic that deviates from them." }
     ]},
     { t: "UTM, Snort Inline, immune system", mn: "All-in-one, replace-not-drop, global view", items: [
       { t: "UTM (Unified Threat Management): a single appliance with firewall, VPN, anti-spam, web filtering, bandwidth shaping and intrusion prevention", d: "Raw traffic passes through each module in turn and comes out clean and controlled." },
@@ -1112,72 +1112,72 @@ CHAPTERS.push({
   mn: "More data than the buffer holds. Writes run LOW → HIGH, toward the return address.",
   br: [
     { t: "What is it?", mn: "A programming ERROR: data written beyond a fixed-size buffer", items: [
-      { t: "NIST: more input is placed in a buffer than its capacity, overwriting other information" },
-      { t: "Buffer = allocated memory space. Overflow = too much data" },
-      { t: "The buffer can be on the stack, the heap, or in global data" },
-      { t: "Consequence: corruption of program data" },
-      { t: "Consequence: unexpected transfer of control" },
-      { t: "Consequence: memory access violation" },
+      { t: "NIST: more input is placed in a buffer than its capacity, overwriting other information", d: "NIST defines a buffer overflow as a condition where a program puts more input into a buffer than it can hold, so the extra data overwrites neighbouring memory." },
+      { t: "Buffer = allocated memory space. Overflow = too much data", d: "A buffer is a fixed block of memory set aside for data. An overflow happens when more data is written to it than it was allocated for." },
+      { t: "The buffer can be on the stack, the heap, or in global data", d: "The buffer can live in three places: on the stack (local variables), on the heap (dynamic memory) or in global data." },
+      { t: "Consequence: corruption of program data", d: "First consequence: nearby program data gets corrupted, which can change how the program behaves." },
+      { t: "Consequence: unexpected transfer of control", d: "Second consequence: control is transferred somewhere unexpected, for example by overwriting a return address. This is what attackers aim for." },
+      { t: "Consequence: memory access violation", d: "Third consequence: the program touches memory it should not, causing a memory access violation and a crash." },
       { t: "Consequence: execution of ATTACKER-CHOSEN code", d: "A 2-litre bottle into a 1-litre glass: the spill hits whatever sits next to it." }
     ]},
     { t: "Example & finding targets", mn: "strcpy copies with no check", items: [
       { t: "source[] = \"username12\" is 10 characters + null = 11 bytes; destination[7] holds only 6 + null; strcpy copies with no check, so it overflows", d: "The 4 extra bytes land in whatever sits next to the destination buffer.", r: "CH10 S7" },
-      { t: "Attackers find vulnerable programs by inspecting source code (look for unsafe functions)" },
-      { t: "...or by tracing execution with oversized input" },
-      { t: "...or by fuzzing: automatic random or oversized input" },
-      { t: "Prevention: get rid of UNSAFE functions and use updated bounded versions" }
+      { t: "Attackers find vulnerable programs by inspecting source code (look for unsafe functions)", d: "One way to find a vulnerable program is to read its source code and look for unsafe functions that do not check sizes." },
+      { t: "...or by tracing execution with oversized input", d: "Another way is to run the program and trace its execution while feeding it oversized input to see where it breaks." },
+      { t: "...or by fuzzing: automatic random or oversized input", d: "Fuzzing automates this: it feeds the program a stream of random or oversized inputs and watches for crashes." },
+      { t: "Prevention: get rid of UNSAFE functions and use updated bounded versions", d: "To prevent overflows, remove unsafe functions from the code and replace them with the newer bounded versions that take a size limit." }
     ]},
     { t: "Languages & memory", mn: "C is exposed. Java and Python check ranges.", items: [
-      { t: "C and similar languages are VULNERABLE (efficiency over safety, legacy unsafe code)" },
-      { t: "Java and Python (modern high-level) are NOT vulnerable (range checks), at a run-time cost" },
-      { t: "Assembly: total control means total responsibility" },
+      { t: "C and similar languages are VULNERABLE (efficiency over safety, legacy unsafe code)", d: "C and similar languages are vulnerable because they were designed for efficiency and give no automatic bounds checking, and a lot of old unsafe code still exists." },
+      { t: "Java and Python (modern high-level) are NOT vulnerable (range checks), at a run-time cost", d: "Java and Python are not vulnerable, because they check ranges automatically. The cost is some run-time overhead." },
+      { t: "Assembly: total control means total responsibility", d: "In assembly the programmer has total control and so total responsibility. Nothing stops them overwriting memory." },
       { t: "Process memory: the stack sits at the top and grows DOWN toward lower addresses; the heap grows UP", f: "mem", g: "fix", r: "CH10 S14 (Fig 10.4)", n: "The friend wrote 'data written from HIGHER to LOWER addresses'. That mixes two things: the stack GROWS toward lower addresses, but a buffer write runs from LOW to HIGH addresses, which is what reaches the return address." }
     ]},
     { t: "Stack buffer overflow", mn: "Overwrite the return address", items: [
-      { t: "The buffer is on the stack. Used by the Morris worm" },
+      { t: "The buffer is on the stack. Used by the Morris worm", d: "In a stack buffer overflow the buffer is a local variable on the stack. The Morris worm used this technique." },
       { t: "Stack frame, from high to low address: parameters, return address, old frame pointer, local variables / buffer", f: "stack" },
       { t: "Attack: write past the buffer, overwrite the saved frame pointer, then the RETURN ADDRESS, so the function returns into attacker code", d: "Like rewriting the 'go back to' sticky note to say 'go to MY code'." },
-      { t: "Order matters: the buffer sits BELOW the return address, and writes go low → high" }
+      { t: "Order matters: the buffer sits BELOW the return address, and writes go low → high", d: "Order in memory is the key: the buffer sits below the return address and data is written from low to high addresses, so overflowing the buffer runs up into the return address." }
     ]},
     { t: "Shellcode", mn: "Attacker-supplied code, usually inside the buffer", items: [
-      { t: "Code SUPPLIED BY THE ATTACKER, often stored in the overflowed buffer" },
-      { t: "Traditionally gives a shell with the program's privileges" },
-      { t: "Machine code, so processor and OS specific" },
-      { t: "Must be position independent (it cannot assume where it loads)" },
-      { t: "NOP sled: a run of no-ops so an imprecise return address still lands on the code" },
-      { t: "Tools such as Metasploit automate it" }
+      { t: "Code SUPPLIED BY THE ATTACKER, often stored in the overflowed buffer", d: "Shellcode is the attack code that the attacker supplies. It is often placed in the very buffer being overflowed." },
+      { t: "Traditionally gives a shell with the program's privileges", d: "Traditionally the shellcode starts a command shell that runs with the privileges of the vulnerable program, which is where the name comes from." },
+      { t: "Machine code, so processor and OS specific", d: "It is written in machine code, so it is specific to one processor type and operating system." },
+      { t: "Must be position independent (it cannot assume where it loads)", d: "It must be position independent, since the attacker does not know exactly where in memory it will be loaded." },
+      { t: "NOP sled: a run of no-ops so an imprecise return address still lands on the code", d: "A NOP sled is a long run of no-operation instructions placed before the shellcode. If the guessed return address lands anywhere in the sled, execution slides down into the shellcode." },
+      { t: "Tools such as Metasploit automate it", d: "Tools like Metasploit generate working shellcode automatically, so attackers do not need to write it by hand." }
     ]},
     { t: "Unsafe C routines", mn: "Unsafe → safer", items: [
-      { t: "gets → fgets" },
-      { t: "strcpy → strncpy or strlcpy" },
-      { t: "strcat → strncat or strlcat" },
-      { t: "sprintf → snprintf" },
-      { t: "scanf / fscanf → use a width limit" }
+      { t: "gets → fgets", d: "gets reads input with no length limit. Replace it with fgets, which takes a size." },
+      { t: "strcpy → strncpy or strlcpy", d: "strcpy copies a string without checking the destination size. Use strncpy or strlcpy instead." },
+      { t: "strcat → strncat or strlcat", d: "strcat appends without checking length. Use strncat or strlcat." },
+      { t: "sprintf → snprintf", d: "sprintf writes formatted output with no limit. Use snprintf, which takes a maximum size." },
+      { t: "scanf / fscanf → use a width limit", d: "scanf and fscanf can read an unlimited string into a buffer. Add a width limit to the format specifier." }
     ]},
     { t: "History", mn: "From Morris to Sasser", items: [
-      { t: "1988 Morris worm (fingerd). 1996 Aleph One, 'Smashing the Stack for Fun and Profit'" },
-      { t: "2001 Code Red (IIS). 2003 Slammer (SQL Server). 2004 Sasser (LSASS)" },
-      { t: "Still a concern: legacy buggy code and careless programmers" }
+      { t: "1988 Morris worm (fingerd). 1996 Aleph One, 'Smashing the Stack for Fun and Profit'", d: "In 1988 the Morris worm exploited a buffer overflow in fingerd. In 1996 Aleph One published the paper 'Smashing the Stack for Fun and Profit', which explained the technique to the public." },
+      { t: "2001 Code Red (IIS). 2003 Slammer (SQL Server). 2004 Sasser (LSASS)", d: "Later outbreaks: Code Red (2001, IIS web server), Slammer (2003, SQL Server) and Sasser (2004, Windows LSASS service)." },
+      { t: "Still a concern: legacy buggy code and careless programmers", d: "Buffer overflows are still a concern because there is so much legacy buggy code and programmers still write unsafe code." }
     ]},
     { t: "Compile-time defences", mn: "Harden NEW programs", items: [
-      { t: "Modern high-level language: range checks. Cost: run-time checks and no low-level access" },
-      { t: "Safe coding: inspect and rewrite unsafe code (OpenBSD audited everything)" },
-      { t: "Safe libraries, for example Libsafe, loaded before the standard libraries; needs recompiling" },
+      { t: "Modern high-level language: range checks. Cost: run-time checks and no low-level access", d: "Using a modern high-level language gives automatic range checks. The costs are run-time checking overhead and losing low-level access to hardware." },
+      { t: "Safe coding: inspect and rewrite unsafe code (OpenBSD audited everything)", d: "Safe coding means inspecting and rewriting unsafe code. OpenBSD audited its whole code base for this reason." },
+      { t: "Safe libraries, for example Libsafe, loaded before the standard libraries; needs recompiling", d: "Safe libraries, such as Libsafe, replace unsafe standard functions with checked versions. They are loaded before the standard libraries, and programs may need recompiling." },
       { t: "Stackguard: a CANARY value placed next to the return address; a changed canary aborts the program", d: "Canary in the coal mine: an overflow must trample it BEFORE the return address. It must be unpredictable." },
-      { t: "Stackshield / RAD: keep a COPY of the return address in safe memory and compare on exit" }
+      { t: "Stackshield / RAD: keep a COPY of the return address in safe memory and compare on exit", d: "Stackshield and RAD keep a second copy of the return address in a safe place and compare it when the function exits. If they differ, the program is stopped." }
     ]},
     { t: "Run-time defences", mn: "Detect and ABORT attacks in EXISTING programs", items: [
-      { t: "Non-executable address space: mark stack and heap non-executable (MMU support); stops injected shellcode" },
-      { t: "ASLR (address space layout randomisation): a random shift of stack, heap, global data and library locations per process" },
-      { t: "Guard pages: illegal pages between memory regions; any access aborts the process (cost: page mappings)" },
-      { t: "Compile-time = new programs. Run-time = existing programs" }
+      { t: "Non-executable address space: mark stack and heap non-executable (MMU support); stops injected shellcode", d: "A non-executable address space marks the stack and heap as not executable, using hardware support in the MMU. Injected shellcode then cannot run." },
+      { t: "ASLR (address space layout randomisation): a random shift of stack, heap, global data and library locations per process", d: "ASLR randomly shifts the locations of the stack, heap, global data and libraries each time a process starts, so the attacker cannot predict the addresses to jump to." },
+      { t: "Guard pages: illegal pages between memory regions; any access aborts the process (cost: page mappings)", d: "Guard pages are illegal memory pages placed between regions. Any attempt to access one aborts the process, which stops an overflow running across regions. The cost is extra page mappings." },
+      { t: "Compile-time = new programs. Run-time = existing programs", d: "Compile-time defences protect new programs you build. Run-time defences protect existing programs that you cannot recompile." }
     ]},
     { t: "Other overflow types", mn: "Each has its own defence", items: [
-      { t: "Replacement stack frame: the overflow also replaces the frame pointer and the attacker supplies a fake frame. Defence: stack protection" },
-      { t: "Return to system call: the return address points to an existing library function (e.g. system()) with attacker arguments; works on non-executable stacks. Defence: ASLR, block unsafe functions" },
-      { t: "Heap overflow: a buffer in the heap with no return address; overwrites heap data or function pointers. Defence: non-executable or randomised heap" },
-      { t: "Global data overflow: overwrites a function pointer in global data. Defence: randomise, guard pages, move pointers" },
-      { t: "Practical: GDB" }
+      { t: "Replacement stack frame: the overflow also replaces the frame pointer and the attacker supplies a fake frame. Defence: stack protection", d: "In a replacement stack frame attack, the overflow replaces the saved frame pointer as well as the return address, and the attacker supplies a fake frame. Stack protection defends against it." },
+      { t: "Return to system call: the return address points to an existing library function (e.g. system()) with attacker arguments; works on non-executable stacks. Defence: ASLR, block unsafe functions", d: "In return to system call, the return address points to an existing library function such as system(), with arguments supplied by the attacker. It works even on non-executable stacks. Defences are ASLR and removing unsafe functions." },
+      { t: "Heap overflow: a buffer in the heap with no return address; overwrites heap data or function pointers. Defence: non-executable or randomised heap", d: "A heap overflow targets a buffer in the heap. There is no return address, so it overwrites heap data or function pointers. Defences are a non-executable or randomised heap." },
+      { t: "Global data overflow: overwrites a function pointer in global data. Defence: randomise, guard pages, move pointers", d: "A global data overflow overwrites a function pointer stored in global data. Defences are randomisation, guard pages and moving function pointers away from buffers." },
+      { t: "Practical: GDB", d: "The practical for this topic uses GDB, the debugger, to inspect memory during an overflow." }
     ]}
   ]
 });
@@ -1187,64 +1187,64 @@ CHAPTERS.push({
   mn: "Never trust input: size, type, syntax, encoding, signed/unsigned. Least privilege.",
   br: [
     { t: "Big picture", mn: "No flaw, no attack", items: [
-      { t: "5 critical web-app flaws: unvalidated input, cross-site scripting (XSS), buffer overflow, injection flaws, improper error handling" },
-      { t: "Root cause: INSUFFICIENT checking and validation of data and error codes" },
-      { t: "CWE/SANS error bucket 1: Insecure interaction between components (SQLi, XSS, CSRF)" },
-      { t: "Bucket 2: Risky resource management (buffer overflow, path traversal, integer overflow)" },
+      { t: "5 critical web-app flaws: unvalidated input, cross-site scripting (XSS), buffer overflow, injection flaws, improper error handling", d: "The five critical flaws in web apps: unvalidated input, cross-site scripting (XSS), buffer overflow, injection flaws and improper error handling." },
+      { t: "Root cause: INSUFFICIENT checking and validation of data and error codes", d: "The root cause behind most of these is insufficient checking and validation of data and of error codes." },
+      { t: "CWE/SANS error bucket 1: Insecure interaction between components (SQLi, XSS, CSRF)", d: "CWE/SANS bucket 1 is insecure interaction between components, meaning data passed between parts is not checked. Examples are SQL injection, XSS and CSRF." },
+      { t: "Bucket 2: Risky resource management (buffer overflow, path traversal, integer overflow)", d: "Bucket 2 is risky resource management, meaning the program mishandles memory or files. Examples are buffer overflow, path traversal and integer overflow." },
       { t: "Bucket 3: Porous defences (missing authentication or encryption, hard-coded credentials)", d: "Memory aid: I-R-P.", b: "t111", r: "CH11 Table 11.1", g: "add", n: "Full category lists read from the Table 11.1 slide image (CWE/SANS Top 25, 2011)." }
     ]},
     { t: "Reduce vulnerabilities", mn: "Stop, find, reduce", items: [
-      { t: "NISTIR 8151: STOP vulnerabilities before they occur (better methods)" },
-      { t: "FIND them before they are exploited (testing, scanners)" },
-      { t: "REDUCE the impact (resilient architecture)" },
+      { t: "NISTIR 8151: STOP vulnerabilities before they occur (better methods)", d: "NISTIR 8151 first goal: stop vulnerabilities from being created, using better development methods." },
+      { t: "FIND them before they are exploited (testing, scanners)", d: "Second goal: find vulnerabilities before attackers do, through testing and scanners." },
+      { t: "REDUCE the impact (resilient architecture)", d: "Third goal: reduce the damage when a vulnerability is exploited, with a resilient architecture." },
       { t: "Reliability = ACCIDENTAL failure and random input. Security = DELIBERATE exploitation, where the attacker picks the input", d: "A clumsy person tripping versus a burglar going for the loose window." }
     ]},
     { t: "Defensive programming", mn: "NEVER ASSUME ANYTHING", items: [
-      { t: "Keep working even under attack or error" },
-      { t: "Zero-based trust: validate every assumption and handle every error state" },
-      { t: "Use checklists; design security in from the start (SAFECode)" },
-      { t: "Conflicts with business pressure for short development time" }
+      { t: "Keep working even under attack or error", d: "Defensive programming means the program keeps working safely even when it is under attack or hits an error." },
+      { t: "Zero-based trust: validate every assumption and handle every error state", d: "Zero-based trust means you trust nothing: check every assumption and handle every possible error state." },
+      { t: "Use checklists; design security in from the start (SAFECode)", d: "Use checklists and design security in from the start (SAFECode guidance), not bolt it on at the end." },
+      { t: "Conflicts with business pressure for short development time", d: "The conflict is that business pressure for short development times works against careful secure coding." }
     ]},
     { t: "Handling program input", mn: "Treat ALL input as dangerous", items: [
-      { t: "Input = any data from outside the program" },
-      { t: "Size: an assumed maximum with an unchecked buffer gives an overflow" },
+      { t: "Input = any data from outside the program", d: "Program input is any data that comes from outside the program, such as keyboard, files, network, command line or environment." },
+      { t: "Size: an assumed maximum with an unchecked buffer gives an overflow", d: "If you assume a maximum size and do not check it, an oversized input overflows the buffer." },
       { t: "Interpretation: binary vs text, many character sets", d: "Heartbleed (2014): an unchecked length field." },
-      { t: "Validate syntax by comparing to an ALLOW-list (known good), which is safer than a deny-list" },
-      { t: "Alternate encodings (Unicode / UTF-8) can hide bad characters, so canonicalise: convert to ONE standard form first" }
+      { t: "Validate syntax by comparing to an ALLOW-list (known good), which is safer than a deny-list", d: "Check input syntax against an allow-list of known good values, which is safer than a deny-list of bad values, since attackers find forms you did not list." },
+      { t: "Alternate encodings (Unicode / UTF-8) can hide bad characters, so canonicalise: convert to ONE standard form first", d: "Alternate encodings such as Unicode and UTF-8 can hide bad characters from a filter. Canonicalisation converts input to one standard form before checking it." }
     ]},
     { t: "Numeric input & fuzzing", mn: "Signed vs unsigned defeats checks", items: [
-      { t: "Numbers are fixed-size, signed or unsigned" },
+      { t: "Numbers are fixed-size, signed or unsigned", d: "Numbers in a program have a fixed size and are either signed or unsigned, so values can wrap around or overflow." },
       { t: "Worked example: length 186 + 1 = 187 = 10111011 in 8 bits. Read as unsigned it is 187. Read as signed, the top bit makes it NEGATIVE", d: "Two's complement gives 187 − 256 = −69. Sign-magnitude gives −59 (the slide's value). Either way the number is negative, so the check if (size <= 50) PASSES although the real input is huge.", g: "fix", n: "The friend wrote -69 and flagged that the slide says -59. Both are right under different signed formats (checked by hand: 187-256 = -69; sign-magnitude 0111011 = 59). Do not lose marks on the number; the point is that a negative passes <= 50." },
-      { t: "Fix: use consistent types and validate ranges, including negatives" },
+      { t: "Fix: use consistent types and validate ranges, including negatives", d: "The fix is to use consistent types and validate the ranges of values, including checking for negative numbers." },
       { t: "Fuzzing: randomly generated input to find crashes (Barton Miller, 1989)", d: "Cheap and assumption-free, but it misses some bugs, so combine approaches." }
     ]},
     { t: "Injection attacks", mn: "Input data influences the FLOW OF EXECUTION", items: [
-      { t: "SQL injection: user input pasted into SQL; the attacker extends it (for example with ; and another command). Defence: validate/escape; prepared statements" },
-      { t: "PHP code injection: include $path.'functions.php' with an attacker URL in the path" },
-      { t: "OS command injection: input reaches a shell command" },
+      { t: "SQL injection: user input pasted into SQL; the attacker extends it (for example with ; and another command). Defence: validate/escape; prepared statements", d: "In SQL injection the user's input is pasted into an SQL statement and the attacker extends it, for example with a semicolon followed by another command. Defences are validating or escaping input, and using prepared statements." },
+      { t: "PHP code injection: include $path.'functions.php' with an attacker URL in the path", d: "In PHP code injection the script includes a file using a path built from input, so an attacker supplies a URL to their own code in the path and the server runs it." },
+      { t: "OS command injection: input reaches a shell command", d: "In OS command injection the input ends up in a shell command, so an attacker can add extra commands for the shell to run." },
       { t: "Cross-site scripting (XSS): script input from ONE user is shown to ANOTHER and runs in their browser", d: "Exploits trust: all content from a site is treated equally. Defence: validate input, escape output. Graffiti with a booby-trap on a public wall." }
     ]},
     { t: "Writing safe code", mn: "Algorithm, machine code, data, memory, races", items: [
       { t: "Correct algorithm: handle ALL variants; remove debug and maintenance hooks and easter eggs before release", d: "Example from the slides: TCP sequence numbers used as both identifier AND authenticator." },
-      { t: "Machine code matches the algorithm: a compiler could be hacked; only high-assurance (CC level 7) checks" },
-      { t: "Correct data interpretation: strong typing is safer" },
-      { t: "Correct memory use: a memory leak is a steady heap loss until exhausted" },
-      { t: "Race conditions: shared values corrupted without synchronisation; deadlock leads to DoS" }
+      { t: "Machine code matches the algorithm: a compiler could be hacked; only high-assurance (CC level 7) checks", d: "The compiler turns source into machine code, and a hacked compiler could add flaws. Only high-assurance checking (Common Criteria level 7) verifies machine code matches the algorithm." },
+      { t: "Correct data interpretation: strong typing is safer", d: "Data must be interpreted the same way everywhere. Strongly typed languages are safer because the type of each value is enforced." },
+      { t: "Correct memory use: a memory leak is a steady heap loss until exhausted", d: "Memory must be used correctly. A memory leak steadily uses up the heap until it runs out." },
+      { t: "Race conditions: shared values corrupted without synchronisation; deadlock leads to DoS", d: "A race condition happens when shared values are changed without synchronisation, so the result depends on timing and can be corrupted. A deadlock can lead to a DoS." }
     ]},
     { t: "Interacting with the OS", mn: "Least privilege", items: [
-      { t: "Environment variables are inherited by processes, so they are UNTRUSTED input (local user vs privileged program)" },
-      { t: "Least privilege: root programs are major targets; use privilege only when needed; split into small modules" },
-      { t: "System calls and libraries: assumptions can be wrong; buffering means you must flush and sync to really shred a file" },
-      { t: "Race on shared resources: use a lockfile; all programs must cooperate" },
-      { t: "Safe temp files: the process ID is predictable, so use RANDOM names" },
-      { t: "Other programs: older programs were not built with security in mind" }
+      { t: "Environment variables are inherited by processes, so they are UNTRUSTED input (local user vs privileged program)", d: "Environment variables are inherited by processes, so they count as untrusted input. A local user can set them to attack a privileged program." },
+      { t: "Least privilege: root programs are major targets; use privilege only when needed; split into small modules", d: "Least privilege means a program uses elevated rights only when it needs them. Programs that run as root are prime targets, so split them into small modules." },
+      { t: "System calls and libraries: assumptions can be wrong; buffering means you must flush and sync to really shred a file", d: "Do not assume system calls and libraries behave as you expect. Because of buffering, you must flush and sync to be sure a file is really overwritten when shredding it." },
+      { t: "Race on shared resources: use a lockfile; all programs must cooperate", d: "When programs share a resource, use a lockfile so two do not change it at once. All programs have to cooperate for this to work." },
+      { t: "Safe temp files: the process ID is predictable, so use RANDOM names", d: "Temporary files must have random names. A name based on the process ID is predictable and an attacker can pre-create it." },
+      { t: "Other programs: older programs were not built with security in mind", d: "Older programs you call were not written with security in mind, so do not assume they handle hostile input safely." }
     ]},
     { t: "Handling output", mn: "Validate input AND escape output", items: [
-      { t: "Output may be stored, sent or displayed; one operation's output is another's input" },
-      { t: "It must match the EXPECTED form and interpretation" },
-      { t: "Identify permissible content and FILTER untrusted data" },
-      { t: "Specify the character set" },
-      { t: "Validate input AND escape output" }
+      { t: "Output may be stored, sent or displayed; one operation's output is another's input", d: "Output may be stored, sent or displayed, and one operation's output becomes another operation's input, so it needs checking too." },
+      { t: "It must match the EXPECTED form and interpretation", d: "Output must be in the form the receiving system expects and interprets correctly." },
+      { t: "Identify permissible content and FILTER untrusted data", d: "Work out what content is acceptable and filter out untrusted data. This prevents attacks like XSS." },
+      { t: "Specify the character set", d: "Specify the character set explicitly, so the receiver does not guess a different encoding that changes the meaning." },
+      { t: "Validate input AND escape output", d: "The rule is to validate input and escape output." }
     ]}
   ]
 });
@@ -1254,45 +1254,45 @@ CHAPTERS.push({
   mn: "IaaS ⊂ PaaS ⊂ SaaS: the higher you go, the more the provider manages. Fog sits near the sensors; cloud sits in the centre.",
   br: [
     { t: "What is cloud computing?", mn: "On-demand access to a SHARED POOL of resources", items: [
-      { t: "NIST SP 800-145: a model for ubiquitous, convenient, ON-DEMAND network access to a SHARED POOL of configurable resources, rapidly provisioned with MINIMAL management effort", r: "CH13 S4" },
-      { t: "Composed of 5 essential characteristics, 3 service models, 4 deployment models", r: "CH13 S4", g: "add", n: "The count is on slide 4. The slide does not list the five." },
-      { t: "The five characteristics: broad network access, rapid elasticity, measured service, on-demand self-service, resource pooling", g: "gen", n: "These are the NIST SP 800-145 characteristics from general knowledge. The lecturer's slides state the number five but do not list them, so do not expect to be marked on the list." },
-      { t: "Not brand new: hosted services, ASPs, distributed and grid computing", r: "CH13 S5" }
+      { t: "NIST SP 800-145: a model for ubiquitous, convenient, ON-DEMAND network access to a SHARED POOL of configurable resources, rapidly provisioned with MINIMAL management effort", d: "NIST's definition: cloud computing is a model for convenient, on-demand network access to a shared pool of configurable resources that can be provisioned quickly with minimal management effort.", r: "CH13 S4" },
+      { t: "Composed of 5 essential characteristics, 3 service models, 4 deployment models", d: "The NIST definition is made of three groups: 5 essential characteristics, 3 service models and 4 deployment models.", r: "CH13 S4", g: "add", n: "The count is on slide 4. The slide does not list the five." },
+      { t: "The five characteristics: broad network access, rapid elasticity, measured service, on-demand self-service, resource pooling", d: "The five characteristics are broad network access, rapid elasticity, measured service, on-demand self-service and resource pooling.", g: "gen", n: "These are the NIST SP 800-145 characteristics from general knowledge. The lecturer's slides state the number five but do not list them, so do not expect to be marked on the list." },
+      { t: "Not brand new: hosted services, ASPs, distributed and grid computing", d: "Cloud is not completely new. It builds on earlier ideas such as hosted services, application service providers, and distributed and grid computing.", r: "CH13 S5" }
     ]},
     { t: "Core expectations", mn: "Someone else's problem, with better reliability", items: [
-      { t: "Self-monitoring and self-healing" },
-      { t: "Automation 'galore'" },
-      { t: "Self service" },
-      { t: "Pay only for what you use" },
-      { t: "Greater reliability and availability than older technologies" },
-      { t: "Still client-server, DISTRIBUTED computing; you make it someone else's problem" }
+      { t: "Self-monitoring and self-healing", d: "The cloud is expected to monitor itself and heal itself when something fails." },
+      { t: "Automation 'galore'", d: "Lots of automation, so people do not provision or fix things by hand." },
+      { t: "Self service", d: "Self service: customers get resources themselves without contacting the provider." },
+      { t: "Pay only for what you use", d: "Pay-per-use: you are charged only for what you consume." },
+      { t: "Greater reliability and availability than older technologies", d: "It is expected to be more reliable and available than older technologies." },
+      { t: "Still client-server, DISTRIBUTED computing; you make it someone else's problem", d: "It is still client-server and distributed computing. The difference is you hand the work to someone else to run." }
     ]},
     { t: "Service models", mn: "IaaS, PaaS, SaaS", items: [
-      { t: "IaaS: virtual hosted servers and machines, pay-as-you-go, self-service, high availability, VM upload/download, self-healing. Example: Amazon Web Services" },
-      { t: "PaaS: for developers; build apps without buying dev/test/production infrastructure. Examples: Google App Engine, Microsoft Azure" },
-      { t: "SaaS: used daily without thinking. Examples: Gmail, Drive, Office365, Dropbox" },
-      { t: "Others: STaaS, SECaaS, DaaS (data / desktop), BPaaS, TEaaS, APIaaS" }
+      { t: "IaaS: virtual hosted servers and machines, pay-as-you-go, self-service, high availability, VM upload/download, self-healing. Example: Amazon Web Services", d: "IaaS provides virtual servers and machines you rent as you go. You control the OS and everything above it. Example: Amazon Web Services." },
+      { t: "PaaS: for developers; build apps without buying dev/test/production infrastructure. Examples: Google App Engine, Microsoft Azure", d: "PaaS gives developers a platform to build and run apps, so they do not need their own development, test and production infrastructure. Examples: Google App Engine, Microsoft Azure." },
+      { t: "SaaS: used daily without thinking. Examples: Gmail, Drive, Office365, Dropbox", d: "SaaS is finished software you use over the Internet, often without thinking about it. Examples: Gmail, Google Drive, Office365 and Dropbox." },
+      { t: "Others: STaaS, SECaaS, DaaS (data / desktop), BPaaS, TEaaS, APIaaS", d: "Other 'as a service' models: storage (STaaS), security (SECaaS), data or desktop (DaaS), business process (BPaaS), testing environment (TEaaS) and API (APIaaS)." }
     ]},
     { t: "Who manages what?", mn: "Higher up = provider manages MORE, you control LESS", items: [
       { t: "Fig 13.2 separation of responsibilities by service model", b: "tresp", r: "CH13 S18, S32", d: "IaaS: customer = apps, data, runtime, middleware, OS. PaaS: customer = apps and data only. SaaS: provider manages everything.", g: "add", n: "Layer split read from the slide figures." },
-      { t: "CSA reference model: IaaS ⊂ PaaS ⊂ SaaS (each sits on top of the one below)" }
+      { t: "CSA reference model: IaaS ⊂ PaaS ⊂ SaaS (each sits on top of the one below)", d: "In the CSA reference model, IaaS is the base layer, PaaS is built on top of IaaS and SaaS on top of PaaS. So higher models inherit the security issues of the ones below them." }
     ]},
     { t: "Deployment models & actors", mn: "Private, Public, Hybrid, Community", items: [
-      { t: "Private: one organisation, the MOST secure" },
-      { t: "Public: open to anyone using that provider" },
-      { t: "Hybrid: public and private together" },
-      { t: "Community: shared by organisations with common interests" },
+      { t: "Private: one organisation, the MOST secure", d: "A private cloud is used by one organisation only, so it is the most secure option." },
+      { t: "Public: open to anyone using that provider", d: "A public cloud is open to anyone who uses that provider." },
+      { t: "Hybrid: public and private together", d: "A hybrid cloud combines public and private clouds together." },
+      { t: "Community: shared by organisations with common interests", d: "A community cloud is shared by several organisations that have common interests." },
       { t: "Table 13.1: comparison of the four deployment models", b: "t131", r: "CH13 S19", g: "add", n: "Values read from the slide text." },
-      { t: "Actors (Fig 13.4): cloud consumer, cloud provider, carrier (the network link), broker (intermediary), auditor" }
+      { t: "Actors (Fig 13.4): cloud consumer, cloud provider, carrier (the network link), broker (intermediary), auditor", d: "The five actors in the NIST model are: the consumer who uses the service, the provider who runs it, the carrier that supplies the network link, the broker who acts as an intermediary and the auditor who checks it." }
     ]},
     { t: "Cloud security issues", mn: "Shared responsibility", items: [
-      { t: "Security is a major consideration; concerns often block migration" },
-      { t: "Availability and auditability of data must be ensured" },
-      { t: "Cloud USERS remain responsible for application-level security" },
-      { t: "Cloud VENDORS are responsible for physical security and some software security" },
-      { t: "The intermediate layers of the stack are SHARED responsibility" },
-      { t: "Providers must guard against theft/DoS by their users and protect users from one another" },
-      { t: "Table 13.2 NIST guidelines summary: governance, compliance, trust, architecture, identity and access management, software isolation, data protection, availability, incident response", r: "CH13 S21", g: "add", n: "List read from the slide." }
+      { t: "Security is a major consideration; concerns often block migration", d: "Security is a major concern for cloud users, and these concerns often block organisations from moving to the cloud." },
+      { t: "Availability and auditability of data must be ensured", d: "Providers must ensure data is available and can be audited." },
+      { t: "Cloud USERS remain responsible for application-level security", d: "Cloud users remain responsible for the security of the applications they run." },
+      { t: "Cloud VENDORS are responsible for physical security and some software security", d: "Cloud vendors are responsible for physical security and some software security." },
+      { t: "The intermediate layers of the stack are SHARED responsibility", d: "The layers in between are shared responsibility, so each side has to know which parts it must secure." },
+      { t: "Providers must guard against theft/DoS by their users and protect users from one another", d: "Providers must guard against their own users stealing or attacking, and protect users from each other." },
+      { t: "Table 13.2 NIST guidelines summary: governance, compliance, trust, architecture, identity and access management, software isolation, data protection, availability, incident response", d: "Table 13.2 summarises NIST's guidelines. Remember the nine areas: governance, compliance, trust, architecture, identity and access management, software isolation, data protection, availability, incident response.", r: "CH13 S21", g: "add", n: "List read from the slide." }
     ]},
     { t: "CSA threats: 1-3", mn: "Abuse, Interfaces, Insiders", items: [
       { t: "Abuse and nefarious use of cloud computing", d: "Countermeasures: stricter initial registration and validation; enhanced credit-card fraud monitoring and coordination; comprehensive inspection of customer network traffic; monitoring public blacklists for one's own network blocks.", r: "CH13 S24" },
@@ -1306,28 +1306,28 @@ CHAPTERS.push({
       { t: "Unknown risk profile", d: "Countermeasures: disclosure of applicable logs and data; partial or full disclosure of infrastructure details; monitoring and alerting on necessary information.", g: "fix", r: "CH13 S30", n: "Missing from the friend's notes." }
     ]},
     { t: "Data protection & OpenStack", mn: "Multi-instance vs multi-tenant", items: [
-      { t: "Multi-instance: a uniquely running VM instance per subscriber; complete control over roles and authorisation" },
-      { t: "Multi-tenant: a predefined environment SHARED with other tenants; data is TAGGED with a subscriber ID; the customer relies on the PROVIDER for a sound, secure database" },
-      { t: "OpenStack: an open-source cloud OS that creates and manages large groups of virtual private servers; multi-tenant IaaS; simple and massively scalable" },
-      { t: "Cloud security as a service (SECaaS) is also on the summary slide" }
+      { t: "Multi-instance: a uniquely running VM instance per subscriber; complete control over roles and authorisation", d: "In a multi-instance model each subscriber gets its own running VM, so they have complete control over roles and authorisation." },
+      { t: "Multi-tenant: a predefined environment SHARED with other tenants; data is TAGGED with a subscriber ID; the customer relies on the PROVIDER for a sound, secure database", d: "In a multi-tenant model many customers share one predefined environment, and each customer's data is tagged with their subscriber ID. The customer must rely on the provider for a sound and secure database." },
+      { t: "OpenStack: an open-source cloud OS that creates and manages large groups of virtual private servers; multi-tenant IaaS; simple and massively scalable", d: "OpenStack is an open-source cloud operating system for creating and managing large groups of virtual private servers. It is a multi-tenant IaaS that is simple and massively scalable." },
+      { t: "Cloud security as a service (SECaaS) is also on the summary slide", d: "Security as a service (SECaaS), where security functions are provided from the cloud, is also on the summary slide." }
     ]},
     { t: "Internet of Things (IoT)", mn: "Sensor, actuator, microcontroller, transceiver, RFID", items: [
-      { t: "The expanding interconnection of SMART devices (appliances to tiny sensors); people-things and thing-thing communication, usually via the cloud; driven by deeply EMBEDDED devices" },
-      { t: "Components (Fig 13.8): sensor, actuator, microcontroller, transceiver, RFID" },
-      { t: "Edge: IoT devices (sensors + actuators). A gateway translates protocols and may aggregate data" },
+      { t: "The expanding interconnection of SMART devices (appliances to tiny sensors); people-things and thing-thing communication, usually via the cloud; driven by deeply EMBEDDED devices", d: "IoT is the growing network of smart devices, from appliances to tiny sensors, that communicate with people and each other, usually via the cloud. It is driven by deeply embedded devices." },
+      { t: "Components (Fig 13.8): sensor, actuator, microcontroller, transceiver, RFID", d: "IoT devices are built from a sensor (measures), an actuator (acts), a microcontroller (processes), a transceiver (communicates) and RFID (identifies tags)." },
+      { t: "Edge: IoT devices (sensors + actuators). A gateway translates protocols and may aggregate data", d: "The edge is where the IoT devices (sensors and actuators) sit. A gateway translates between protocols and may combine data before sending it on." },
       { t: "Fog: do as much processing as possible near the sensors", d: "Evaluation, formatting, expanding/decoding, distillation/reduction, assessment. Fog hovers low to the ground; clouds are high in the sky." }
     ]},
     { t: "Cloud vs fog", mn: "Centre vs edge", items: [
       { t: "Table 13.4: comparison of cloud and fog features", b: "t134", r: "CH13 S39", g: "add", n: "Values read from the slide text." },
-      { t: "Fog is the opposite trend to cloud: many small smart objects with local storage and processing" }
+      { t: "Fog is the opposite trend to cloud: many small smart objects with local storage and processing", d: "Fog computing is the opposite trend to cloud. Instead of sending everything to central data centers, many small smart objects keep local storage and do local processing." }
     ]},
     { t: "IoT security", mn: "Six ITU-T Y.2066 requirements", items: [
-      { t: "ITU-T Y.2066: communication security, data management security, service provision security, integration of security policies and techniques, mutual authentication and authorisation, security audit", r: "CH13 S41", g: "add", n: "Count of six read from the slide." },
-      { t: "Security framework elements (Fig 13.10): constrained (C) and unconstrained (U) devices, gateways (G), platforms (A)" },
-      { t: "Patching IoT devices is hard (summary topic: 'the patching vulnerability')" },
-      { t: "MiniSec: an open-source module in TinyOS; LINK-level; low energy and very little memory" },
-      { t: "MiniSec goals: confidentiality, data authentication, replay protection, freshness (message age), resilience to lost messages" },
-      { t: "MiniSec has 2 modes: single-source and multi-source broadcast" }
+      { t: "ITU-T Y.2066: communication security, data management security, service provision security, integration of security policies and techniques, mutual authentication and authorisation, security audit", d: "ITU-T Y.2066 lists the security needs for IoT: communication security, data management security, service provision security, integrating security policies, mutual authentication and authorisation, and security audit.", r: "CH13 S41", g: "add", n: "Count of six read from the slide." },
+      { t: "Security framework elements (Fig 13.10): constrained (C) and unconstrained (U) devices, gateways (G), platforms (A)", d: "The security framework has constrained (C) and unconstrained (U) devices, gateways (G) and platforms (A). Constrained devices have little power or memory so cannot run heavy security." },
+      { t: "Patching IoT devices is hard (summary topic: 'the patching vulnerability')", d: "Patching IoT devices is hard, because there are so many of them and they often cannot be easily updated. This is the 'patching vulnerability' on the summary slide." },
+      { t: "MiniSec: an open-source module in TinyOS; LINK-level; low energy and very little memory", d: "MiniSec is an open-source security module in TinyOS. It works at the link level and is designed for low energy use and very little memory." },
+      { t: "MiniSec goals: confidentiality, data authentication, replay protection, freshness (message age), resilience to lost messages", d: "MiniSec's goals: confidentiality, data authentication, replay protection, freshness (messages are recent) and resilience when messages are lost." },
+      { t: "MiniSec has 2 modes: single-source and multi-source broadcast", d: "MiniSec has two modes: single-source and multi-source broadcast." }
     ]}
   ]
 });
